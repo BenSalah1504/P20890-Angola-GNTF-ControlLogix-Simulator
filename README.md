@@ -1,13 +1,17 @@
-# GNTF Quinguila Tank Farm — ControlLogix 5580 (`1756-L82E`) ST Migration & Physical Twin Simulator
+# GNTF Quinguila Tank Farm — ControlLogix 5580 (`1756-L82E`) ST & Ladder Migration & Physical Twin Simulator
 
 [![PLC Platform](https://img.shields.io/badge/PLC-Allen--Bradley%201756--L82E%20(v32)-blue)](#controllogix-1756-a13-hardware-architecture)
+[![Ladder Diagram](https://img.shields.io/badge/Rockwell%20RLL-Ladder%20Diagram%20(432%20Rungs)-orange)](#allen-bradley-relay-ladder-logic-rll--l5x-viewer)
 [![Language](https://img.shields.io/badge/IEC%2061131--3-Structured%20Text%20(25%20Routines)-00d4ff)](#structured-text-routine-architecture)
 [![Legacy PLC](https://img.shields.io/badge/Legacy-GE%20VersaMax%20(P20890__Angola)-f59e0b)](#repository-deliverables)
 [![Simulator](https://img.shields.io/badge/Digital%20Twin-HTML5%20Physical%20Twin%20%2B%20Soft--PLC-22c55e)](#physical-twin--soft-plc-web-simulator)
 
 Complete PLC migration, documentation suite, and real-time **Physical Twin + ControlLogix 5580 Soft-PLC Web Simulator** for the **Quinguila Tank Farm (`GNTF`) Control System Upgrade** (`FGCP-7404-001` / `P20890_Angola`).
 
-This project decodes the legacy **GE Fanuc Proficy Machine Edition 7.00 (`VersaMax`)** ladder logic program, translates and upgrades it to **Allen-Bradley Studio 5000 Logix Designer Structured Text (ST)** for the `1756-L82E` ControlLogix 5580 controller, and provides a standalone, zero-dependency **Physical Twin Web Application** for Factory Acceptance Testing (FAT), Site Acceptance Testing (SAT), and operator training.
+This project decodes the legacy **GE Fanuc Proficy Machine Edition 7.00 (`VersaMax`)** ladder logic program, translates and upgrades it into **both**:
+1. **Allen-Bradley Relay Ladder Logic (RLL)** `.L5X` file (`Type="RLL"`, 432 rungs, 25 routines) viewable in any standard L5X Viewer or Rockwell Studio 5000 Logix Designer.
+2. **Allen-Bradley Structured Text (ST)** `.L5X` file (`Type="ST"`) and individual `.st` routines.
+3. A standalone, zero-dependency **Physical Twin Web Application** for Factory Acceptance Testing (FAT), Site Acceptance Testing (SAT), and operator training.
 
 ---
 
@@ -15,8 +19,10 @@ This project decodes the legacy **GE Fanuc Proficy Machine Edition 7.00 (`VersaM
 
 | File / Directory | Description |
 | :--- | :--- |
+| **[`P20890_Angola_AB_Ladder.L5X`](./P20890_Angola_AB_Ladder.L5X)** | **Studio 5000 Logix Designer Relay Ladder Logic Project (`.L5X`)** (`Type="RLL"`). Fully compatible with standard **L5X Viewers** and Studio 5000 Logix Designer. Contains 432 graphical ladder rungs with `XIC`, `XIO`, `OTE`, `OTL`, `OTU`, `TON`, `MOV`, `CPT`, `ADD`, `GRT`, `LES`, `LIM`, `JSR` mnemonics and 683 tags. |
+| **[`P20890_Angola_AB_Ladder.html`](./P20890_Angola_AB_Ladder.html)** | **Interactive Allen-Bradley Ladder Diagram Viewer** (Standalone HTML/SVG app with dual power rails, graphical contact/coil/block symbols, parallel branch rendering, real-time tag cross-reference inspector, search, and print stylesheet). |
 | **[`GNTF_Physical_Twin_Simulator.html`](./GNTF_Physical_Twin_Simulator.html)** / **[`index.html`](./index.html)** | **Interactive Physical Twin & ControlLogix 5580 Soft-PLC Web App** (7 SCADA/Twin views, 2D Gaussian gas/fire plume dispersion, ODE fluid/tank/manifold physics, FGCP hardware mimic, live Cause & Effect verifier, Studio 5000 online ST debugger, and 9 automated FAT/SAT scenarios). |
-| **[`P20890_Angola_AB_ST.L5X`](./P20890_Angola_AB_ST.L5X)** | **Studio 5000 Logix Designer Importable Project (`.L5X`)** for `1756-L82E` (v32) in a 13-slot `1756-A13` chassis with `1756-IF16`, `1756-IF8H`, `1756-IB32`, `1756-OB32`, and `MVI56E-MCM` modules, **683 Controller Tags**, and **25 ST routines**. |
+| **[`P20890_Angola_AB_ST.L5X`](./P20890_Angola_AB_ST.L5X)** | **Studio 5000 Logix Designer Structured Text Project (`.L5X`)** (`Type="ST"`) for `1756-L82E` (v32) in a 13-slot `1756-A13` chassis with all 683 tags and 25 routines. |
 | **[`P20890_Angola_AB_Complete.st`](./P20890_Angola_AB_Complete.st)** | Combined Allen-Bradley Structured Text source code for all 25 routines. |
 | **[`ab_st_routines/`](./ab_st_routines/)** | Individual `.st` files for all 25 Structured Text routines (`MainRoutine.st` through `Output.st`). |
 | **[`P20890_Angola_AB_Tags.csv`](./P20890_Angola_AB_Tags.csv)** | Studio 5000 Tag Database CSV export containing all 683 controller tags, hardware aliases, timer/counter structures, and engineering descriptions. |
@@ -24,9 +30,60 @@ This project decodes the legacy **GE Fanuc Proficy Machine Edition 7.00 (`VersaM
 | **[`P20890_Angola_AB_ST.html`](./P20890_Angola_AB_ST.html)** | Interactive dark-mode Structured Text code viewer & I/O cross-reference browser with one-click copy. |
 | **[`P20890_Angola_Ladder.pdf`](./P20890_Angola_Ladder.pdf)** | **34-Page Printable A4-Landscape Ladder Diagram Export** decoded directly from the legacy GE Proficy Machine Edition `.SwxCF` binaries (226 rungs across 24 blocks). |
 | **[`P20890_Angola_Ladder.html`](./P20890_Angola_Ladder.html)** | Interactive vector SVG Ladder Diagram viewer for the legacy GE VersaMax program. |
+| **[`generate_ab_ladder.py`](./generate_ab_ladder.py)** / **[`generate_ladder_backend.py`](./generate_ladder_backend.py)** | Python generator for the Rockwell Relay Ladder Logic (RLL) `.L5X` and interactive SVG/HTML ladder viewer. |
 | **[`build_physical_twin.py`](./build_physical_twin.py)** | Python build script that compiles the Physical Twin & Soft-PLC Web Simulator (`GNTF_Physical_Twin_Simulator.html`). |
 | **[`generate_ab_st.py`](./generate_ab_st.py)** | Python generator for the Studio 5000 `.L5X`, `.st` routines, `.csv` tag database, `.pdf`, and `.html` reports. |
 | **[`pme_parse.py`](./pme_parse.py)** / **[`export_ladder.py`](./export_ladder.py)** / **[`export_pdf.py`](./export_pdf.py)** | Binary decoders and vector PDF/HTML exporters for GE Proficy Machine Edition `.SwxCF` archives without requiring PME installation or administrator privileges. |
+
+---
+
+## Allen-Bradley Relay Ladder Logic (RLL) & L5X Viewer
+
+For engineers and technicians who require **Ladder Diagram (LD / RLL)** viewing rather than Structured Text, the complete project is exported in official Rockwell Automation **`Type="RLL"`** XML format inside **[`P20890_Angola_AB_Ladder.L5X`](./P20890_Angola_AB_Ladder.L5X)**.
+
+### Viewing Options:
+1. **With an L5X Viewer / Studio 5000 Logix Designer**:
+   - Open **`P20890_Angola_AB_Ladder.L5X`** in your preferred L5X Viewer or Studio 5000 Logix Designer (`File` &rarr; `Open` / `Import Component`).
+   - Every routine is structured with `<Routine Name="..." Type="RLL"><RLLContent><Rung Number="x" Type="N">` so viewers render pure graphical ladder rungs with power rails, contacts, coils, and blocks.
+2. **With the Included Web Ladder Viewer (`P20890_Angola_AB_Ladder.html`)**:
+   - Double-click **`P20890_Angola_AB_Ladder.html`** in any web browser.
+   - Features:
+     - Full graphical electrical rails (`L1 +24VDC` and `0VDC Neutral Return`).
+     - Standard graphical symbols: `XIC` (`--[ ]--`), `XIO` (`--[/]--`), `OTE` (`--( )--`), `OTL` (`--(L)--`), `OTU` (`--(U)--`).
+     - Function blocks: `TON` (Timer On Delay), `CPT` (Compute Expression), `MOV` (Move), `GRT`/`LES`/`LIM` (Comparisons), `JSR` (Jump to Subroutine).
+     - Parallel branch rendering with electrical split and merge bars.
+     - Interactive **Tag Cross-Reference Inspector**: click any tag to view its Data Type, Hardware Alias (e.g. `Local:7:I.Data.0`), Terminal Number, Description, and list of all logic rungs where it is read or written.
+     - Real-time search by tag name, instruction, or rung comment.
+
+### Summary of RLL Routines & Rungs (432 Total Rungs):
+
+| Routine | Rungs | Function | Key Instructions Used |
+| :--- | :---: | :--- | :--- |
+| **`MainRoutine`** | 12 | Executive Cycle, Timers & JSR Scheduler | `XIO`, `TON`, `OTE`, `JSR` |
+| **`Init`** | 23 | Sensor Engineering Scaling & Limits Initialization | `MOV` (0.0, 100.0, 105.0, -4.0, 30.0, 20.0, etc.) |
+| **`Input`** | 47 | Slot 2, 3, 4, 6, 7 Hardware Input Image Mapping | `XIC`, `OTE`, `MOV`, `CPT` |
+| **`DI_1`** | 17 | ESD Valve Discrepancy & Transit Timers | `XIC`, `XIO`, `OTE`, `TON` |
+| **`DI_2`** | 27 | Deluge Pump Pulse Supervision & E-Stops | `XIO`, `TON`, `XIC`, `OTE` |
+| **`CalcVa1`** | 8 | Analog Channels 1..8 %LEL Engineering Scaling | `CPT` (`((Span-Zero)/32000.0)*Raw + Zero`) |
+| **`AI_1`** | 25 | Channels 1..8 Beam Block & Fault Detection | `JSR`, `GRT`, `LES`, `LIM`, `OTE` |
+| **`CalcVa2`** | 8 | Analog Channels 9..16 %LEL Engineering Scaling | `CPT` |
+| **`AI_2`** | 26 | Channels 9..16 Sensor Faults & Beam Block | `JSR`, `GRT`, `LES`, `LIM`, `OTE` |
+| **`CalcVa3`** | 8 | Analog Channels 17..24 Scaling | `CPT` |
+| **`AI_3`** | 25 | Channels 17..24 Faults & Out-of-Range Monitoring | `JSR`, `GRT`, `LES`, `LIM`, `OTE` |
+| **`AI_4_New`** | 34 | New Phase 1 4-20mA Transmitter Scalers (H2S, Flame, Pressure) | `CPT`, `GRT`, `OTE` |
+| **`Ai_AL_1`** | 32 | Combustible Gas High-High (30%) & High (20%) Alarms | `GEQ`, `OTE` |
+| **`Ai_AL_2`** | 26 | Gas Channels 9..16 High & High-High Alarms | `GEQ`, `OTE` |
+| **`Ai_AL_3`** | 12 | Gas Channels 17..24 High & High-High Alarms | `GEQ`, `OTE` |
+| **`Vote_1`** | 14 | 2ooN Gas Detector Voting & Deluge Interlocks | `XIC`, `OTE` (Combinatorial 2ooN branches) |
+| **`Logic`** | 7 | Firewater Pump Auto-Start Demand & ESD Cascades | `XIC`, `XIO`, `OTE`, `TON` |
+| **`CE_LOG`** | 5 | Master Cause & Effect Matrix Shutdown Logic | `XIC`, `OTE` (Multi-branch Matrix) |
+| **`Indicat`** | 10 | Panel LED Flashers & Beacon Driver Logic | `XIC`, `OTE` |
+| **`Shutdow`** | 6 | Master Plant ESD, Generator & Pump Trip Outputs | `XIC`, `OTE` |
+| **`Protect`** | 2 | Deluge & ESD Override / Bypass Inhibit Logic | `XIC`, `OTE` |
+| **`Loc_Al`** | 9 | Local Annunciator Horns & Rotating Beacons | `XIC`, `OTE` |
+| **`FLT_1`** | 2 | Common System & Hardware Diagnostic Summary | `XIC`, `OTE` |
+| **`Sound`** | 1 | Master Alarm Acoustic Horn Silence & Acknowledge | `XIC`, `XIO`, `OTE` |
+| **`Output`** | 26 | Slot 8 1756-OB32 Hardware Output Driver Mapping | `XIC`, `OTE` (Local:8:O.Data.x) |
 
 ---
 
