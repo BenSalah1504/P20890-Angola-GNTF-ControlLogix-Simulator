@@ -1,0 +1,7 @@
+*.pdf binary
+*.L5X text eol=crlf
+*.st text eol=crlf
+*.csv text eol=crlf
+*.html text eol=lf
+*.py text eol=lf
+*.md text eol=lf
