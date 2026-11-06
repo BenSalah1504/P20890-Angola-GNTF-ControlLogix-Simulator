@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GNTF Quinguila — Allen-Bradley ControlLogix 1756-L82E Structured Text (P20890_Angola)</title>
+<style>
+  :root {
+    --bg: #0f172a; --panel: #1e293b; --border: #334155; --text: #f1f5f9;
+    --muted: #94a3b8; --accent: #38bdf8; --green: #4ade80; --amber: #fbbf24;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+  aside { width: 270px; background: #0b1120; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 16px; overflow-y: auto; }
+  aside h1 { font-size: 15px; margin: 0 0 6px; color: var(--accent); }
+  aside p { font-size: 12px; color: var(--muted); margin: 0 0 14px; line-height: 1.4; }
+  .nav-btn { width: 100%; text-align: left; background: transparent; color: var(--text); border: 1px solid transparent; padding: 7px 10px; border-radius: 6px; cursor: pointer; font-family: Consolas, monospace; font-size: 12.5px; margin-bottom: 3px; }
+  .nav-btn:hover { background: var(--panel); border-color: var(--border); color: var(--accent); }
+  main { flex: 1; overflow-y: auto; padding: 24px 32px; }
+  .hero { background: linear-gradient(135deg, #1e3a8a, #0f172a); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 24px; }
+  .hero h1 { margin: 0 0 8px; font-size: 22px; }
+  .hero p { margin: 0; color: #cbd5e1; font-size: 13.5px; line-height: 1.5; }
+  .search-bar { width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--panel); color: var(--text); font-size: 14px; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; background: var(--panel); border-radius: 8px; overflow: hidden; margin-bottom: 28px; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; }
+  th { background: #0f172a; color: var(--accent); font-weight: 600; position: sticky; top: 0; }
+  tr:hover { background: rgba(56, 189, 248, 0.06); }
+  .badge { padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .badge-ai { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+  .badge-di { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
+  .badge-do { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+  .badge-mb { background: rgba(192, 132, 252, 0.2); color: #c084fc; }
+  .ge-new { background: #065f46; color: #6ee7b7; padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700; }
+  .ab-tag { color: var(--green); font-weight: 600; }
+  .ab-hw { color: var(--amber); }
+  .routine-card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 22px; overflow: hidden; }
+  .routine-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #131c31; border-bottom: 1px solid var(--border); }
+  .routine-header h2 { margin: 0 0 4px; font-size: 16px; color: var(--accent); font-family: Consolas, monospace; }
+  .routine-header p { margin: 0; font-size: 12.5px; color: var(--muted); }
+  .st-badge { background: rgba(56, 189, 248, 0.15); color: var(--accent); font-size: 11px; padding: 2px 8px; border-radius: 4px; margin-left: 8px; }
+  .copy-btn { background: #0284c7; color: white; border: none; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px; }
+  .copy-btn:hover { background: #0369a1; }
+  pre { margin: 0; padding: 16px 20px; overflow-x: auto; font-family: Consolas, 'Courier New', monospace; font-size: 12.8px; line-height: 1.5; color: #e2e8f0; background: #0b1324; }
+</style>
+</head>
+<body>
+  <aside>
+    <h1>1756-L82E ST Program</h1>
+    <p>GNTF Quinguila Control System Upgrade<br>P20890_Angola &rarr; Studio 5000</p>
+    <button class="nav-btn" onclick="scrollToRoutine('io-table-sec')">&bull; Hardware &amp; I/O Table</button>
+    <button class="nav-btn" onclick="scrollToRoutine('rt-MainRoutine')">MainRoutine</button><button class="nav-btn" onclick="scrollToRoutine('rt-Init')">Init</button><button class="nav-btn" onclick="scrollToRoutine('rt-Input')">Input</button><button class="nav-btn" onclick="scrollToRoutine('rt-DI_1')">DI_1</button><button class="nav-btn" onclick="scrollToRoutine('rt-DI_2')">DI_2</button><button class="nav-btn" onclick="scrollToRoutine('rt-CalcVa1')">CalcVa1</button><button class="nav-btn" onclick="scrollToRoutine('rt-CalcVa2')">CalcVa2</button><button class="nav-btn" onclick="scrollToRoutine('rt-CalcVa3')">CalcVa3</button><button class="nav-btn" onclick="scrollToRoutine('rt-AI_1')">AI_1</button><button class="nav-btn" onclick="scrollToRoutine('rt-AI_2')">AI_2</button><button class="nav-btn" onclick="scrollToRoutine('rt-AI_3')">AI_3</button><button class="nav-btn" onclick="scrollToRoutine('rt-AI_4_New')">AI_4_New</button><button class="nav-btn" onclick="scrollToRoutine('rt-Ai_AL_1')">Ai_AL_1</button><button class="nav-btn" onclick="scrollToRoutine('rt-Ai_AL_2')">Ai_AL_2</button><button class="nav-btn" onclick="scrollToRoutine('rt-Ai_AL_3')">Ai_AL_3</button><button class="nav-btn" onclick="scrollToRoutine('rt-Vote_1')">Vote_1</button><button class="nav-btn" onclick="scrollToRoutine('rt-Logic')">Logic</button><button class="nav-btn" onclick="scrollToRoutine('rt-CE_LOG')">CE_LOG</button><button class="nav-btn" onclick="scrollToRoutine('rt-Indicat')">Indicat</button><button class="nav-btn" onclick="scrollToRoutine('rt-Shutdow')">Shutdow</button><button class="nav-btn" onclick="scrollToRoutine('rt-Protect')">Protect</button><button class="nav-btn" onclick="scrollToRoutine('rt-Loc_Al')">Loc_Al</button><button class="nav-btn" onclick="scrollToRoutine('rt-FLT_1')">FLT_1</button><button class="nav-btn" onclick="scrollToRoutine('rt-Sound')">Sound</button><button class="nav-btn" onclick="scrollToRoutine('rt-Output')">Output</button>
+  </aside>
+  <main>
+    <div class="hero">
+      <h1>GNTF Quinguila Control System Upgrade — Allen-Bradley 1756-L82E Structured Text</h1>
+      <p>Complete conversion of GE Fanuc VersaMax <code>P20890_Angola</code> (<code>FGCP-7404-001</code>) to Rockwell Automation Studio 5000 Structured Text (ST) for ControlLogix 5580 <code>1756-L82E</code> (13-Slot <code>1756-A13</code>, <code>1756-PB72</code>), incorporating all approved EPPM project documents (<code>01-MAN-03-06-PDF-C2C</code>, <code>01-MAN-03-07-PDF-C2C</code>, <code>01-MAN-02-13-PDF-C1A</code>, <code>01-MAN-03-11-PDF-C3A</code>, <code>01-MAN-03-13-PDF-C1</code>).</p>
+    </div>
+
+    <input type="text" id="filterInput" class="search-bar" placeholder="Filter I/O table or routines by Tag, Instrument (e.g. 7404-DG-001, H2S-001, PIT-002, Local:8:O)..." onkeyup="filterContent()">
+
+    <section id="io-table-sec">
+      <h2 style="color: var(--accent); margin-top: 0;">Hardware I/O, Terminal Block &amp; Setpoint Cross-Reference (Slots 2–9)</h2>
+      <table id="ioTable">
+        <thead>
+          <tr>
+            <th>Type</th><th>Slot / Ch</th><th>Terminal Block</th><th>Instrument Tag</th>
+            <th>Studio 5000 Tag</th><th>AB Hardware Address</th><th>Legacy GE</th>
+            <th>Range</th><th>Setpoints (Lo / Hi / HH)</th><th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 0</code></td><td>TB-02 (1&amp;2&amp;3)</td><td><strong>7404-DG-001</strong></td><td><code class='ab-tag'>DG_7404_001</code></td><td><code class='ab-hw'>Local:2:I.Ch0Data</code></td><td><code>%AI0001</code></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector (IR Point) pump house 1</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 1</code></td><td>TB-02 (4&amp;5&amp;6)</td><td><strong>7404-DG-002</strong></td><td><code class='ab-tag'>DG_7404_002</code></td><td><code class='ab-hw'>Local:2:I.Ch1Data</code></td><td><code>%AI0002</code></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector (IR Point) pump house 2</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 2</code></td><td>TB-02 (7&amp;8&amp;9)</td><td><strong>7404-DG-003</strong></td><td><code class='ab-tag'>DG_7404_003</code></td><td><code class='ab-hw'>Local:2:I.Ch2Data</code></td><td><code>%AI0003</code></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector (IR Point) pump house 3</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 3</code></td><td>TB-02 (10&amp;11&amp;12)</td><td><strong>7404-DG-004</strong></td><td><code class='ab-tag'>DG_7404_004</code></td><td><code class='ab-hw'>Local:2:I.Ch3Data</code></td><td><code>%AI0004</code></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector (IR Point) pump house 4</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 4</code></td><td>TB-02 (13&amp;14&amp;15)</td><td><strong>7404-DG-005</strong></td><td><code class='ab-tag'>DG_7404_005</code></td><td><code class='ab-hw'>Local:2:I.Ch4Data</code></td><td><code>%AI0005</code></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector (IR Point) pump house 5</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 5</code></td><td>TB-02 (16&amp;17&amp;18)</td><td><strong>7404-DG-006</strong></td><td><code class='ab-tag'>DG_7404_006</code></td><td><code class='ab-hw'>Local:2:I.Ch5Data</code></td><td><code>%AI0006</code></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector (IR Point) pump house 6</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 6</code></td><td>TB-02 (19&amp;20&amp;21)</td><td><strong>7404-DG-007</strong></td><td><code class='ab-tag'>DG_7404_007</code></td><td><code class='ab-hw'>Local:2:I.Ch6Data</code></td><td><code>%AI0007</code></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector (IR Point) pump house 7</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 7</code></td><td>TB-02 (22&amp;23&amp;24)</td><td><strong>7404-DG-008</strong></td><td><code class='ab-tag'>DG_7404_008</code></td><td><code class='ab-hw'>Local:2:I.Ch7Data</code></td><td><code>%AI0008</code></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector (IR Point) pump house 8</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 8</code></td><td>TB-02 (25&amp;26&amp;27)</td><td><strong>7404-DG-009</strong></td><td><code class='ab-tag'>DG_7404_009</code></td><td><code class='ab-hw'>Local:2:I.Ch8Data</code></td><td><code>%AI0009</code></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector (IR Point) pump house 9</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 9</code></td><td>TB-02 (28&amp;29&amp;30)</td><td><strong>7404-DG-010</strong></td><td><code class='ab-tag'>DG_7404_010</code></td><td><code class='ab-hw'>Local:2:I.Ch9Data</code></td><td><code>%AI0010</code></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector (IR Point) pump house 10</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 10</code></td><td>TB-02 (31&amp;32&amp;33)</td><td><strong>7404-DG-011</strong></td><td><code class='ab-tag'>DG_7404_011</code></td><td><code class='ab-hw'>Local:2:I.Ch10Data</code></td><td><code>%AI0011</code></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector (IR Point) pump house 11 (was SpareAI_11)</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 11</code></td><td>TB-02 (34&amp;35&amp;36)</td><td><strong>7404-DG-012</strong></td><td><code class='ab-tag'>DG_7404_012</code></td><td><code class='ab-hw'>Local:2:I.Ch11Data</code></td><td><code>%AI0015</code></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector (IR Point) pump house 12 (was SpareAI_15)</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 12</code></td><td>TB-02 (37&amp;38&amp;39)</td><td><strong>7404-DG-011R</strong></td><td><code class='ab-tag'>DG_7404_011R</code></td><td><code class='ab-hw'>Local:2:I.Ch12Data</code></td><td><code>%AI0014</code></td><td>0-5.00 LELm</td><td>1.00 LELm / 3.00 LELm / N/A</td><td>CH4 Line-of-Sight Open Path Gas Detector</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 13</code></td><td>TB-02 (40&amp;41&amp;42)</td><td><strong>GD-001</strong></td><td><code class='ab-tag'>GD_001</code></td><td><code class='ab-hw'>Local:2:I.Ch13Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector 1 (Gas Generator Room)</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 14</code></td><td>TB-02 (43&amp;44&amp;45)</td><td><strong>GD-002</strong></td><td><code class='ab-tag'>GD_002</code></td><td><code class='ab-hw'>Local:2:I.Ch14Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector 2 (Gas Generator Room)</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 2 / Ch 15</code></td><td>TB-02 (46&amp;47&amp;48)</td><td><strong>GD-003</strong></td><td><code class='ab-tag'>GD_003</code></td><td><code class='ab-hw'>Local:2:I.Ch15Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 %LEL</td><td>20% LEL / 30% LEL / N/A</td><td>CH4 Gas detector 3 (Gas Generator Room)</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 3 / Ch 0</code></td><td>TB-03 (1&amp;2)</td><td><strong>PIT-001</strong></td><td><code class='ab-tag'>PIT_001</code></td><td><code class='ab-hw'>Local:3:I.Ch0Data</code></td><td><span class="ge-new">NEW</span></td><td>0-200 Psi</td><td>10 Psi / 100 Psi / N/A</td><td>PT Oil Expedition Manifold Pressure</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 3 / Ch 1</code></td><td>TB-03 (4&amp;5)</td><td><strong>PIT-002</strong></td><td><code class='ab-tag'>PIT_002</code></td><td><code class='ab-hw'>Local:3:I.Ch1Data</code></td><td><span class="ge-new">NEW</span></td><td>0-1500 Psi</td><td>200 Psi / 800 Psi / 900 Psi</td><td>PT Water Injection Manifold Pressure</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 3 / Ch 2</code></td><td>TB-03 (7&amp;8)</td><td><strong>PIT-003</strong></td><td><code class='ab-tag'>PIT_003</code></td><td><code class='ab-hw'>Local:3:I.Ch2Data</code></td><td><span class="ge-new">NEW</span></td><td>0-3000 Psi</td><td>1700 Psi / 2700 Psi / 2800 Psi</td><td>PT Oil Injection Manifold Pressure</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 3 / Ch 3</code></td><td>TB-03 (10&amp;11)</td><td><strong>7503-PST-001</strong></td><td><code class='ab-tag'>PST_7503_001</code></td><td><code class='ab-hw'>Local:3:I.Ch3Data</code></td><td><code>%AI0019</code></td><td>0-100 Psi</td><td>N/A / 50 Psi / N/A</td><td>PT Deluge Line Pressure (Foam/Deluge Released)</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 3 / Ch 4</code></td><td>TB-03 (13&amp;14)</td><td><strong>7002-PST-001</strong></td><td><code class='ab-tag'>PST_7002_001</code></td><td><code class='ab-hw'>Local:3:I.Ch4Data</code></td><td><code>%AI0017</code></td><td>0-100 Psi</td><td>50 Psi / N/A / N/A</td><td>PT Air Accumulator Pressure ESDV</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 3 / Ch 5</code></td><td>TB-03 (16&amp;17)</td><td><strong>6401-PST-001</strong></td><td><code class='ab-tag'>PST_6401_001</code></td><td><code class='ab-hw'>Local:3:I.Ch5Data</code></td><td><code>%AI0018</code></td><td>0-150 Psi</td><td>40 Psi / 100 Psi / N/A</td><td>PT Fuel Gas Pressure</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 3 / Ch 6</code></td><td>TB-03 (19)</td><td><strong>7503-FR-003</strong></td><td><code class='ab-tag'>FR_7503_003</code></td><td><code class='ab-hw'>Local:3:I.Ch6Data</code></td><td><code>%AI0022</code></td><td>4-20 mA</td><td>N/A / 30 % / N/A</td><td>Manual Foam Release Button inside Local CP (PCR)</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 3 / Ch 7</code></td><td>TB-03 (19&amp;20)</td><td><strong>7503-FR-001/002</strong></td><td><code class='ab-tag'>FR_7503_001_002</code></td><td><code class='ab-hw'>Local:3:I.Ch7Data</code></td><td><code>%AI0020</code></td><td>4-20 mA</td><td>N/A / 30 % / N/A</td><td>Manual Foam Release Buttons Outside (Field)</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 3 / Ch 8</code></td><td>TB-03 (22&amp;23)</td><td><strong>SPARE</strong></td><td><code class='ab-tag'>SpareAI_16</code></td><td><code class='ab-hw'>Local:3:I.Ch8Data</code></td><td><code>%AI0016</code></td><td>0-100 %</td><td>20 % / 30 % / N/A</td><td>Spare Analog Input (Legacy SpareAI_16)</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 3 / Ch 9</code></td><td>TB-03 (25&amp;26)</td><td><strong>SPARE</strong></td><td><code class='ab-tag'>SpareAI_21</code></td><td><code class='ab-hw'>Local:3:I.Ch9Data</code></td><td><code>%AI0021</code></td><td>0-100 %</td><td>20 % / 30 % / N/A</td><td>Spare Analog Input (Legacy SpareAI_21)</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 3 / Ch 10</code></td><td>TB-03 (28&amp;29)</td><td><strong>SPARE</strong></td><td><code class='ab-tag'>SpareAI_23</code></td><td><code class='ab-hw'>Local:3:I.Ch10Data</code></td><td><code>%AI0023</code></td><td>0-100 %</td><td>20 % / 30 % / N/A</td><td>Spare Analog Input (Legacy SpareAI_23)</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 3 / Ch 11</code></td><td>TB-03 (31&amp;32)</td><td><strong>SPARE</strong></td><td><code class='ab-tag'>SpareAI_24</code></td><td><code class='ab-hw'>Local:3:I.Ch11Data</code></td><td><code>%AI0024</code></td><td>0-100 %</td><td>20 % / 30 % / N/A</td><td>Spare Analog Input (Legacy SpareAI_24)</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 0</code></td><td>TB-04 (1&amp;2&amp;3)</td><td><strong>H2S-001</strong></td><td><code class='ab-tag'>H2S_001</code></td><td><code class='ab-hw'>Local:4:I.Ch0Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 PPM</td><td>10 PPM / 20 PPM / N/A</td><td>H2S Gas Detector 1</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 1</code></td><td>TB-04 (4&amp;5&amp;6)</td><td><strong>H2S-002</strong></td><td><code class='ab-tag'>H2S_002</code></td><td><code class='ab-hw'>Local:4:I.Ch1Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 PPM</td><td>10 PPM / 20 PPM / N/A</td><td>H2S Gas Detector 2</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 2</code></td><td>TB-04 (7&amp;8&amp;9)</td><td><strong>H2S-003</strong></td><td><code class='ab-tag'>H2S_003</code></td><td><code class='ab-hw'>Local:4:I.Ch2Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 PPM</td><td>10 PPM / 20 PPM / N/A</td><td>H2S Gas Detector 3</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 3</code></td><td>TB-04 (10&amp;11&amp;12)</td><td><strong>H2S-004</strong></td><td><code class='ab-tag'>H2S_004</code></td><td><code class='ab-hw'>Local:4:I.Ch3Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 PPM</td><td>10 PPM / 20 PPM / N/A</td><td>H2S Gas Detector 4</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 4</code></td><td>TB-04 (13&amp;14&amp;15)</td><td><strong>H2S-005</strong></td><td><code class='ab-tag'>H2S_005</code></td><td><code class='ab-hw'>Local:4:I.Ch4Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 PPM</td><td>10 PPM / 20 PPM / N/A</td><td>H2S Gas Detector 5</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 5</code></td><td>TB-04 (16&amp;17&amp;18)</td><td><strong>H2S-006</strong></td><td><code class='ab-tag'>H2S_006</code></td><td><code class='ab-hw'>Local:4:I.Ch5Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 PPM</td><td>10 PPM / 20 PPM / N/A</td><td>H2S Gas Detector 6</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 6</code></td><td>TB-04 (19&amp;20&amp;21)</td><td><strong>H2S-007</strong></td><td><code class='ab-tag'>H2S_007</code></td><td><code class='ab-hw'>Local:4:I.Ch6Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 PPM</td><td>10 PPM / 20 PPM / N/A</td><td>H2S Gas Detector 7</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 7</code></td><td>TB-04 (22&amp;23&amp;24)</td><td><strong>H2S-008</strong></td><td><code class='ab-tag'>H2S_008</code></td><td><code class='ab-hw'>Local:4:I.Ch7Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 PPM</td><td>10 PPM / 20 PPM / N/A</td><td>H2S Gas Detector 8</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 8</code></td><td>TB-04 (25&amp;26&amp;27)</td><td><strong>H2S-009</strong></td><td><code class='ab-tag'>H2S_009</code></td><td><code class='ab-hw'>Local:4:I.Ch8Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 PPM</td><td>10 PPM / 20 PPM / N/A</td><td>H2S Gas Detector 9</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 9</code></td><td>TB-04 (28&amp;29&amp;30)</td><td><strong>H2S-010</strong></td><td><code class='ab-tag'>H2S_010</code></td><td><code class='ab-hw'>Local:4:I.Ch9Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 PPM</td><td>10 PPM / 20 PPM / N/A</td><td>H2S Gas Detector 10</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 10</code></td><td>TB-04 (31&amp;32&amp;33)</td><td><strong>H2S-011</strong></td><td><code class='ab-tag'>H2S_011</code></td><td><code class='ab-hw'>Local:4:I.Ch10Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 PPM</td><td>10 PPM / 20 PPM / N/A</td><td>H2S Gas Detector 11</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 11</code></td><td>TB-04 (34&amp;35&amp;36)</td><td><strong>H2S-012</strong></td><td><code class='ab-tag'>H2S_012</code></td><td><code class='ab-hw'>Local:4:I.Ch11Data</code></td><td><span class="ge-new">NEW</span></td><td>0-100 PPM</td><td>10 PPM / 20 PPM / N/A</td><td>H2S Gas Detector 12</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 12</code></td><td>TB-04 (37&amp;38&amp;39)</td><td><strong>7404-DF-001</strong></td><td><code class='ab-tag'>DF_7404_001</code></td><td><code class='ab-hw'>Local:4:I.Ch12Data</code></td><td><code>%AI0012</code></td><td>4-20 mA</td><td>N/A / 30 % / N/A</td><td>Flame Detector 1 Pump House</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 13</code></td><td>TB-04 (40&amp;41&amp;42)</td><td><strong>7404-DF-002</strong></td><td><code class='ab-tag'>DF_7404_002</code></td><td><code class='ab-hw'>Local:4:I.Ch13Data</code></td><td><code>%AI0013</code></td><td>4-20 mA</td><td>N/A / 30 % / N/A</td><td>Flame Detector 2 Pump House</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 14</code></td><td>TB-04 (43&amp;44&amp;45)</td><td><strong>7404-DF-003</strong></td><td><code class='ab-tag'>DF_7404_003</code></td><td><code class='ab-hw'>Local:4:I.Ch14Data</code></td><td><span class="ge-new">NEW</span></td><td>4-20 mA</td><td>N/A / 30 % / N/A</td><td>Flame Detector 3 Pump House</td></tr><tr><td><span class='badge badge-ai'>AI</span></td><td><code>Slot 4 / Ch 15</code></td><td>TB-04 (46..51)</td><td><strong>SD-001/002</strong></td><td><code class='ab-tag'>SD_001_002</code></td><td><code class='ab-hw'>Local:4:I.Ch15Data</code></td><td><span class="ge-new">NEW</span></td><td>4-20 mA</td><td>N/A / 30 % / N/A</td><td>Smoke Detectors (Electrical / Generator Room)</td></tr><tr><td><span class='badge badge-ai'>HART</span></td><td><code>Slot 6 / Ch 0</code></td><td>TB-06 (1&amp;2)</td><td><strong>LIT-100</strong></td><td><code class='ab-tag'>LIT_100</code></td><td><code class='ab-hw'>Local:6:I.Ch0Data</code></td><td><span class="ge-new">NEW</span></td><td>0-10.0 m</td><td>0.7 m / 9.0 m / N/A</td><td>LT Tank T100 Level Transmitter (4-20mA HART)</td></tr><tr><td><span class='badge badge-ai'>HART</span></td><td><code>Slot 6 / Ch 1</code></td><td>TB-06 (3&amp;4)</td><td><strong>LIT-200</strong></td><td><code class='ab-tag'>LIT_200</code></td><td><code class='ab-hw'>Local:6:I.Ch1Data</code></td><td><span class="ge-new">NEW</span></td><td>0-10.0 m</td><td>0.7 m / 9.0 m / N/A</td><td>LT Tank T200 Level Transmitter (4-20mA HART)</td></tr><tr><td><span class='badge badge-ai'>HART</span></td><td><code>Slot 6 / Ch 2</code></td><td>TB-06 (5&amp;6)</td><td><strong>LIT-300</strong></td><td><code class='ab-tag'>LIT_300</code></td><td><code class='ab-hw'>Local:6:I.Ch2Data</code></td><td><span class="ge-new">NEW</span></td><td>0-10.0 m</td><td>0.7 m / 9.0 m / N/A</td><td>LT Tank T300 Level Transmitter (4-20mA HART)</td></tr><tr><td><span class='badge badge-ai'>HART</span></td><td><code>Slot 6 / Ch 3</code></td><td>TB-06 (7&amp;8)</td><td><strong>LIT-400</strong></td><td><code class='ab-tag'>LIT_400</code></td><td><code class='ab-hw'>Local:6:I.Ch3Data</code></td><td><span class="ge-new">NEW</span></td><td>0-12.0 m</td><td>0.7 m / 11.0 m / N/A</td><td>LT Tank T400 Level Transmitter (4-20mA HART)</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 0</code></td><td>TB-07 (1&amp;2)</td><td><strong>6401-ZSH-001</strong></td><td><code class='ab-tag'>ZSH_6401_001</code></td><td><code class='ab-hw'>Local:7:I.Data.0</code></td><td><code>%I00001</code></td><td>24V DC</td><td>- / - / -</td><td>6401-ZSH-001 ESD Valve Open Limit Switch</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 1</code></td><td>TB-07 (3&amp;4)</td><td><strong>6401-ZSL-001</strong></td><td><code class='ab-tag'>ZSL_6401_001</code></td><td><code class='ab-hw'>Local:7:I.Data.1</code></td><td><code>%I00002</code></td><td>24V DC</td><td>- / - / -</td><td>6401-ZSL-001 ESD Valve Closed Limit Switch</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 2</code></td><td>TB-07 (5&amp;6)</td><td><strong>FGCP-7404-001 E8</strong></td><td><code class='ab-tag'>FS_FGCP_E8</code></td><td><code class='ab-hw'>Local:7:I.Data.2</code></td><td><code>%I00008</code></td><td>24V DC</td><td>- / - / -</td><td>Foam Stop Button on FGCP Panel (E8) / SpareDI_08</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 3</code></td><td>TB-07 (7&amp;8)</td><td><strong>7503-LS-002</strong></td><td><code class='ab-tag'>LS_7503_002</code></td><td><code class='ab-hw'>Local:7:I.Data.3</code></td><td><code>%I00005</code></td><td>24V DC</td><td>- / - / -</td><td>7503-LS-002 Diesel Tank Low Level Switch</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 4</code></td><td>TB-07 (9&amp;10)</td><td><strong>7503-FS-001</strong></td><td><code class='ab-tag'>FS_7503_001</code></td><td><code class='ab-hw'>Local:7:I.Data.4</code></td><td><code>%I00003</code></td><td>24V DC</td><td>- / - / -</td><td>7503-FS-001 Stop Foam Button (Field)</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 5</code></td><td>TB-07 (11&amp;12)</td><td><strong>7503-LS-001</strong></td><td><code class='ab-tag'>LS_7503_001</code></td><td><code class='ab-hw'>Local:7:I.Data.5</code></td><td><code>%I00004</code></td><td>24V DC</td><td>- / - / -</td><td>7503-LS-001 AFFF Foam Tank Low Level Switch</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 6</code></td><td>TB-07 (13&amp;14)</td><td><strong>75-C-01A</strong></td><td><code class='ab-tag'>Pump_A_PulsIn</code></td><td><code class='ab-hw'>Local:7:I.Data.6</code></td><td><code>%I00006</code></td><td>24V DC</td><td>- / - / -</td><td>Pulsed Input from Q05 for Pump A Open-Circuit Check</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 7</code></td><td>TB-07 (15&amp;16)</td><td><strong>75-C-01B</strong></td><td><code class='ab-tag'>Pump_B_Start_PulsIn</code></td><td><code class='ab-hw'>Local:7:I.Data.7</code></td><td><code>%I00007</code></td><td>24V DC</td><td>- / - / -</td><td>Pulsed Input from Q07 for Pump B Open-Circuit Check</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 8</code></td><td>TB-07 (17&amp;18)</td><td><strong>75-SB-01B</strong></td><td><code class='ab-tag'>Pump_B_Inhibited</code></td><td><code class='ab-hw'>Local:7:I.Data.8</code></td><td><code>%I00009</code></td><td>24V DC</td><td>- / - / -</td><td>Standby Pump B Inhibited Keyswitch</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 9</code></td><td>TB-07 (19&amp;20)</td><td><strong>SPARE</strong></td><td><code class='ab-tag'>SpareDI_11</code></td><td><code class='ab-hw'>Local:7:I.Data.9</code></td><td><code>%I00011</code></td><td>24V DC</td><td>- / - / -</td><td>Spare Digital Input 11</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 10</code></td><td>TB-07 (21&amp;22)</td><td><strong>FGCP-7404-001 E11</strong></td><td><code class='ab-tag'>Reset_PB_E11</code></td><td><code class='ab-hw'>Local:7:I.Data.10</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>FGCP-7404-001 Reset Alarm Pushbutton (E11)</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 11</code></td><td>TB-07 (23&amp;24)</td><td><strong>FGCP-7404-001 E12</strong></td><td><code class='ab-tag'>Mute_PB_E12</code></td><td><code class='ab-hw'>Local:7:I.Data.11</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>FGCP-7404-001 Mute Alarm Pushbutton (E12)</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 12</code></td><td>TB-07 (25&amp;26)</td><td><strong>6401-ESDV-001</strong></td><td><code class='ab-tag'>ESDV_6401_001</code></td><td><code class='ab-hw'>Local:7:I.Data.12</code></td><td><code>%I00010</code></td><td>24V DC</td><td>- / - / -</td><td>6401-ESDV-001 ESD Fuel Gas Pushbutton (E9)</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 13</code></td><td>TB-07 (27&amp;28)</td><td><strong>FGCP-7404-001 S2</strong></td><td><code class='ab-tag'>INHIBIT_FOAM_REL</code></td><td><code class='ab-hw'>Local:7:I.Data.13</code></td><td><code>%I00012</code></td><td>24V DC</td><td>- / - / -</td><td>Inhibition Foam Release Keyswitch (S2)</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 14</code></td><td>TB-07 (29&amp;30)</td><td><strong>FGCP-7404-001 S3</strong></td><td><code class='ab-tag'>INHIBIT_ALL_OUTPUTS</code></td><td><code class='ab-hw'>Local:7:I.Data.14</code></td><td><code>%I00013</code></td><td>24V DC</td><td>- / - / -</td><td>Inhibition All Outputs Keyswitch (S3)</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 15</code></td><td>TB-07 (31&amp;32)</td><td><strong>7404-SB-004 (E1)</strong></td><td><code class='ab-tag'>ESTOP_P2300_E1</code></td><td><code class='ab-hw'>Local:7:I.Data.15</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Emergency Stop Button Power Oil Pump P-2300 (E1)</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 16</code></td><td>TB-07 (33&amp;34)</td><td><strong>7404-SB-005 (E2)</strong></td><td><code class='ab-tag'>ESTOP_P2400_E2</code></td><td><code class='ab-hw'>Local:7:I.Data.16</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Emergency Stop Button Power Oil Pump P-2400 (E2)</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 17</code></td><td>TB-07 (35&amp;36)</td><td><strong>7404-SB-006 (E3)</strong></td><td><code class='ab-tag'>ESTOP_P2500_E3</code></td><td><code class='ab-hw'>Local:7:I.Data.17</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Emergency Stop Button Power Oil Pump P-2500 (E3)</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 18</code></td><td>TB-07 (37&amp;38)</td><td><strong>7404-SB-007 (E4)</strong></td><td><code class='ab-tag'>ESTOP_P2600_E4</code></td><td><code class='ab-hw'>Local:7:I.Data.18</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Emergency Stop Button Power Oil Pump P-2600 (E4)</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 19</code></td><td>TB-07 (39&amp;40)</td><td><strong>7404-SB-008 (E5)</strong></td><td><code class='ab-tag'>ESTOP_P3800_E5</code></td><td><code class='ab-hw'>Local:7:I.Data.19</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Emergency Stop Button Water Inj. Pump P-3800 (E5)</td></tr><tr><td><span class='badge badge-di'>DI</span></td><td><code>Slot 7 / Ch 20</code></td><td>TB-07 (41&amp;42)</td><td><strong>7404-SB-009 (E6)</strong></td><td><code class='ab-tag'>ESTOP_P3900_E6</code></td><td><code class='ab-hw'>Local:7:I.Data.20</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Emergency Stop Button Water Inj. Pump P-3900 (E6)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 0</code></td><td>TB-08 (1&amp;2)</td><td><strong>ESD_TRIP</strong></td><td><code class='ab-tag'>PumpShutdown</code></td><td><code class='ab-hw'>Local:8:O.Data.0</code></td><td><code>%Q00008</code></td><td>24V DC</td><td>- / - / -</td><td>Fire &amp; Gas Pump Shutdown (Inverted Fail-Safe Output)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 1</code></td><td>TB-08 (3&amp;4)</td><td><strong>6401-EY-001/002</strong></td><td><code class='ab-tag'>EY_6401_001_002</code></td><td><code class='ab-hw'>Local:8:O.Data.1</code></td><td><code>%Q00001</code></td><td>24V DC</td><td>- / - / -</td><td>6401-EY-001/002 ESD Fuel Gas Valve Shutdown</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 2</code></td><td>TB-08 (5&amp;6)</td><td><strong>7404-SA-001/002</strong></td><td><code class='ab-tag'>SA_7404_001_002</code></td><td><code class='ab-hw'>Local:8:O.Data.2</code></td><td><code>%Q00002</code></td><td>24V DC</td><td>- / - / -</td><td>7404-SA-001/002 Local Alarm Bell Pump House</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 3</code></td><td>TB-08 (7)</td><td><strong>7503-PUMP-A</strong></td><td><code class='ab-tag'>Pump_A_PulsOut</code></td><td><code class='ab-hw'>Local:8:O.Data.3</code></td><td><code>%Q00009</code></td><td>24V DC</td><td>- / - / -</td><td>Pulsed Output for Open-Circuit Check on Pump A</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 4</code></td><td>TB-08 (9)</td><td><strong>7503-PUMP-A</strong></td><td><code class='ab-tag'>PUMP_A</code></td><td><code class='ab-hw'>Local:8:O.Data.4</code></td><td><code>%Q00005</code></td><td>24V DC</td><td>- / - / -</td><td>Deluge Pump A Start/Stop Output</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 5</code></td><td>TB-08 (11)</td><td><strong>7503-PUMP-B</strong></td><td><code class='ab-tag'>Pump_B_Start_PulsOut</code></td><td><code class='ab-hw'>Local:8:O.Data.5</code></td><td><code>%Q00010</code></td><td>24V DC</td><td>- / - / -</td><td>Pulsed Output for Open-Circuit Check on Pump B</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 6</code></td><td>TB-08 (13)</td><td><strong>7503-PUMP-B</strong></td><td><code class='ab-tag'>PUMP_B_START</code></td><td><code class='ab-hw'>Local:8:O.Data.6</code></td><td><code>%Q00007</code></td><td>24V DC</td><td>- / - / -</td><td>Deluge Pump B Start Output (2s Pulse x3 Attempts)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 7</code></td><td>TB-08 (15&amp;16)</td><td><strong>7503-PUMP-B</strong></td><td><code class='ab-tag'>PUMP_B_STOP</code></td><td><code class='ab-hw'>Local:8:O.Data.7</code></td><td><code>%Q00006</code></td><td>24V DC</td><td>- / - / -</td><td>Deluge Pump B Stop Output (2s Pulse)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 8</code></td><td>TB-08 (17&amp;18)</td><td><strong>EDB1 (P2100/2200)</strong></td><td><code class='ab-tag'>P2100_P2200</code></td><td><code class='ab-hw'>Local:8:O.Data.8</code></td><td><code>%Q00003</code></td><td>24V DC</td><td>- / - / -</td><td>P2100/P2200 Oil Booster Pump Shutdown Relay (Inverted)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 9</code></td><td>TB-08 (19&amp;20)</td><td><strong>EDB1 (P3600/3700)</strong></td><td><code class='ab-tag'>P3600_P3700</code></td><td><code class='ab-hw'>Local:8:O.Data.9</code></td><td><code>%Q00004</code></td><td>24V DC</td><td>- / - / -</td><td>P3600/P3700 Water Booster Pump Shutdown Relay (Inverted)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 10</code></td><td>TB-08 (21&amp;22)</td><td><strong>PLC_FAULT</strong></td><td><code class='ab-tag'>PLC_Fault</code></td><td><code class='ab-hw'>Local:8:O.Data.10</code></td><td><code>%Q00016</code></td><td>24V DC</td><td>- / - / -</td><td>PLC System Fault Output</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 11</code></td><td>TB-08 (23&amp;24)</td><td><strong>FGCP-7404-001 L14</strong></td><td><code class='ab-tag'>Tag_DO_13</code></td><td><code class='ab-hw'>Local:8:O.Data.11</code></td><td><code>%Q00013</code></td><td>24V DC</td><td>- / - / -</td><td>ESDV Fuel Gas Line Closed LED (L14)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 12</code></td><td>TB-08 (25&amp;26)</td><td><strong>FGCP-7404-001 L15</strong></td><td><code class='ab-tag'>Tag_DO_12</code></td><td><code class='ab-hw'>Local:8:O.Data.12</code></td><td><code>%Q00012</code></td><td>24V DC</td><td>- / - / -</td><td>ESDV Fuel Gas Line Open LED (L15)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 13</code></td><td>TB-08 (27&amp;28)</td><td><strong>FGCP-7404-001 L16</strong></td><td><code class='ab-tag'>Tag_DO_14</code></td><td><code class='ab-hw'>Local:8:O.Data.13</code></td><td><code>%Q00014</code></td><td>24V DC</td><td>- / - / -</td><td>ESDV Low Air Supply Indication LED (L16)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 14</code></td><td>TB-08 (29&amp;30)</td><td><strong>FGCP-7404-001 L17</strong></td><td><code class='ab-tag'>LED_Low_Fuel_Gas_L17</code></td><td><code class='ab-hw'>Local:8:O.Data.14</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Low Fuel Gas Pressure Indication LED (L17)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 15</code></td><td>TB-08 (31..34)</td><td><strong>FGCP-7404-001 CR1</strong></td><td><code class='ab-tag'>CR1_P2300_Stop</code></td><td><code class='ab-hw'>Local:8:O.Data.15</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Relay CR1 for LED L2 &amp; L8 (Trip Power Oil Pump P-2300)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 16</code></td><td>TB-08 (35..38)</td><td><strong>FGCP-7404-001 CR2</strong></td><td><code class='ab-tag'>CR2_P2400_Stop</code></td><td><code class='ab-hw'>Local:8:O.Data.16</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Relay CR2 for LED L3 &amp; L9 (Trip Power Oil Pump P-2400)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 17</code></td><td>TB-08 (39..42)</td><td><strong>FGCP-7404-001 CR3</strong></td><td><code class='ab-tag'>CR3_P2500_Stop</code></td><td><code class='ab-hw'>Local:8:O.Data.17</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Relay CR3 for LED L4 &amp; L10 (Trip Power Oil Pump P-2500)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 18</code></td><td>TB-08 (43..46)</td><td><strong>FGCP-7404-001 CR4</strong></td><td><code class='ab-tag'>CR4_P2600_Stop</code></td><td><code class='ab-hw'>Local:8:O.Data.18</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Relay CR4 for LED L5 &amp; L11 (Trip Power Oil Pump P-2600)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 19</code></td><td>TB-08 (47..50)</td><td><strong>FGCP-7404-001 CR5</strong></td><td><code class='ab-tag'>CR5_P3800_Stop</code></td><td><code class='ab-hw'>Local:8:O.Data.19</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Relay CR5 for LED L6 &amp; L12 (Trip Water Inj Pump P-3800)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 20</code></td><td>TB-08 (51..54)</td><td><strong>FGCP-7404-001 CR6</strong></td><td><code class='ab-tag'>CR6_P3900_Stop</code></td><td><code class='ab-hw'>Local:8:O.Data.20</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Relay CR6 for LED L7 &amp; L13 (Trip Water Inj Pump P-3900)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 21</code></td><td>TB-08 (55&amp;56)</td><td><strong>SD-GE</strong></td><td><code class='ab-tag'>SD_GE</code></td><td><code class='ab-hw'>Local:8:O.Data.21</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>7404-ESD-GEN Shut Down of All Gas Generators</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 22</code></td><td>TB-08 (57&amp;58)</td><td><strong>FGCP-7404-001 Z1</strong></td><td><code class='ab-tag'>Tag_DO_15</code></td><td><code class='ab-hw'>Local:8:O.Data.22</code></td><td><code>%Q00015</code></td><td>24V DC</td><td>- / - / -</td><td>PROD CONTROL ROOM Alarm Buzzer/Beacon (Z1)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 23</code></td><td>TB-08 (59&amp;60)</td><td><strong>PA-001</strong></td><td><code class='ab-tag'>PA_001</code></td><td><code class='ab-hw'>Local:8:O.Data.23</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>PROCESS (PROD, BUILDING) Alarm Horn/Beacon</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 30</code></td><td>TB-08 (73&amp;74)</td><td><strong>H2SA-001/002</strong></td><td><code class='ab-tag'>H2SA_001_002</code></td><td><code class='ab-hw'>Local:8:O.Data.30</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>H2S Alarm Horn/Beacon (Discontinuous 10ppm / Cont. 20ppm)</td></tr><tr><td><span class='badge badge-do'>DO</span></td><td><code>Slot 8 / Ch 31</code></td><td>TB-08 (75&amp;76)</td><td><strong>SDA-001</strong></td><td><code class='ab-tag'>SDA_001</code></td><td><code class='ab-hw'>Local:8:O.Data.31</code></td><td><span class="ge-new">NEW</span></td><td>24V DC</td><td>- / - / -</td><td>Smoke Detection Alarm Horn/Beacon</td></tr><tr><td><span class='badge badge-mb'>MODBUS</span></td><td><code>Slot 9 / Ch 1</code></td><td>P1/P2</td><td><strong>P2300</strong></td><td><code class='ab-tag'>MCM_P2300_Status</code></td><td><code class='ab-hw'>Local:9:I.Data[0]</code></td><td><code>MODBUS</code></td><td>RS-485</td><td>- / - / -</td><td>Murphy Panel P-2300 Power Oil Pump (TTD-H Annunciator)</td></tr><tr><td><span class='badge badge-mb'>MODBUS</span></td><td><code>Slot 9 / Ch 2</code></td><td>P1/P2</td><td><strong>P2400</strong></td><td><code class='ab-tag'>MCM_P2400_Status</code></td><td><code class='ab-hw'>Local:9:I.Data[1]</code></td><td><code>MODBUS</code></td><td>RS-485</td><td>- / - / -</td><td>Murphy Panel P-2400 Power Oil Pump (TTD-H Annunciator)</td></tr><tr><td><span class='badge badge-mb'>MODBUS</span></td><td><code>Slot 9 / Ch 3</code></td><td>P1/P2</td><td><strong>P2500</strong></td><td><code class='ab-tag'>MCM_P2500_Status</code></td><td><code class='ab-hw'>Local:9:I.Data[2]</code></td><td><code>MODBUS</code></td><td>RS-485</td><td>- / - / -</td><td>Murphy Panel P-2500 Power Oil Pump (TTD-H Annunciator)</td></tr><tr><td><span class='badge badge-mb'>MODBUS</span></td><td><code>Slot 9 / Ch 4</code></td><td>P1/P2</td><td><strong>P2600</strong></td><td><code class='ab-tag'>MCM_P2600_Status</code></td><td><code class='ab-hw'>Local:9:I.Data[3]</code></td><td><code>MODBUS</code></td><td>RS-485</td><td>- / - / -</td><td>Murphy Panel P-2600 Power Oil Pump (Murphy S1501)</td></tr><tr><td><span class='badge badge-mb'>MODBUS</span></td><td><code>Slot 9 / Ch 5</code></td><td>P1/P2</td><td><strong>P3800</strong></td><td><code class='ab-tag'>MCM_P3800_Status</code></td><td><code class='ab-hw'>Local:9:I.Data[4]</code></td><td><code>MODBUS</code></td><td>RS-485</td><td>- / - / -</td><td>Murphy Panel P-3800 Water Injection Pump (TTD-H)</td></tr><tr><td><span class='badge badge-mb'>MODBUS</span></td><td><code>Slot 9 / Ch 6</code></td><td>P1/P2</td><td><strong>P3900</strong></td><td><code class='ab-tag'>MCM_P3900_Status</code></td><td><code class='ab-hw'>Local:9:I.Data[5]</code></td><td><code>MODBUS</code></td><td>RS-485</td><td>- / - / -</td><td>Murphy Panel P-3900 Water Injection Pump (TTD-H)</td></tr><tr><td><span class='badge badge-mb'>MODBUS</span></td><td><code>Slot 9 / Ch 7</code></td><td>P1/P2</td><td><strong>6401-FT-001</strong></td><td><code class='ab-tag'>FT_6401_001</code></td><td><code class='ab-hw'>Local:9:I.Data[6]</code></td><td><code>MODBUS</code></td><td>0-500 bbl/h</td><td>30 bbl/h / 300 bbl/h / N/A</td><td>Flowmeter Oil Expedition (FIT-001 / 6401-FT-001)</td></tr><tr><td><span class='badge badge-mb'>MODBUS</span></td><td><code>Slot 9 / Ch 8</code></td><td>P1/P2</td><td><strong>V-710</strong></td><td><code class='ab-tag'>MCM_V710_Status</code></td><td><code class='ab-hw'>Local:9:I.Data[7]</code></td><td><code>MODBUS</code></td><td>RS-485</td><td>- / - / -</td><td>Heater Treater V-710 CompactLogix 1769-L30ER</td></tr><tr><td><span class='badge badge-mb'>MODBUS</span></td><td><code>Slot 9 / Ch 9</code></td><td>P1/P2</td><td><strong>V-810</strong></td><td><code class='ab-tag'>MCM_V810_Status</code></td><td><code class='ab-hw'>Local:9:I.Data[8]</code></td><td><code>MODBUS</code></td><td>RS-485</td><td>- / - / -</td><td>Heater Treater V-810 CompactLogix 1769-L30ER</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    
+        <section class="routine-card" id="rt-MainRoutine">
+          <div class="routine-header">
+            <div>
+              <h2>01. MainRoutine <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Main Executive Routine (Converted from GE VersaMax _MAIN + GNTF Upgrade Extensions)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-MainRoutine', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-MainRoutine"><code>// ============================================================================
+// Routine: MainRoutine (Converted from GE VersaMax _MAIN)
+// Project: GNTF QUINGUILA CONTROL SYSTEM UPGRADE (01-MAN-03-11 / P20890_Angola)
+// Target : Allen-Bradley ControlLogix 5580 (1756-L82E), Studio 5000 v28+
+// ============================================================================
+
+// Rung 1: First Scan Initialization &amp; Free-Running Flasher Timers
+First_Scan := S:FS;
+
+TMR_Flash_Slow.PRE := 400; // 400 ms (0.4s)
+TMR_Flash_Slow.TimerEnable := NOT TMR_Flash_Fast.DN;
+TMR_Flash_Slow.Reset := First_Scan;
+TONR(TMR_Flash_Slow);
+
+TMR_Flash_Fast.PRE := 400; // 400 ms (0.4s)
+TMR_Flash_Fast.TimerEnable := TMR_Flash_Slow.DN;
+TMR_Flash_Fast.Reset := First_Scan;
+TONR(TMR_Flash_Fast);
+
+// Rung 2: 0.4s Toggle Flasher (R01598_0)
+IF TMR_Flash_Slow.DN AND NOT R01598_1 THEN
+    R01598_0 := NOT R01598_0;
+END_IF;
+R01598_1 := TMR_Flash_Slow.DN;
+
+// Rung 3: Secondary Toggle Divider (R01598_2)
+IF R01598_0 AND NOT R01598_3 THEN
+    R01598_2 := NOT R01598_2;
+END_IF;
+R01598_3 := R01598_0;
+
+// Rung 4: Tertiary Toggle Divider (R01598_4)
+IF R01598_2 AND NOT R01598_5 THEN
+    R01598_4 := NOT R01598_4;
+END_IF;
+R01598_5 := R01598_2;
+
+// Rung 5: Quaternary Toggle Divider (R01598_6)
+IF R01598_4 AND NOT R01598_7 THEN
+    R01598_6 := NOT R01598_6;
+END_IF;
+R01598_7 := R01598_4;
+
+// Rung 6: Execute Initialization Subroutine on First Scan
+IF First_Scan THEN
+    JSR(Init);
+END_IF;
+
+// Rung 7: Input Mapping &amp; Digital/Analog Input Processing
+JSR(Input);
+JSR(DI_1);
+JSR(DI_2);
+JSR(AI_1);
+JSR(AI_2);
+JSR(AI_3);
+JSR(AI_4_New); // GNTF Upgrade: New AI channels (GD-001..003, PIT-001..003, H2S-001..012, DF-003, SD-001/002, LIT-100..400, FT-001)
+
+// Rung 8: Analog Alarm Threshold Evaluation &amp; Voting
+JSR(Ai_AL_1);
+JSR(Ai_AL_2);
+JSR(Ai_AL_3);
+JSR(Vote_1);
+
+// Rung 9: Cause &amp; Effect Logic, Deluge Pump Control, Sounders &amp; Outputs
+JSR(Logic);
+JSR(CE_LOG);
+JSR(Sound);
+JSR(Output);</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Init">
+          <div class="routine-header">
+            <div>
+              <h2>02. Init <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>First-Scan Setpoint &amp; Calibration Initialization (01-MAN-03-13-PDF-C1 &amp; Legacy Init)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Init', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Init"><code>// ============================================================================
+// Routine: Init (Initialization of Calibration Ranges &amp; Alarm Setpoints)
+// Reference: List of Parameters and Set Points (01-MAN-03-13-PDF-C1)
+//            Cause &amp; Effect Matrix (01-MAN-03-07-PDF-C2C Final)
+// ============================================================================
+
+// --- 1. CH4 Point Gas Detectors 7404-DG-001..012 (0 - 100 %LEL, Low=20, High=30) ---
+// Legacy GE raw counts (32000 = 100%): 0-100% LEL, HiFault=105, LoFault=-4, HiAlarm=30, LoAlarm=20
+R00101 := 0.0;     R00103 := 100.0;   R00105 := 105.0;   R00107 := -4.0;    R00109 := 30.0;    R00111 := 20.0; // 7404-DG-001
+R00121 := 0.0;     R00123 := 100.0;   R00125 := 105.0;   R00127 := -4.0;    R00129 := 30.0;    R00131 := 20.0; // 7404-DG-002
+R00141 := 0.0;     R00143 := 100.0;   R00145 := 105.0;   R00147 := -4.0;    R00149 := 30.0;    R00151 := 20.0; // 7404-DG-003
+R00161 := 0.0;     R00163 := 100.0;   R00165 := 105.0;   R00167 := -4.0;    R00169 := 30.0;    R00171 := 20.0; // 7404-DG-004
+R00181 := 0.0;     R00183 := 100.0;   R00185 := 105.0;   R00187 := -4.0;    R00189 := 30.0;    R00191 := 20.0; // 7404-DG-005
+R00201 := 0.0;     R00203 := 100.0;   R00205 := 105.0;   R00207 := -4.0;    R00209 := 30.0;    R00211 := 20.0; // 7404-DG-006
+R00221 := 0.0;     R00223 := 100.0;   R00225 := 105.0;   R00227 := -4.0;    R00229 := 30.0;    R00231 := 20.0; // 7404-DG-007
+R00241 := 0.0;     R00243 := 100.0;   R00245 := 105.0;   R00247 := -4.0;    R00249 := 30.0;    R00251 := 20.0; // 7404-DG-008
+R00261 := 0.0;     R00263 := 100.0;   R00265 := 105.0;   R00267 := -4.0;    R00269 := 30.0;    R00271 := 20.0; // 7404-DG-009
+R00281 := 0.0;     R00283 := 100.0;   R00285 := 105.0;   R00287 := -4.0;    R00289 := 30.0;    R00291 := 20.0; // 7404-DG-010
+R00301 := 0.0;     R00303 := 100.0;   R00305 := 105.0;   R00307 := -4.0;    R00309 := 30.0;    R00311 := 20.0; // 7404-DG-011 (was SpareAI_11)
+R00381 := 0.0;     R00383 := 100.0;   R00385 := 105.0;   R00387 := -4.0;    R00389 := 30.0;    R00391 := 20.0; // 7404-DG-012 (was SpareAI_15)
+
+// --- 2. Flame Detectors 7404-DF-001..002 (0 - 100%, HiAlarm=30%) ---
+R00321 := 0.0;     R00323 := 100.0;   R00325 := 105.0;   R00327 := -4.0;    R00329 := 30.0;    R00331 := 101.0; // 7404-DF-001
+R00341 := 0.0;     R00343 := 100.0;   R00345 := 105.0;   R00347 := -4.0;    R00349 := 30.0;    R00351 := 101.0; // 7404-DF-002
+
+// --- 3. Open-Path Gas Detector 7404-DG-011R (0 - 5.00 LELm, Low=1.00, High=3.00) ---
+R00361 := 0.0;     R00363 := 5.00;    R00365 := 5.10;    R00367 := -0.78125; R00369 := 3.00;   R00371 := 1.00;  // 7404-DG-011R
+R00581 := -0.46875; // Beam Block / Optic Fault upper window (-0.78125 to -0.46875 LELm)
+
+// --- 4. Pressure Transmitters &amp; Manual Call Points (Slot 3) ---
+R00401 := 0.0;     R00403 := 100.0;   R00405 := 105.0;   R00407 := -4.0;    R00409 := 30.0;    R00411 := 20.0;  // SpareAI_16
+R00421 := 0.0;     R00423 := 100.0;   R00425 := 105.0;   R00427 := -4.0;    R00429 := -10.0;   R00431 := 50.0;  // 7002-PST-001 (Air Accumulator PAL=50 psi)
+R00441 := 0.0;     R00443 := 150.0;   R00445 := 155.0;   R00447 := -4.0;    R00449 := 100.0;   R00451 := 40.0;  // 6401-PST-001 (Fuel Gas PAL=40 psi, PAH=100 psi)
+R00461 := 0.0;     R00463 := 100.0;   R00465 := 102.0;   R00467 := -4.0;    R00469 := 50.0;    R00471 := 101.0; // 7503-PST-001 (Deluge Pressure PAH=50 psi)
+R00481 := 0.0;     R00483 := 100.0;   R00485 := 105.0;   R00487 := -4.0;    R00489 := 30.0;    R00491 := 101.0; // 7503-FR-001/002 (Outside Foam MAC)
+R00501 := 0.0;     R00503 := 100.0;   R00505 := 105.0;   R00507 := -4.0;    R00509 := 30.0;    R00511 := 20.0;  // SpareAI_21
+R00521 := 0.0;     R00523 := 100.0;   R00525 := 105.0;   R00527 := -4.0;    R00529 := 30.0;    R00531 := 101.0; // 7503-FR-003 (Inside Foam MAC)
+R00541 := 0.0;     R00543 := 100.0;   R00545 := 105.0;   R00547 := -4.0;    R00549 := 30.0;    R00551 := 20.0;  // SpareAI_23
+R00561 := 0.0;     R00563 := 100.0;   R00565 := 105.0;   R00567 := -4.0;    R00569 := 30.0;    R00571 := 20.0;  // SpareAI_24
+
+// --- 5. GNTF Upgrade New Instrument Setpoints (01-MAN-03-13-PDF-C1) ---
+// Gas Generator Room CH4 Detectors GD-001..003 (0-100 %LEL)
+SP_GD_Low_LEL        := 20.0;   // Low Gas Alarm = 20% LEL
+SP_GD_High_LEL       := 30.0;   // High Gas Alarm = 30% LEL (Trips SD-GE on 2oo3 or 1ooN per C&amp;E)
+
+// H2S Detectors H2S-001..012 (0-100 PPM)
+SP_H2S_Low_PPM       := 10.0;   // Low H2S Alarm = 10 PPM (Discontinuous H2SA-001/002 + Z1)
+SP_H2S_High_PPM      := 20.0;   // High H2S Alarm = 20 PPM (Continuous H2SA-001/002 + Z1)
+
+// Flame Detector 7404-DF-003 &amp; Smoke Detectors SD-001/002 (0-100 %)
+SP_DF003_High        := 30.0;   // Flame Detector 3 Fire Threshold = 30%
+SP_SD_High           := 30.0;   // Smoke Detector 1/2 Fire Threshold = 30% (Trips SD-GE + SDA-001 + Z1)
+
+// Manifold Pressure Transmitters PIT-001, PIT-002, PIT-003
+SP_PIT001_PAL        := 10.0;   // Oil Expedition Low Pressure = 10 Psi
+SP_PIT001_PAH        := 100.0;  // Oil Expedition High Pressure = 100 Psi
+SP_PIT002_PAL        := 200.0;  // Water Injection Low Pressure = 200 Psi
+SP_PIT002_PAH        := 800.0;  // Water Injection High Pressure = 800 Psi
+SP_PIT002_PAHH       := 900.0;  // Water Injection High-High Pressure = 900 Psi (Trips P-3800/3900 &amp; P-3600/3700)
+SP_PIT003_PAL        := 1700.0; // Oil Injection Low Pressure = 1700 Psi
+SP_PIT003_PAH        := 2700.0; // Oil Injection High Pressure = 2700 Psi
+SP_PIT003_PAHH       := 2800.0; // Oil Injection High-High Pressure = 2800 Psi (Trips P-2300..2600 &amp; P-2100/2200)
+
+// Tank Level Transmitters LIT-100..400 (Slot 6 1756-IF8H)
+SP_LIT100_LAL        := 0.7;    SP_LIT100_LAH := 9.0;   // Tank T-100 (0-10.0 m)
+SP_LIT200_LAL        := 0.7;    SP_LIT200_LAH := 9.0;   // Tank T-200 (0-10.0 m)
+SP_LIT300_LAL        := 0.7;    SP_LIT300_LAH := 9.0;   // Tank T-300 (0-10.0 m)
+SP_LIT400_LAL        := 0.7;    SP_LIT400_LAH := 11.0;  // Tank T-400 (0-12.0 m)
+
+// Oil Expedition Flowmeter 6401-FT-001 (Slot 9 Modbus MVI56E-MCM)
+SP_FT001_FAL         := 30.0;   // Low Flow Alarm = 30 bbl/h
+SP_FT001_FAH         := 300.0;  // High Flow Alarm = 300 bbl/h</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Input">
+          <div class="routine-header">
+            <div>
+              <h2>03. Input <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Hardware Input Acquisition &amp; Mapping (Slot 2-7 1756 Modules -&gt; Internal Tags)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Input', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Input"><code>// ============================================================================
+// Routine: Input (Hardware Input Mapping from 1756 ControlLogix I/O Modules)
+// Reference: IO List 01-MAN-03-06-PDF-C2C Final &amp; Terminal Block 01-MAN-02-13
+// ============================================================================
+
+// --- 1. SLOT 7: 1756-IB32 Digital Inputs (Local:7:I.Data.0 .. 20) ---
+ZSH_6401_001         := Local:7:I.Data.0;  // TS7-00: 6401-ZSH-001 ESD Valve Open
+ZSL_6401_001         := Local:7:I.Data.1;  // TS7-01: 6401-ZSL-001 ESD Valve Closed
+FS_FGCP_E8           := Local:7:I.Data.2;  // TS7-02: FGCP-7404-001 E8 Stop Foam Button (Legacy SpareDI_08)
+SpareDI_08           := FS_FGCP_E8;
+LS_7503_002          := Local:7:I.Data.3;  // TS7-03: 7503-LS-002 Diesel Tank Low Level
+FS_7503_001          := Local:7:I.Data.4;  // TS7-04: 7503-FS-001 Field Stop Foam Button
+LS_7503_001          := Local:7:I.Data.5;  // TS7-05: 7503-LS-001 AFFF Foam Tank Low Level
+Pump_A_PulsIn        := Local:7:I.Data.6;  // TS7-06: 75-C-01A Pulsed Input from Q05 for Open Circuit Check
+Pump_B_Start_PulsIn  := Local:7:I.Data.7;  // TS7-07: 75-C-01B Pulsed Input from Q07 for Open Circuit Check
+Pump_B_Inhibited     := Local:7:I.Data.8;  // TS7-08: 75-SB-01B Standby Pump B Inhibited
+SpareDI_11           := Local:7:I.Data.9;  // TS7-09: Spare Digital Input 11
+Reset_PB_E11         := Local:7:I.Data.10; // TS7-10: FGCP-7404-001 E11 Reset Alarm Pushbutton
+Mute_PB_E12          := Local:7:I.Data.11; // TS7-11: FGCP-7404-001 E12 Mute Alarm Pushbutton
+ESDV_6401_001        := Local:7:I.Data.12; // TS7-12: 6401-ESDV-001 (E9) ESD Fuel Gas Button
+INHIBIT_FOAM_REL     := Local:7:I.Data.13; // TS7-13: FGCP-7404-001 S2 Inhibit Foam Release Keyswitch
+INHIBIT_ALL_OUTPUTS  := Local:7:I.Data.14; // TS7-14: FGCP-7404-001 S3 Inhibit All Outputs Keyswitch
+ESTOP_P2300_E1       := Local:7:I.Data.15; // TS7-15: 7404-SB-004 (E1) E-Stop Power Oil Pump P-2300
+ESTOP_P2400_E2       := Local:7:I.Data.16; // TS7-16: 7404-SB-005 (E2) E-Stop Power Oil Pump P-2400
+ESTOP_P2500_E3       := Local:7:I.Data.17; // TS7-17: 7404-SB-006 (E3) E-Stop Power Oil Pump P-2500
+ESTOP_P2600_E4       := Local:7:I.Data.18; // TS7-18: 7404-SB-007 (E4) E-Stop Power Oil Pump P-2600
+ESTOP_P3800_E5       := Local:7:I.Data.19; // TS7-19: 7404-SB-008 (E5) E-Stop Water Inj Pump P-3800
+ESTOP_P3900_E6       := Local:7:I.Data.20; // TS7-20: 7404-SB-009 (E6) E-Stop Water Inj Pump P-3900
+
+// Combine Panel Pushbuttons (E11 Reset / E12 Mute) with SCADA HMI Commands (M00001 / M00002)
+M00001_System_Accept := M00001 OR Mute_PB_E12;
+M00002_System_Reset  := M00002 OR Reset_PB_E11;
+
+// Map Legacy Digital Input Image Bits (G0001..G0013)
+G0001 := ZSH_6401_001;
+G0002 := ZSL_6401_001;
+G0003 := FS_7503_001;
+G0004 := LS_7503_001;
+G0005 := LS_7503_002;
+G0006 := Pump_A_PulsIn;
+G0007 := Pump_B_Start_PulsIn;
+G0008 := FS_FGCP_E8;
+G0009 := Pump_B_Inhibited;
+G0010 := ESDV_6401_001;
+G0011 := SpareDI_11;
+G0012 := INHIBIT_FOAM_REL;
+G0013 := INHIBIT_ALL_OUTPUTS;
+
+// --- 2. SLOT 2, 3, 4: 1756-IF16 Analog Inputs (Mapped to Legacy Raw 0..32000 Register Image R00001..R00024) ---
+// Note: 1756-IF16 channels configured for 0..32000 raw counts (4mA=0, 20mA=32000) to preserve exact CalcVa1/2/3 scaling
+DG_7404_001      := Local:2:I.Ch0Data;   R00001 := DG_7404_001;      // Slot 2 Ch 0: 7404-DG-001
+DG_7404_002      := Local:2:I.Ch1Data;   R00002 := DG_7404_002;      // Slot 2 Ch 1: 7404-DG-002
+DG_7404_003      := Local:2:I.Ch2Data;   R00003 := DG_7404_003;      // Slot 2 Ch 2: 7404-DG-003
+DG_7404_004      := Local:2:I.Ch3Data;   R00004 := DG_7404_004;      // Slot 2 Ch 3: 7404-DG-004
+DG_7404_005      := Local:2:I.Ch4Data;   R00005 := DG_7404_005;      // Slot 2 Ch 4: 7404-DG-005
+DG_7404_006      := Local:2:I.Ch5Data;   R00006 := DG_7404_006;      // Slot 2 Ch 5: 7404-DG-006
+DG_7404_007      := Local:2:I.Ch6Data;   R00007 := DG_7404_007;      // Slot 2 Ch 6: 7404-DG-007
+DG_7404_008      := Local:2:I.Ch7Data;   R00008 := DG_7404_008;      // Slot 2 Ch 7: 7404-DG-008
+DG_7404_009      := Local:2:I.Ch8Data;   R00009 := DG_7404_009;      // Slot 2 Ch 8: 7404-DG-009
+DG_7404_010      := Local:2:I.Ch9Data;   R00010 := DG_7404_010;      // Slot 2 Ch 9: 7404-DG-010
+DG_7404_011      := Local:2:I.Ch10Data;  R00011 := DG_7404_011;      // Slot 2 Ch 10: 7404-DG-011 (was SpareAI_11)
+DF_7404_001      := Local:4:I.Ch12Data;  R00012 := DF_7404_001;      // Slot 4 Ch 12: 7404-DF-001
+DF_7404_002      := Local:4:I.Ch13Data;  R00013 := DF_7404_002;      // Slot 4 Ch 13: 7404-DF-002
+DG_7404_011R     := Local:2:I.Ch12Data;  R00014 := DG_7404_011R;     // Slot 2 Ch 12: 7404-DG-011R Open Path
+DG_7404_012      := Local:2:I.Ch11Data;  R00015 := DG_7404_012;      // Slot 2 Ch 11: 7404-DG-012 (was SpareAI_15)
+SpareAI_16       := Local:3:I.Ch8Data;   R00016 := SpareAI_16;       // Slot 3 Ch 8: SpareAI_16
+PST_7002_001     := Local:3:I.Ch4Data;   R00017 := PST_7002_001;     // Slot 3 Ch 4: 7002-PST-001 Air Accumulator
+PST_6401_001     := Local:3:I.Ch5Data;   R00018 := PST_6401_001;     // Slot 3 Ch 5: 6401-PST-001 Fuel Gas Pressure
+PST_7503_001     := Local:3:I.Ch3Data;   R00019 := PST_7503_001;     // Slot 3 Ch 3: 7503-PST-001 Deluge Pressure
+FR_7503_001_002  := Local:3:I.Ch7Data;   R00020 := FR_7503_001_002;  // Slot 3 Ch 7: 7503-FR-001/002 Outside Foam MAC
+SpareAI_21       := Local:3:I.Ch9Data;   R00021 := SpareAI_21;       // Slot 3 Ch 9: SpareAI_21
+FR_7503_003      := Local:3:I.Ch6Data;   R00022 := FR_7503_003;      // Slot 3 Ch 6: 7503-FR-003 Inside Foam MAC
+SpareAI_23       := Local:3:I.Ch10Data;  R00023 := SpareAI_23;       // Slot 3 Ch 10: SpareAI_23
+SpareAI_24       := Local:3:I.Ch11Data;  R00024 := SpareAI_24;       // Slot 3 Ch 11: SpareAI_24</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-DI_1">
+          <div class="routine-header">
+            <div>
+              <h2>04. DI_1 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Digital Input Conditioning &amp; ESDV Discrepancy Logic (6401-ZSH/ZSL-001, 7503-FS/LS)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-DI_1', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-DI_1"><code>// ============================================================================
+// Routine: DI_1 (Digital Input Conditioning &amp; ESD Valve Discrepancy Timers)
+// ============================================================================
+
+// --- 1. 6401-ZSH-001 &amp; 6401-ZSL-001 (ESDV Limit Switches &amp; Position Discrepancy) ---
+R00700_0 := G0001; // 6401-ZSH-001 Open
+R00700_1 := G0002; // 6401-ZSL-001 Closed
+
+// Both Open &amp; Closed switches active simultaneously (Fault)
+R00700_2 := R00700_0 AND R00700_1;
+
+// Neither Open nor Closed switch active (Valve in transit &gt; 10.0s -&gt; Discrepancy Fault)
+TMR_ESDV_Transit.PRE := 10000; // 10.0s (100 * 0.1s)
+TMR_ESDV_Transit.TimerEnable := NOT R00700_0 AND NOT R00700_1;
+TMR_ESDV_Transit.Reset := FALSE;
+TONR(TMR_ESDV_Transit);
+R00700_3 := TMR_ESDV_Transit.DN;
+
+// Valve commanded open (R01511_0) but not open within 10.0s
+TMR_ESDV_CmdOpen.PRE := 10000;
+TMR_ESDV_CmdOpen.TimerEnable := R01511_0 AND NOT R00700_0;
+TMR_ESDV_CmdOpen.Reset := FALSE;
+TONR(TMR_ESDV_CmdOpen);
+R00700_4 := TMR_ESDV_CmdOpen.DN;
+
+// Valve commanded closed (NOT R01511_0) but not closed within 10.0s
+TMR_ESDV_CmdClose.PRE := 10000;
+TMR_ESDV_CmdClose.TimerEnable := NOT R01511_0 AND NOT R00700_1;
+TMR_ESDV_CmdClose.Reset := FALSE;
+TONR(TMR_ESDV_CmdClose);
+R00700_5 := TMR_ESDV_CmdClose.DN;
+
+// Consolidated ESDV Discrepancy Latch (R00700_6)
+IF R00700_2 OR R00700_3 OR R00700_4 OR R00700_5 THEN
+    R00700_6 := TRUE;
+ELSIF M00002_System_Reset THEN
+    R00700_6 := FALSE;
+END_IF;
+
+// --- 2. 7503-FS-001 Field Stop Foam Button &amp; FGCP E8 Stop Foam Button ---
+// Field Stop Foam Button is Normally-Closed (0 = Pressed/Stop, 1 = Healthy)
+R00701_0 := NOT G0003 OR G0008; // Foam Stop Requested (Field FS-001 or Panel E8)
+IF R00701_0 THEN
+    R00701_1 := TRUE;
+ELSIF M00002_System_Reset AND NOT R00701_0 THEN
+    R00701_1 := FALSE;
+END_IF;
+
+// --- 3. 7503-LS-001 AFFF Foam Tank Low Level Switch (NC: 0 = Low Level Alarm) ---
+R00702_0 := NOT G0004;
+IF R00702_0 THEN
+    R00702_1 := TRUE;
+ELSIF M00002_System_Reset AND NOT R00702_0 THEN
+    R00702_1 := FALSE;
+END_IF;
+
+// --- 4. 7503-LS-002 Diesel Tank Low Level Switch (NC: 0 = Low Level Alarm) ---
+R00703_0 := NOT G0005;
+IF R00703_0 THEN
+    R00703_1 := TRUE;
+ELSIF M00002_System_Reset AND NOT R00703_0 THEN
+    R00703_1 := FALSE;
+END_IF;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-DI_2">
+          <div class="routine-header">
+            <div>
+              <h2>05. DI_2 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Digital Input Conditioning Part 2 (Deluge Line Continuity, Pump B Inhibit, E9 ESDV, S2/S3 Inhibits, E1..E6 Pump E-Stops)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-DI_2', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-DI_2"><code>// ============================================================================
+// Routine: DI_2 (Deluge Coil Continuity Check, Keyswitches &amp; E1..E6 E-Stops)
+// ============================================================================
+
+// --- 1. Pump A &amp; Pump B Start Coil Open-Circuit Monitoring (Pulsed Check) ---
+// Every 60s, pulse Q09 (Pump_A_PulsOut) &amp; Q10 (Pump_B_Start_PulsOut) for 1.0s and verify G0006/G0007
+TMR_Pulse_Period.PRE := 60000; // 60.0s interval
+TMR_Pulse_Period.TimerEnable := NOT TMR_Pulse_Width.DN;
+TMR_Pulse_Period.Reset := First_Scan;
+TONR(TMR_Pulse_Period);
+
+TMR_Pulse_Width.PRE := 1000; // 1.0s test pulse
+TMR_Pulse_Width.TimerEnable := TMR_Pulse_Period.DN;
+TMR_Pulse_Width.Reset := First_Scan;
+TONR(TMR_Pulse_Width);
+
+R01513_12 := TMR_Pulse_Period.DN AND NOT R01512_0; // Pump_A_PulsOut
+R01513_13 := TMR_Pulse_Period.DN AND NOT R01512_5; // Pump_B_Start_PulsOut
+
+// Fault if test pulse is active for &gt; 500ms without feedback on G0006 / G0007
+TMR_PumpA_WireFlt.PRE := 500;
+TMR_PumpA_WireFlt.TimerEnable := R01513_12 AND NOT G0006;
+TMR_PumpA_WireFlt.Reset := M00002_System_Reset;
+TONR(TMR_PumpA_WireFlt);
+IF TMR_PumpA_WireFlt.DN THEN
+    R00704_1 := TRUE; // Pump A Start Line Open-Circuit Fault
+ELSIF M00002_System_Reset THEN
+    R00704_1 := FALSE;
+END_IF;
+
+TMR_PumpB_WireFlt.PRE := 500;
+TMR_PumpB_WireFlt.TimerEnable := R01513_13 AND NOT G0007;
+TMR_PumpB_WireFlt.Reset := M00002_System_Reset;
+TONR(TMR_PumpB_WireFlt);
+IF TMR_PumpB_WireFlt.DN THEN
+    R00705_1 := TRUE; // Pump B Start Line Open-Circuit Fault
+ELSIF M00002_System_Reset THEN
+    R00705_1 := FALSE;
+END_IF;
+
+// --- 2. Standby Pump B Inhibited (G0009 / 75-SB-01B) ---
+R00706_0 := G0009;
+
+// --- 3. 6401-ESDV-001 (E9) ESD Fuel Gas Pushbutton (NC Fail-Safe: 0 = Pressed) ---
+R00707_0 := NOT G0010;
+IF R00707_0 THEN
+    R00707_1 := TRUE; // Latched ESD Fuel Gas Pushbutton Trip
+ELSIF M00002_System_Reset AND NOT R00707_0 THEN
+    R00707_1 := FALSE;
+END_IF;
+
+// --- 4. Keyswitches S2 (Inhibit Foam Release) &amp; S3 (Inhibit All Outputs) ---
+R00708_0 := G0012; // INHIBIT_FOAM_REL (S2)
+R00709_0 := G0013; // INHIBIT_ALL_OUTPUTS (S3)
+
+// --- 5. GNTF Upgrade: Emergency Stop Pushbuttons E1..E6 (7404-SB-004..009) ---
+// Per Cause &amp; Effect 01-MAN-03-07-PDF-C2C:
+//   E1 (7404-SB-004) -&gt; Trips Power Oil Pump P-2300 (CR1: LED L2 &amp; L8) + Z1
+//   E2 (7404-SB-005) -&gt; Trips Power Oil Pump P-2400 (CR2: LED L3 &amp; L9) + Z1
+//   E3 (7404-SB-006) -&gt; Trips Power Oil Pump P-2500 (CR3: LED L4 &amp; L10) + Z1
+//   E4 (7404-SB-007) -&gt; Trips Power Oil Pump P-2600 (CR4: LED L5 &amp; L11) + Z1
+//   E5 (7404-SB-008) -&gt; Trips Water Inj Pump P-3800 (CR5: LED L6 &amp; L12) + Z1
+//   E6 (7404-SB-009) -&gt; Trips Water Inj Pump P-3900 (CR6: LED L7 &amp; L13) + Z1
+IF ESTOP_P2300_E1 THEN Latch_ESTOP_P2300 := TRUE; ELSIF M00002_System_Reset THEN Latch_ESTOP_P2300 := FALSE; END_IF;
+IF ESTOP_P2400_E2 THEN Latch_ESTOP_P2400 := TRUE; ELSIF M00002_System_Reset THEN Latch_ESTOP_P2400 := FALSE; END_IF;
+IF ESTOP_P2500_E3 THEN Latch_ESTOP_P2500 := TRUE; ELSIF M00002_System_Reset THEN Latch_ESTOP_P2500 := FALSE; END_IF;
+IF ESTOP_P2600_E4 THEN Latch_ESTOP_P2600 := TRUE; ELSIF M00002_System_Reset THEN Latch_ESTOP_P2600 := FALSE; END_IF;
+IF ESTOP_P3800_E5 THEN Latch_ESTOP_P3800 := TRUE; ELSIF M00002_System_Reset THEN Latch_ESTOP_P3800 := FALSE; END_IF;
+IF ESTOP_P3900_E6 THEN Latch_ESTOP_P3900 := TRUE; ELSIF M00002_System_Reset THEN Latch_ESTOP_P3900 := FALSE; END_IF;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-CalcVa1">
+          <div class="routine-header">
+            <div>
+              <h2>06. CalcVa1 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Analog Scaling Subroutine 1 (7404-DG-001 .. 7404-DG-008)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-CalcVa1', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-CalcVa1"><code>// ============================================================================
+// Routine: CalcVa1 (Engineering Unit Scaling for Analog Channels 1..8)
+// Formula: EU = ((Span - Zero) / 32000.0) * Raw + Zero
+// ============================================================================
+
+R00113 := ((R00103 - R00101) / 32000.0) * DINT_TO_REAL(R00001) + R00101; // 7404-DG-001 (%LEL)
+R00133 := ((R00123 - R00121) / 32000.0) * DINT_TO_REAL(R00002) + R00121; // 7404-DG-002 (%LEL)
+R00153 := ((R00143 - R00141) / 32000.0) * DINT_TO_REAL(R00003) + R00141; // 7404-DG-003 (%LEL)
+R00173 := ((R00163 - R00161) / 32000.0) * DINT_TO_REAL(R00004) + R00161; // 7404-DG-004 (%LEL)
+R00193 := ((R00183 - R00181) / 32000.0) * DINT_TO_REAL(R00005) + R00181; // 7404-DG-005 (%LEL)
+R00213 := ((R00203 - R00201) / 32000.0) * DINT_TO_REAL(R00006) + R00201; // 7404-DG-006 (%LEL)
+R00233 := ((R00223 - R00221) / 32000.0) * DINT_TO_REAL(R00007) + R00221; // 7404-DG-007 (%LEL)
+R00253 := ((R00243 - R00241) / 32000.0) * DINT_TO_REAL(R00008) + R00241; // 7404-DG-008 (%LEL)</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-CalcVa2">
+          <div class="routine-header">
+            <div>
+              <h2>07. CalcVa2 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Analog Scaling Subroutine 2 (7404-DG-009..012, DF-001..002, DG-011R, SpareAI_16)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-CalcVa2', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-CalcVa2"><code>// ============================================================================
+// Routine: CalcVa2 (Engineering Unit Scaling for Analog Channels 9..16)
+// Formula: EU = ((Span - Zero) / 32000.0) * Raw + Zero
+// ============================================================================
+
+R00273 := ((R00263 - R00261) / 32000.0) * DINT_TO_REAL(R00009) + R00261; // 7404-DG-009 (%LEL)
+R00293 := ((R00283 - R00281) / 32000.0) * DINT_TO_REAL(R00010) + R00281; // 7404-DG-010 (%LEL)
+R00313 := ((R00303 - R00301) / 32000.0) * DINT_TO_REAL(R00011) + R00301; // 7404-DG-011 (%LEL)
+R00333 := ((R00323 - R00321) / 32000.0) * DINT_TO_REAL(R00012) + R00321; // 7404-DF-001 (%)
+R00353 := ((R00343 - R00341) / 32000.0) * DINT_TO_REAL(R00013) + R00341; // 7404-DF-002 (%)
+R00373 := ((R00363 - R00361) / 32000.0) * DINT_TO_REAL(R00014) + R00361; // 7404-DG-011R (LELm)
+R00393 := ((R00383 - R00381) / 32000.0) * DINT_TO_REAL(R00015) + R00381; // 7404-DG-012 (%LEL)
+R00413 := ((R00403 - R00401) / 32000.0) * DINT_TO_REAL(R00016) + R00401; // SpareAI_16 (%)</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-CalcVa3">
+          <div class="routine-header">
+            <div>
+              <h2>08. CalcVa3 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Analog Scaling Subroutine 3 (7002-PST-001, 6401-PST-001, 7503-PST-001, 7503-FR-001/002/003)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-CalcVa3', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-CalcVa3"><code>// ============================================================================
+// Routine: CalcVa3 (Engineering Unit Scaling for Analog Channels 17..24)
+// Formula: EU = ((Span - Zero) / 32000.0) * Raw + Zero
+// ============================================================================
+
+R00433 := ((R00423 - R00421) / 32000.0) * DINT_TO_REAL(R00017) + R00421; // 7002-PST-001 Air Accumulator (Psi)
+R00453 := ((R00443 - R00441) / 32000.0) * DINT_TO_REAL(R00018) + R00441; // 6401-PST-001 Fuel Gas Pressure (Psi)
+R00473 := ((R00463 - R00461) / 32000.0) * DINT_TO_REAL(R00019) + R00461; // 7503-PST-001 Deluge Pressure (Psi)
+R00493 := ((R00483 - R00481) / 32000.0) * DINT_TO_REAL(R00020) + R00481; // 7503-FR-001/002 Outside Foam MAC (%)
+R00513 := ((R00503 - R00501) / 32000.0) * DINT_TO_REAL(R00021) + R00501; // SpareAI_21 (%)
+R00533 := ((R00523 - R00521) / 32000.0) * DINT_TO_REAL(R00022) + R00521; // 7503-FR-003 Inside Foam MAC (%)
+R00553 := ((R00543 - R00541) / 32000.0) * DINT_TO_REAL(R00023) + R00541; // SpareAI_23 (%)
+R00573 := ((R00563 - R00561) / 32000.0) * DINT_TO_REAL(R00024) + R00561; // SpareAI_24 (%)</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-AI_1">
+          <div class="routine-header">
+            <div>
+              <h2>09. AI_1 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Analog Input Processing &amp; Fault Detection Group 1 (7404-DG-001 .. 7404-DG-008)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-AI_1', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-AI_1"><code>// ============================================================================
+// Routine: AI_1 (Scaling &amp; Out-of-Range Fault Detection for Channels 1..8)
+// ============================================================================
+
+JSR(CalcVa1);
+
+// Channel 1: 7404-DG-001
+R00115_0 := (R00113 &gt; R00105); // High Fault (&gt; 105%)
+R00115_1 := (R00113 &lt; R00107); // Low Fault (&lt; -4%)
+R00115_2 := R00115_0 OR R00115_1;
+
+// Channel 2: 7404-DG-002
+R00135_0 := (R00133 &gt; R00125);
+R00135_1 := (R00133 &lt; R00127);
+R00135_2 := R00135_0 OR R00135_1;
+
+// Channel 3: 7404-DG-003
+R00155_0 := (R00153 &gt; R00145);
+R00155_1 := (R00153 &lt; R00147);
+R00155_2 := R00155_0 OR R00155_1;
+
+// Channel 4: 7404-DG-004
+R00175_0 := (R00173 &gt; R00165);
+R00175_1 := (R00173 &lt; R00167);
+R00175_2 := R00175_0 OR R00175_1;
+
+// Channel 5: 7404-DG-005
+R00195_0 := (R00193 &gt; R00185);
+R00195_1 := (R00193 &lt; R00187);
+R00195_2 := R00195_0 OR R00195_1;
+
+// Channel 6: 7404-DG-006
+R00215_0 := (R00213 &gt; R00205);
+R00215_1 := (R00213 &lt; R00207);
+R00215_2 := R00215_0 OR R00215_1;
+
+// Channel 7: 7404-DG-007
+R00235_0 := (R00233 &gt; R00225);
+R00235_1 := (R00233 &lt; R00227);
+R00235_2 := R00235_0 OR R00235_1;
+
+// Channel 8: 7404-DG-008
+R00255_0 := (R00253 &gt; R00245);
+R00255_1 := (R00253 &lt; R00247);
+R00255_2 := R00255_0 OR R00255_1;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-AI_2">
+          <div class="routine-header">
+            <div>
+              <h2>10. AI_2 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Analog Input Processing &amp; Fault Detection Group 2 (7404-DG-009..012, DF-001..002, DG-011R)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-AI_2', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-AI_2"><code>// ============================================================================
+// Routine: AI_2 (Scaling &amp; Out-of-Range Fault Detection for Channels 9..16)
+// ============================================================================
+
+JSR(CalcVa2);
+
+// Channel 9: 7404-DG-009
+R00275_0 := (R00273 &gt; R00265);
+R00275_1 := (R00273 &lt; R00267);
+R00275_2 := R00275_0 OR R00275_1;
+
+// Channel 10: 7404-DG-010
+R00295_0 := (R00293 &gt; R00285);
+R00295_1 := (R00293 &lt; R00287);
+R00295_2 := R00295_0 OR R00295_1;
+
+// Channel 11: 7404-DG-011 (Pump House IR Point Detector 11)
+R00315_0 := (R00313 &gt; R00305);
+R00315_1 := (R00313 &lt; R00307);
+R00315_2 := R00315_0 OR R00315_1;
+
+// Channel 12: 7404-DF-001 (Flame Detector 1)
+R00335_0 := (R00333 &gt; R00325);
+R00335_1 := (R00333 &lt; R00327);
+R00335_2 := R00335_0 OR R00335_1;
+
+// Channel 13: 7404-DF-002 (Flame Detector 2)
+R00355_0 := (R00353 &gt; R00345);
+R00355_1 := (R00353 &lt; R00347);
+R00355_2 := R00355_0 OR R00355_1;
+
+// Channel 14: 7404-DG-011R (Open Path Gas Detector 0..5.00 LELm)
+R00375_0 := (R00373 &gt; R00365); // High Fault (&gt; 5.10 LELm)
+R00375_1 := (R00373 &lt; R00367); // Low Fault (&lt; -0.78125 LELm)
+// Optic Fault / Beam Block window (-0.78125 &lt;= EU &lt;= -0.46875 LELm)
+R00375_7 := (R00373 &gt;= R00367) AND (R00373 &lt;= R00581);
+R00375_2 := R00375_0 OR R00375_1 OR R00375_7;
+
+// Channel 15: 7404-DG-012 (Pump House IR Point Detector 12)
+R00395_0 := (R00393 &gt; R00385);
+R00395_1 := (R00393 &lt; R00387);
+R00395_2 := R00395_0 OR R00395_1;
+
+// Channel 16: SpareAI_16
+R00415_0 := (R00413 &gt; R00405);
+R00415_1 := (R00413 &lt; R00407);
+R00415_2 := R00415_0 OR R00415_1;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-AI_3">
+          <div class="routine-header">
+            <div>
+              <h2>11. AI_3 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Analog Input Processing &amp; Fault Detection Group 3 (PST-001s &amp; Foam Call Points FR-001..003)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-AI_3', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-AI_3"><code>// ============================================================================
+// Routine: AI_3 (Scaling &amp; Out-of-Range Fault Detection for Channels 17..24)
+// ============================================================================
+
+JSR(CalcVa3);
+
+// Channel 17: 7002-PST-001 (Air Accumulator Pressure 0..100 Psi)
+R00435_0 := (R00433 &gt; R00425);
+R00435_1 := (R00433 &lt; R00427);
+R00435_2 := R00435_0 OR R00435_1;
+
+// Channel 18: 6401-PST-001 (Fuel Gas Pressure 0..150 Psi)
+R00455_0 := (R00453 &gt; R00445);
+R00455_1 := (R00453 &lt; R00447);
+R00455_2 := R00455_0 OR R00455_1;
+
+// Channel 19: 7503-PST-001 (Deluge Line Pressure 0..100 Psi)
+R00475_0 := (R00473 &gt; R00465);
+R00475_1 := (R00473 &lt; R00467);
+R00475_2 := R00475_0 OR R00475_1;
+
+// Channel 20: 7503-FR-001/002 (Outside Manual Foam Release Call Points)
+R00495_0 := (R00493 &gt; R00485);
+R00495_1 := (R00493 &lt; R00487);
+R00495_2 := R00495_0 OR R00495_1;
+
+// Channel 21: SpareAI_21
+R00515_0 := (R00513 &gt; R00505);
+R00515_1 := (R00513 &lt; R00507);
+R00515_2 := R00515_0 OR R00515_1;
+
+// Channel 22: 7503-FR-003 (Inside Control Room Manual Foam Release Call Point)
+R00535_0 := (R00533 &gt; R00525);
+R00535_1 := (R00533 &lt; R00527);
+R00535_2 := R00535_0 OR R00535_1;
+
+// Channel 23: SpareAI_23
+R00555_0 := (R00553 &gt; R00545);
+R00555_1 := (R00553 &lt; R00547);
+R00555_2 := R00555_0 OR R00555_1;
+
+// Channel 24: SpareAI_24
+R00575_0 := (R00573 &gt; R00565);
+R00575_1 := (R00573 &lt; R00567);
+R00575_2 := R00575_0 OR R00575_1;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-AI_4_New">
+          <div class="routine-header">
+            <div>
+              <h2>12. AI_4_New <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>GNTF Upgrade New Analog, HART &amp; Modbus Channels (GD-001..003, PIT-001..003, H2S-001..012, DF-003, SD-001/002, LIT-100..400, FT-001)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-AI_4_New', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-AI_4_New"><code>// ============================================================================
+// Routine: AI_4_New (GNTF Control System Upgrade New Instruments Scaling &amp; Alarms)
+// Reference:
+//   - IO List:          01-MAN-03-06-PDF-C2C Final
+//   - Terminal Blocks:  01-MAN-02-13-PDF-C1A
+//   - Setpoints List:   01-MAN-03-13-PDF-C1
+//   - Cause &amp; Effect:   01-MAN-03-07-PDF-C2C Final
+//   - Alarms &amp; Events:  01-MAN-03-02-PDF-C2 Final
+// ============================================================================
+
+// --- 1. SLOT 2 (Ch 13..15): Gas Generator Room CH4 Detectors GD-001..003 (0-100 %LEL) ---
+GD_001_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:2:I.Ch13Data);
+GD_002_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:2:I.Ch14Data);
+GD_003_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:2:I.Ch15Data);
+
+GD_001_Fault := (GD_001_EU &gt; 105.0) OR (GD_001_EU &lt; -4.0);
+GD_002_Fault := (GD_002_EU &gt; 105.0) OR (GD_002_EU &lt; -4.0);
+GD_003_Fault := (GD_003_EU &gt; 105.0) OR (GD_003_EU &lt; -4.0);
+
+GD_001_Lo := NOT GD_001_Fault AND (GD_001_EU &gt;= SP_GD_Low_LEL);
+GD_002_Lo := NOT GD_002_Fault AND (GD_002_EU &gt;= SP_GD_Low_LEL);
+GD_003_Lo := NOT GD_003_Fault AND (GD_003_EU &gt;= SP_GD_Low_LEL);
+
+GD_001_Hi := NOT GD_001_Fault AND (GD_001_EU &gt;= SP_GD_High_LEL);
+GD_002_Hi := NOT GD_002_Fault AND (GD_002_EU &gt;= SP_GD_High_LEL);
+GD_003_Hi := NOT GD_003_Fault AND (GD_003_EU &gt;= SP_GD_High_LEL);
+
+// Latching Gas Generator Room Alarms (Reset via M00002_System_Reset)
+IF GD_001_Lo OR GD_002_Lo OR GD_003_Lo THEN
+    GD_Any_Lo_Latch := TRUE;
+ELSIF M00002_System_Reset THEN
+    GD_Any_Lo_Latch := FALSE;
+END_IF;
+
+// Per C&amp;E 01-MAN-03-07: High Gas (&gt;=30% LEL) on GD-001..003 initiates SD-GE (Shut Down of All Gas Generators)
+IF GD_001_Hi OR GD_002_Hi OR GD_003_Hi THEN
+    GD_Any_Hi_Latch := TRUE;
+ELSIF M00002_System_Reset THEN
+    GD_Any_Hi_Latch := FALSE;
+END_IF;
+
+// --- 2. SLOT 3 (Ch 0..2): Manifold Pressure Transmitters PIT-001, PIT-002, PIT-003 ---
+// PIT-001: Oil Expedition Manifold Pressure (0 - 200 Psi, PAL=10 Psi, PAH=100 Psi)
+PIT_001_EU    := (200.0 / 32000.0) * DINT_TO_REAL(Local:3:I.Ch0Data);
+PIT_001_Fault := (PIT_001_EU &gt; 210.0) OR (PIT_001_EU &lt; -8.0);
+PIT_001_PAL   := NOT PIT_001_Fault AND (PIT_001_EU &lt;= SP_PIT001_PAL);
+PIT_001_PAH   := NOT PIT_001_Fault AND (PIT_001_EU &gt;= SP_PIT001_PAH);
+
+// PIT-002: Water Injection Manifold Pressure (0 - 1500 Psi, PAL=200, PAH=800, PAHH=900 Psi)
+PIT_002_EU    := (1500.0 / 32000.0) * DINT_TO_REAL(Local:3:I.Ch1Data);
+PIT_002_Fault := (PIT_002_EU &gt; 1575.0) OR (PIT_002_EU &lt; -60.0);
+PIT_002_PAL   := NOT PIT_002_Fault AND (PIT_002_EU &lt;= SP_PIT002_PAL);
+PIT_002_PAH   := NOT PIT_002_Fault AND (PIT_002_EU &gt;= SP_PIT002_PAH);
+PIT_002_PAHH  := NOT PIT_002_Fault AND (PIT_002_EU &gt;= SP_PIT002_PAHH);
+IF PIT_002_PAHH THEN
+    PIT_002_PAHH_Latch := TRUE; // Trips Water Injection Pumps P-3800/3900 &amp; Booster P-3600/3700
+ELSIF M00002_System_Reset AND NOT PIT_002_PAHH THEN
+    PIT_002_PAHH_Latch := FALSE;
+END_IF;
+
+// PIT-003: Oil Injection Manifold Pressure (0 - 3000 Psi, PAL=1700, PAH=2700, PAHH=2800 Psi)
+PIT_003_EU    := (3000.0 / 32000.0) * DINT_TO_REAL(Local:3:I.Ch2Data);
+PIT_003_Fault := (PIT_003_EU &gt; 3150.0) OR (PIT_003_EU &lt; -120.0);
+PIT_003_PAL   := NOT PIT_003_Fault AND (PIT_003_EU &lt;= SP_PIT003_PAL);
+PIT_003_PAH   := NOT PIT_003_Fault AND (PIT_003_EU &gt;= SP_PIT003_PAH);
+PIT_003_PAHH  := NOT PIT_003_Fault AND (PIT_003_EU &gt;= SP_PIT003_PAHH);
+IF PIT_003_PAHH THEN
+    PIT_003_PAHH_Latch := TRUE; // Trips Power Oil Pumps P-2300..2600 &amp; Oil Booster P-2100/2200
+ELSIF M00002_System_Reset AND NOT PIT_003_PAHH THEN
+    PIT_003_PAHH_Latch := FALSE;
+END_IF;
+
+// --- 3. SLOT 4 (Ch 0..11): H2S Gas Detectors H2S-001..012 (0 - 100 PPM, Low=10 PPM, High=20 PPM) ---
+H2S_001_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch0Data);
+H2S_002_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch1Data);
+H2S_003_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch2Data);
+H2S_004_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch3Data);
+H2S_005_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch4Data);
+H2S_006_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch5Data);
+H2S_007_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch6Data);
+H2S_008_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch7Data);
+H2S_009_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch8Data);
+H2S_010_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch9Data);
+H2S_011_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch10Data);
+H2S_012_EU := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch11Data);
+
+H2S_Any_Lo := (H2S_001_EU &gt;= SP_H2S_Low_PPM) OR (H2S_002_EU &gt;= SP_H2S_Low_PPM) OR
+              (H2S_003_EU &gt;= SP_H2S_Low_PPM) OR (H2S_004_EU &gt;= SP_H2S_Low_PPM) OR
+              (H2S_005_EU &gt;= SP_H2S_Low_PPM) OR (H2S_006_EU &gt;= SP_H2S_Low_PPM) OR
+              (H2S_007_EU &gt;= SP_H2S_Low_PPM) OR (H2S_008_EU &gt;= SP_H2S_Low_PPM) OR
+              (H2S_009_EU &gt;= SP_H2S_Low_PPM) OR (H2S_010_EU &gt;= SP_H2S_Low_PPM) OR
+              (H2S_011_EU &gt;= SP_H2S_Low_PPM) OR (H2S_012_EU &gt;= SP_H2S_Low_PPM);
+
+H2S_Any_Hi := (H2S_001_EU &gt;= SP_H2S_High_PPM) OR (H2S_002_EU &gt;= SP_H2S_High_PPM) OR
+              (H2S_003_EU &gt;= SP_H2S_High_PPM) OR (H2S_004_EU &gt;= SP_H2S_High_PPM) OR
+              (H2S_005_EU &gt;= SP_H2S_High_PPM) OR (H2S_006_EU &gt;= SP_H2S_High_PPM) OR
+              (H2S_007_EU &gt;= SP_H2S_High_PPM) OR (H2S_008_EU &gt;= SP_H2S_High_PPM) OR
+              (H2S_009_EU &gt;= SP_H2S_High_PPM) OR (H2S_010_EU &gt;= SP_H2S_High_PPM) OR
+              (H2S_011_EU &gt;= SP_H2S_High_PPM) OR (H2S_012_EU &gt;= SP_H2S_High_PPM);
+
+IF H2S_Any_Lo THEN H2S_Lo_Latch := TRUE; ELSIF M00002_System_Reset THEN H2S_Lo_Latch := FALSE; END_IF;
+IF H2S_Any_Hi THEN H2S_Hi_Latch := TRUE; ELSIF M00002_System_Reset THEN H2S_Hi_Latch := FALSE; END_IF;
+
+// --- 4. SLOT 4 (Ch 14 &amp; Ch 15): 7404-DF-003 (Flame Det 3) &amp; SD-001/002 (Smoke Detectors) ---
+DF_7404_003_EU    := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch14Data);
+DF_7404_003_Fault := (DF_7404_003_EU &gt; 105.0) OR (DF_7404_003_EU &lt; -4.0);
+DF_7404_003_Alarm := NOT DF_7404_003_Fault AND (DF_7404_003_EU &gt;= SP_DF003_High);
+IF DF_7404_003_Alarm THEN
+    DF_7404_003_Latch := TRUE;
+ELSIF M00002_System_Reset AND NOT DF_7404_003_Alarm THEN
+    DF_7404_003_Latch := FALSE;
+END_IF;
+
+SD_001_002_EU    := (100.0 / 32000.0) * DINT_TO_REAL(Local:4:I.Ch15Data);
+SD_001_002_Fault := (SD_001_002_EU &gt; 105.0) OR (SD_001_002_EU &lt; -4.0);
+SD_001_002_Alarm := NOT SD_001_002_Fault AND (SD_001_002_EU &gt;= SP_SD_High);
+IF SD_001_002_Alarm THEN
+    SD_001_002_Latch := TRUE; // Trips SD-GE (Gas Generators) + SDA-001 + Z1
+ELSIF M00002_System_Reset AND NOT SD_001_002_Alarm THEN
+    SD_001_002_Latch := FALSE;
+END_IF;
+
+// --- 5. SLOT 6 (Ch 0..3): 1756-IF8H HART Tank Level Transmitters LIT-100..400 ---
+LIT_100_EU  := (10.0 / 32000.0) * DINT_TO_REAL(Local:6:I.Ch0Data);
+LIT_200_EU  := (10.0 / 32000.0) * DINT_TO_REAL(Local:6:I.Ch1Data);
+LIT_300_EU  := (10.0 / 32000.0) * DINT_TO_REAL(Local:6:I.Ch2Data);
+LIT_400_EU  := (12.0 / 32000.0) * DINT_TO_REAL(Local:6:I.Ch3Data);
+
+LIT_100_LAL := (LIT_100_EU &lt;= SP_LIT100_LAL);  LIT_100_LAH := (LIT_100_EU &gt;= SP_LIT100_LAH);
+LIT_200_LAL := (LIT_200_EU &lt;= SP_LIT200_LAL);  LIT_200_LAH := (LIT_200_EU &gt;= SP_LIT200_LAH);
+LIT_300_LAL := (LIT_300_EU &lt;= SP_LIT300_LAL);  LIT_300_LAH := (LIT_300_EU &gt;= SP_LIT300_LAH);
+LIT_400_LAL := (LIT_400_EU &lt;= SP_LIT400_LAL);  LIT_400_LAH := (LIT_400_EU &gt;= SP_LIT400_LAH);
+
+// --- 6. SLOT 9 (MVI56E-MCM): Oil Expedition Flowmeter 6401-FT-001 (0 - 500 bbl/h) ---
+FT_6401_001_EU  := INT_TO_REAL(Local:9:I.Data[6]) / 10.0;
+FT_6401_001_FAL := (FT_6401_001_EU &lt;= SP_FT001_FAL);
+FT_6401_001_FAH := (FT_6401_001_EU &gt;= SP_FT001_FAH);</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Ai_AL_1">
+          <div class="routine-header">
+            <div>
+              <h2>13. Ai_AL_1 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Analog Alarm Threshold &amp; Latching Group 1 (7404-DG-001 .. 7404-DG-008)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Ai_AL_1', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Ai_AL_1"><code>// ============================================================================
+// Routine: Ai_AL_1 (Low &amp; High Gas Alarm Evaluation for 7404-DG-001 .. 008)
+// ============================================================================
+
+// 7404-DG-001 (20% LEL Low, 30% LEL High)
+R00115_3 := NOT R00115_2 AND (R00113 &gt;= R00109); // High Gas Live
+R00115_4 := NOT R00115_2 AND (R00113 &gt;= R00111); // Low Gas Live
+IF R00115_3 THEN R00115_5 := TRUE; ELSIF M00002_System_Reset THEN R00115_5 := FALSE; END_IF;
+IF R00115_4 THEN R00115_6 := TRUE; ELSIF M00002_System_Reset THEN R00115_6 := FALSE; END_IF;
+
+// 7404-DG-002
+R00135_3 := NOT R00135_2 AND (R00133 &gt;= R00129);
+R00135_4 := NOT R00135_2 AND (R00133 &gt;= R00131);
+IF R00135_3 THEN R00135_5 := TRUE; ELSIF M00002_System_Reset THEN R00135_5 := FALSE; END_IF;
+IF R00135_4 THEN R00135_6 := TRUE; ELSIF M00002_System_Reset THEN R00135_6 := FALSE; END_IF;
+
+// 7404-DG-003
+R00155_3 := NOT R00155_2 AND (R00153 &gt;= R00149);
+R00155_4 := NOT R00155_2 AND (R00153 &gt;= R00151);
+IF R00155_3 THEN R00155_5 := TRUE; ELSIF M00002_System_Reset THEN R00155_5 := FALSE; END_IF;
+IF R00155_4 THEN R00155_6 := TRUE; ELSIF M00002_System_Reset THEN R00155_6 := FALSE; END_IF;
+
+// 7404-DG-004
+R00175_3 := NOT R00175_2 AND (R00173 &gt;= R00169);
+R00175_4 := NOT R00175_2 AND (R00173 &gt;= R00171);
+IF R00175_3 THEN R00175_5 := TRUE; ELSIF M00002_System_Reset THEN R00175_5 := FALSE; END_IF;
+IF R00175_4 THEN R00175_6 := TRUE; ELSIF M00002_System_Reset THEN R00175_6 := FALSE; END_IF;
+
+// 7404-DG-005
+R00195_3 := NOT R00195_2 AND (R00193 &gt;= R00189);
+R00195_4 := NOT R00195_2 AND (R00193 &gt;= R00191);
+IF R00195_3 THEN R00195_5 := TRUE; ELSIF M00002_System_Reset THEN R00195_5 := FALSE; END_IF;
+IF R00195_4 THEN R00195_6 := TRUE; ELSIF M00002_System_Reset THEN R00195_6 := FALSE; END_IF;
+
+// 7404-DG-006
+R00215_3 := NOT R00215_2 AND (R00213 &gt;= R00209);
+R00215_4 := NOT R00215_2 AND (R00213 &gt;= R00211);
+IF R00215_3 THEN R00215_5 := TRUE; ELSIF M00002_System_Reset THEN R00215_5 := FALSE; END_IF;
+IF R00215_4 THEN R00215_6 := TRUE; ELSIF M00002_System_Reset THEN R00215_6 := FALSE; END_IF;
+
+// 7404-DG-007
+R00235_3 := NOT R00235_2 AND (R00233 &gt;= R00229);
+R00235_4 := NOT R00235_2 AND (R00233 &gt;= R00231);
+IF R00235_3 THEN R00235_5 := TRUE; ELSIF M00002_System_Reset THEN R00235_5 := FALSE; END_IF;
+IF R00235_4 THEN R00235_6 := TRUE; ELSIF M00002_System_Reset THEN R00235_6 := FALSE; END_IF;
+
+// 7404-DG-008
+R00255_3 := NOT R00255_2 AND (R00253 &gt;= R00249);
+R00255_4 := NOT R00255_2 AND (R00253 &gt;= R00251);
+IF R00255_3 THEN R00255_5 := TRUE; ELSIF M00002_System_Reset THEN R00255_5 := FALSE; END_IF;
+IF R00255_4 THEN R00255_6 := TRUE; ELSIF M00002_System_Reset THEN R00255_6 := FALSE; END_IF;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Ai_AL_2">
+          <div class="routine-header">
+            <div>
+              <h2>14. Ai_AL_2 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Analog Alarm Threshold &amp; Latching Group 2 (7404-DG-009..012, DF-001..002, DG-011R)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Ai_AL_2', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Ai_AL_2"><code>// ============================================================================
+// Routine: Ai_AL_2 (Alarm Evaluation for DG-009..012, DF-001..002, DG-011R)
+// ============================================================================
+
+// 7404-DG-009
+R00275_3 := NOT R00275_2 AND (R00273 &gt;= R00269);
+R00275_4 := NOT R00275_2 AND (R00273 &gt;= R00271);
+IF R00275_3 THEN R00275_5 := TRUE; ELSIF M00002_System_Reset THEN R00275_5 := FALSE; END_IF;
+IF R00275_4 THEN R00275_6 := TRUE; ELSIF M00002_System_Reset THEN R00275_6 := FALSE; END_IF;
+
+// 7404-DG-010
+R00295_3 := NOT R00295_2 AND (R00293 &gt;= R00289);
+R00295_4 := NOT R00295_2 AND (R00293 &gt;= R00291);
+IF R00295_3 THEN R00295_5 := TRUE; ELSIF M00002_System_Reset THEN R00295_5 := FALSE; END_IF;
+IF R00295_4 THEN R00295_6 := TRUE; ELSIF M00002_System_Reset THEN R00295_6 := FALSE; END_IF;
+
+// 7404-DG-011 (Pump House Gas Detector 11)
+R00315_3 := NOT R00315_2 AND (R00313 &gt;= R00309);
+R00315_4 := NOT R00315_2 AND (R00313 &gt;= R00311);
+IF R00315_3 THEN R00315_5 := TRUE; ELSIF M00002_System_Reset THEN R00315_5 := FALSE; END_IF;
+IF R00315_4 THEN R00315_6 := TRUE; ELSIF M00002_System_Reset THEN R00315_6 := FALSE; END_IF;
+
+// 7404-DF-001 (Flame Detector 1: Fire &gt;= 30%)
+R00335_3 := NOT R00335_2 AND (R00333 &gt;= R00329);
+IF R00335_3 THEN R00335_5 := TRUE; ELSIF M00002_System_Reset THEN R00335_5 := FALSE; END_IF;
+
+// 7404-DF-002 (Flame Detector 2: Fire &gt;= 30%)
+R00355_3 := NOT R00355_2 AND (R00353 &gt;= R00349);
+IF R00355_3 THEN R00355_5 := TRUE; ELSIF M00002_System_Reset THEN R00355_5 := FALSE; END_IF;
+
+// 7404-DG-011R (Open Path Gas Detector: Low &gt;= 1.00 LELm, High &gt;= 3.00 LELm)
+R00375_3 := NOT R00375_2 AND (R00373 &gt;= R00369);
+R00375_4 := NOT R00375_2 AND (R00373 &gt;= R00371);
+IF R00375_3 THEN R00375_5 := TRUE; ELSIF M00002_System_Reset THEN R00375_5 := FALSE; END_IF;
+IF R00375_4 THEN R00375_6 := TRUE; ELSIF M00002_System_Reset THEN R00375_6 := FALSE; END_IF;
+
+// 7404-DG-012 (Pump House Gas Detector 12)
+R00395_3 := NOT R00395_2 AND (R00393 &gt;= R00389);
+R00395_4 := NOT R00395_2 AND (R00393 &gt;= R00391);
+IF R00395_3 THEN R00395_5 := TRUE; ELSIF M00002_System_Reset THEN R00395_5 := FALSE; END_IF;
+IF R00395_4 THEN R00395_6 := TRUE; ELSIF M00002_System_Reset THEN R00395_6 := FALSE; END_IF;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Ai_AL_3">
+          <div class="routine-header">
+            <div>
+              <h2>15. Ai_AL_3 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Analog Alarm Threshold &amp; Latching Group 3 (PST-001s &amp; Manual Foam Call Points FR-001..003)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Ai_AL_3', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Ai_AL_3"><code>// ============================================================================
+// Routine: Ai_AL_3 (Alarm Evaluation for PST-001s &amp; Foam Call Points FR-001..003)
+// ============================================================================
+
+// 7002-PST-001: Air Accumulator Pressure ESDV (Low Pressure &lt;= 50 Psi -&gt; L16)
+R00435_4 := NOT R00435_2 AND (R00433 &lt;= R00431);
+IF R00435_4 THEN R00435_6 := TRUE; ELSIF M00002_System_Reset THEN R00435_6 := FALSE; END_IF;
+
+// 6401-PST-001: Fuel Gas Pressure (PAL &lt;= 40 Psi -&gt; L17, PAH &gt;= 100 Psi -&gt; ESD Trip)
+R00455_3 := NOT R00455_2 AND (R00453 &gt;= R00449); // High Pressure &gt;= 100 Psi
+R00455_4 := NOT R00455_2 AND (R00453 &lt;= R00451); // Low Pressure &lt;= 40 Psi
+IF R00455_3 THEN R00455_5 := TRUE; ELSIF M00002_System_Reset THEN R00455_5 := FALSE; END_IF;
+IF R00455_4 THEN R00455_6 := TRUE; ELSIF M00002_System_Reset THEN R00455_6 := FALSE; END_IF;
+
+// 7503-PST-001: Deluge Line Pressure (PAH &gt;= 50 Psi -&gt; Foam/Deluge Released)
+R00475_3 := NOT R00475_2 AND (R00473 &gt;= R00469);
+IF R00475_3 THEN R00475_5 := TRUE; ELSIF M00002_System_Reset THEN R00475_5 := FALSE; END_IF;
+
+// 7503-FR-001/002: Manual Foam Release Call Points Outside (&gt;= 30%)
+R00495_3 := NOT R00495_2 AND (R00493 &gt;= R00489);
+IF R00495_3 THEN R00495_5 := TRUE; ELSIF M00002_System_Reset THEN R00495_5 := FALSE; END_IF;
+
+// 7503-FR-003: Manual Foam Release Call Point Inside Local Control Panel (&gt;= 30%)
+R00535_3 := NOT R00535_2 AND (R00533 &gt;= R00529);
+IF R00535_3 THEN R00535_5 := TRUE; ELSIF M00002_System_Reset THEN R00535_5 := FALSE; END_IF;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Vote_1">
+          <div class="routine-header">
+            <div>
+              <h2>16. Vote_1 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Detector Voting Logic (1oo12 / 2oo12 CH4 Point Gas Detectors, Open Path &amp; Flame Detectors)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Vote_1', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Vote_1"><code>// ============================================================================
+// Routine: Vote_1 (Gas &amp; Flame Detector Voting Matrix)
+// Reference: Cause &amp; Effect Matrix (01-MAN-03-07-PDF-C2C Final)
+// ============================================================================
+
+// --- 1. Count Active Low Gas (20% LEL) &amp; High Gas (30% LEL) Across 7404-DG-001..012 + DG-011R ---
+Vote_Gas_Lo_Count := 0;
+IF R00115_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-001
+IF R00135_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-002
+IF R00155_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-003
+IF R00175_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-004
+IF R00195_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-005
+IF R00215_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-006
+IF R00235_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-007
+IF R00255_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-008
+IF R00275_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-009
+IF R00295_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-010
+IF R00315_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-011
+IF R00395_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-012
+IF R00375_6 THEN Vote_Gas_Lo_Count := Vote_Gas_Lo_Count + 1; END_IF; // DG-011R (1.00 LELm)
+
+Vote_Gas_Hi_Count := 0;
+IF R00115_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-001
+IF R00135_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-002
+IF R00155_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-003
+IF R00175_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-004
+IF R00195_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-005
+IF R00215_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-006
+IF R00235_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-007
+IF R00255_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-008
+IF R00275_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-009
+IF R00295_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-010
+IF R00315_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-011
+IF R00395_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-012
+IF R00375_5 THEN Vote_Gas_Hi_Count := Vote_Gas_Hi_Count + 1; END_IF; // DG-011R (3.00 LELm)
+
+// Voting Outputs (R01500_0 = 1ooN Low Gas, R01500_1 = 2ooN Low Gas, R01500_2 = 1ooN High Gas, R01500_3 = 2ooN High Gas)
+R01500_0 := (Vote_Gas_Lo_Count &gt;= 1);
+R01500_1 := (Vote_Gas_Lo_Count &gt;= 2);
+R01500_2 := (Vote_Gas_Hi_Count &gt;= 1);
+R01500_3 := (Vote_Gas_Hi_Count &gt;= 2) OR R00375_5; // 2ooN Point High OR Open-Path DG-011R High (3.00 LELm)
+
+// --- 2. Flame Detector Voting Across 7404-DF-001, 7404-DF-002 &amp; New 7404-DF-003 ---
+Vote_Flame_Count := 0;
+IF R00335_5 THEN Vote_Flame_Count := Vote_Flame_Count + 1; END_IF; // 7404-DF-001
+IF R00355_5 THEN Vote_Flame_Count := Vote_Flame_Count + 1; END_IF; // 7404-DF-002
+IF DF_7404_003_Latch THEN Vote_Flame_Count := Vote_Flame_Count + 1; END_IF; // 7404-DF-003
+
+R01501_0 := (Vote_Flame_Count &gt;= 1); // 1oo3 Flame Alarm (Fire Warning / Bell / ESD Trip per C&amp;E)
+R01501_1 := (Vote_Flame_Count &gt;= 2); // 2oo3 Confirmed Flame (Deluge / Foam Release)</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Logic">
+          <div class="routine-header">
+            <div>
+              <h2>17. Logic <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Deluge Pump A &amp; Standby Pump B Automatic Start/Stop Sequencing</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Logic', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Logic"><code>// ============================================================================
+// Routine: Logic (Deluge Firewater/Foam Pump A &amp; Standby Pump B Sequencing)
+// ============================================================================
+
+// --- 1. Foam / Deluge Demand Trigger (R01512_10) ---
+// Demand from: Confirmed Fire (R01501_0 / R01501_1), Outside Foam MAC (7503-FR-001/002),
+// or Inside Control Room Foam MAC (7503-FR-003), unless inhibited by S2 (INHIBIT_FOAM_REL)
+// or stopped by Foam Stop pushbuttons (7503-FS-001 / FGCP E8).
+Foam_Release_Demand := (R01501_0 OR R00495_5 OR R00535_5)
+                       AND NOT R00708_0
+                       AND NOT R00709_0
+                       AND NOT R00701_0;
+
+// --- 2. Duty Deluge Pump A Control (PUMP_A / R01512_0) ---
+IF Foam_Release_Demand AND NOT R00704_1 THEN
+    R01512_0 := TRUE; // Start Duty Deluge Pump A
+ELSIF R00701_0 OR M00002_System_Reset THEN
+    R01512_0 := FALSE; // Stop Duty Deluge Pump A on Foam Stop PB or System Reset
+END_IF;
+
+// --- 3. Deluge Pressure Proving Timer (10.0s for 7503-PST-001 &gt;= 50 Psi) ---
+TMR_PumpA_FailToRun.PRE := 10000; // 10.0s
+TMR_PumpA_FailToRun.TimerEnable := Foam_Release_Demand AND NOT R00475_3;
+TMR_PumpA_FailToRun.Reset := M00002_System_Reset OR R00701_0;
+TONR(TMR_PumpA_FailToRun);
+
+// Standby Diesel Pump B Demand if Pump A fails to build 50 Psi within 10s (or Pump A wire fault)
+Pump_B_Demand := Foam_Release_Demand
+                 AND (TMR_PumpA_FailToRun.DN OR R00704_1)
+                 AND NOT R00706_0  // Not Pump_B_Inhibited (75-SB-01B)
+                 AND NOT R00703_0; // Not Diesel Tank Low Level (7503-LS-002)
+
+// --- 4. Standby Pump B 3-Attempt Start Crank Sequence (2.0s ON / 2.0s OFF x 3) ---
+TMR_PumpB_StartOn.PRE := 2000; // 2.0s crank pulse
+TMR_PumpB_StartOn.TimerEnable := Pump_B_Demand AND NOT R00475_3 AND NOT TMR_PumpB_StartOff.DN AND (CTU_PumpB_Attempts.CV &lt; 3);
+TMR_PumpB_StartOn.Reset := NOT Pump_B_Demand OR R00475_3 OR M00002_System_Reset;
+TONR(TMR_PumpB_StartOn);
+
+TMR_PumpB_StartOff.PRE := 2000; // 2.0s rest between crank pulses
+TMR_PumpB_StartOff.TimerEnable := TMR_PumpB_StartOn.DN;
+TMR_PumpB_StartOff.Reset := NOT Pump_B_Demand OR R00475_3 OR M00002_System_Reset;
+TONR(TMR_PumpB_StartOff);
+
+CTU_PumpB_Attempts.PRE := 3;
+CTU_PumpB_Attempts.CU := TMR_PumpB_StartOn.DN;
+CTU_PumpB_Attempts.Reset := NOT Pump_B_Demand OR M00002_System_Reset;
+CTUD(CTU_PumpB_Attempts);
+
+// PUMP_B_START Output Pulse (R01512_5)
+R01512_5 := Pump_B_Demand AND NOT R00475_3 AND NOT TMR_PumpB_StartOn.DN AND (CTU_PumpB_Attempts.CV &lt; 3);
+
+// --- 5. Standby Pump B Stop Pulse (2.0s pulse on Foam Stop button) ---
+TMR_PumpB_StopPulse.PRE := 2000;
+TMR_PumpB_StopPulse.TimerEnable := R00701_0;
+TMR_PumpB_StopPulse.Reset := FALSE;
+TONR(TMR_PumpB_StopPulse);
+R01512_4 := R00701_0 AND NOT TMR_PumpB_StopPulse.DN; // PUMP_B_STOP</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-CE_LOG">
+          <div class="routine-header">
+            <div>
+              <h2>18. CE_LOG <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Master Cause &amp; Effect Matrix Orchestrator (Calls Indicat, Shutdow, Protect, Loc_Al, FLT_1)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-CE_LOG', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-CE_LOG"><code>// ============================================================================
+// Routine: CE_LOG (Cause &amp; Effect Matrix Orchestrator)
+// Reference: CAUSE &amp; EFFECT 01-MAN-03-07-PDF-C2C Final
+// ============================================================================
+
+JSR(Indicat);
+JSR(Shutdow);
+JSR(Protect);
+JSR(Loc_Al);
+JSR(FLT_1);</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Indicat">
+          <div class="routine-header">
+            <div>
+              <h2>19. Indicat <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>FGCP Front Panel LED Indicators (L14 Closed, L15 Open, L16 Low Air, L17 Low Fuel Gas, CR1..CR6 Pump LEDs)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Indicat', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Indicat"><code>// ============================================================================
+// Routine: Indicat (FGCP-7404-001 Panel LEDs &amp; Individual Pump Relay Indicators)
+// Reference: Cause &amp; Effect 01-MAN-03-07-PDF-C2C &amp; Terminal Block 01-MAN-02-13
+// ============================================================================
+
+// L15 (Tag_DO_12 / Local:8:O.Data.12): ESDV Fuel Gas Line Open LED (6401-ZSH-001)
+R01513_0 := R00700_0;
+
+// L14 (Tag_DO_13 / Local:8:O.Data.11): ESDV Fuel Gas Line Closed LED (6401-ZSL-001)
+R01513_1 := R00700_1;
+
+// L16 (Tag_DO_14 / Local:8:O.Data.13): ESDV Low Air Supply Pressure LED (7002-PST-001 &lt;= 50 Psi)
+R01513_2 := R00435_6;
+
+// L17 (LED_Low_Fuel_Gas_L17 / Local:8:O.Data.14): Low Fuel Gas Pressure LED (6401-PST-001 &lt;= 40 Psi)
+LED_Low_Fuel_Gas_L17 := R00455_6;
+
+// CR1..CR4 (Power Oil Pumps P-2300..P-2600 Stop &amp; Panel LEDs L2..L5 / L8..L11)
+// Tripped by: Individual E-Stop (E1..E4), Full ESD Trip (R01510_0), or High-High Oil Inj Pressure PIT-003 (2800 Psi)
+CR1_P2300_Stop := (Latch_ESTOP_P2300 OR NOT R01510_0 OR PIT_003_PAHH_Latch) AND NOT R00709_0;
+CR2_P2400_Stop := (Latch_ESTOP_P2400 OR NOT R01510_0 OR PIT_003_PAHH_Latch) AND NOT R00709_0;
+CR3_P2500_Stop := (Latch_ESTOP_P2500 OR NOT R01510_0 OR PIT_003_PAHH_Latch) AND NOT R00709_0;
+CR4_P2600_Stop := (Latch_ESTOP_P2600 OR NOT R01510_0 OR PIT_003_PAHH_Latch) AND NOT R00709_0;
+
+// CR5..CR6 (Water Injection Pumps P-3800..P-3900 Stop &amp; Panel LEDs L6..L7 / L12..L13)
+// Tripped by: Individual E-Stop (E5..E6), Full ESD Trip (R01510_0), or High-High Water Inj Pressure PIT-002 (900 Psi)
+CR5_P3800_Stop := (Latch_ESTOP_P3800 OR NOT R01510_0 OR PIT_002_PAHH_Latch) AND NOT R00709_0;
+CR6_P3900_Stop := (Latch_ESTOP_P3900 OR NOT R01510_0 OR PIT_002_PAHH_Latch) AND NOT R00709_0;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Shutdow">
+          <div class="routine-header">
+            <div>
+              <h2>20. Shutdow <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Emergency Shutdown Logic (ESD_TRIP, 6401-EY-001/002, P2100/2200, P3600/3700, SD-GE Gas Generators)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Shutdow', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Shutdow"><code>// ============================================================================
+// Routine: Shutdow (Emergency Shutdown Matrix per 01-MAN-03-07-PDF-C2C Final)
+// Note: Fail-safe outputs are energized (TRUE) when healthy and de-energized (FALSE) on trip.
+// ============================================================================
+
+// --- 1. Master Fire &amp; Gas / Process ESD Trip Condition ---
+// Causes per 01-MAN-03-07-PDF-C2C Final:
+//   - High Gas 30% LEL (R01500_2 / R01500_3) or Open-Path 3.00 LELm (R00375_5)
+//   - Flame Detection &gt;= 30% (7404-DF-001, 7404-DF-002, or 7404-DF-003 -&gt; R01501_0)
+//   - Manual Foam Release Call Points (7503-FR-001/002 or 7503-FR-003)
+//   - Deluge Line Pressure High &gt;= 50 Psi (7503-PST-001 -&gt; R00475_5)
+//   - High Fuel Gas Pressure &gt;= 100 Psi (6401-PST-001 -&gt; R00455_5)
+//   - ESD Fuel Gas Pushbutton E9 (6401-ESDV-001 -&gt; R00707_1)
+ESD_Trip_Condition := (R01500_2 OR R01500_3 OR R01501_0 OR R00495_5 OR R00535_5 OR R00475_5 OR R00455_5)
+                      AND NOT R00709_0; // Bypassed if S3 (INHIBIT_ALL_OUTPUTS) is active
+
+// R01510_0 -&gt; PumpShutdown (ESD_TRIP, Local:8:O.Data.0): Energized (1) = Healthy, De-energized (0) = Trip
+R01510_0 := NOT ESD_Trip_Condition;
+
+// R01511_0 -&gt; 6401-EY-001/002 Fuel Gas ESDV Solenoid (Local:8:O.Data.1)
+// Tripped by ESD_Trip_Condition OR E9 Pushbutton (6401-ESDV-001 / R00707_1)
+R01511_0 := NOT (ESD_Trip_Condition OR (R00707_1 AND NOT R00709_0));
+
+// R01511_1 -&gt; P2100/P2200 Oil Booster Pump Shutdown Relay (Local:8:O.Data.8)
+// Tripped by ESD_Trip_Condition OR High-High Oil Injection Manifold Pressure PIT-003 (2800 Psi)
+R01511_1 := NOT (ESD_Trip_Condition OR (PIT_003_PAHH_Latch AND NOT R00709_0));
+
+// R01511_2 -&gt; P3600/P3700 Water Booster Pump Shutdown Relay (Local:8:O.Data.9)
+// Tripped by ESD_Trip_Condition OR High-High Water Injection Manifold Pressure PIT-002 (900 Psi)
+R01511_2 := NOT (ESD_Trip_Condition OR (PIT_002_PAHH_Latch AND NOT R00709_0));
+
+// --- 2. GNTF Upgrade: SD-GE (7404-ESD-GEN Shut Down of All Gas Generators, Local:8:O.Data.21) ---
+// Tripped by:
+//   - High Gas 30% LEL in Gas Generator Room (GD-001, GD-002, or GD-003 -&gt; GD_Any_Hi_Latch)
+//   - Smoke Detection &gt;= 30% in Electrical/Generator Room (SD-001/002 -&gt; SD_001_002_Latch)
+//   - Master ESD Trip Condition (ESD_Trip_Condition)
+SD_GE := (GD_Any_Hi_Latch OR SD_001_002_Latch OR ESD_Trip_Condition) AND NOT R00709_0;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Protect">
+          <div class="routine-header">
+            <div>
+              <h2>21. Protect <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Deluge &amp; Foam Protection Status Mapping</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Protect', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Protect"><code>// ============================================================================
+// Routine: Protect (Firewater / Foam Protection Status &amp; Deluge Confirmation)
+// ============================================================================
+
+// Deluge / Foam System Activated Status (7503-PST-001 &gt;= 50 Psi or Pump A/B Running)
+Deluge_Released_Status := R00475_5;
+Foam_System_Inhibited  := R00708_0 OR R00709_0;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Loc_Al">
+          <div class="routine-header">
+            <div>
+              <h2>22. Loc_Al <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Audible/Visual Alarm Sounder Modes (7404-SA-001/002, Z1, PA-001, H2SA-001/002, SDA-001)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Loc_Al', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Loc_Al"><code>// ============================================================================
+// Routine: Loc_Al (Audible &amp; Visual Alarm Pattern Selection per C&amp;E 01-MAN-03-07)
+// ============================================================================
+
+// --- 1. Pump House Bell 7404-SA-001/002 Mode Selection ---
+// Discontinuous (Pulsing) on 1ooN Low Gas (20% LEL) or 1.00 LELm Open-Path
+Bell_Mode_Discontinuous := R01500_0 AND NOT R01500_2 AND NOT R01501_0 AND NOT R00495_5 AND NOT R00535_5 AND NOT R00475_5;
+
+// Continuous on High Gas (30% LEL / 3.00 LELm), Flame (DF-001..003), Foam MAC (FR-001..003), or Deluge Released (PST-001)
+Bell_Mode_Continuous    := R01500_2 OR R01501_0 OR R00495_5 OR R00535_5 OR R00475_5;
+
+// --- 2. PROD CONTROL ROOM Alarm Z1 (Tag_DO_15 / Local:8:O.Data.22) ---
+// Triggered by any Fire, Gas, H2S, Smoke, Process Alarm, or System Fault, silenced by M00001_System_Accept (E12)
+Any_Unaccepted_Alarm := R01500_0 OR R01500_2 OR R01501_0 OR R00495_5 OR R00535_5 OR R00475_5 OR
+                        R00435_6 OR R00455_5 OR R00455_6 OR R00707_1 OR
+                        GD_Any_Lo_Latch OR GD_Any_Hi_Latch OR
+                        H2S_Lo_Latch OR H2S_Hi_Latch OR
+                        SD_001_002_Latch OR
+                        PIT_001_PAL OR PIT_001_PAH OR
+                        PIT_002_PAL OR PIT_002_PAH OR PIT_002_PAHH_Latch OR
+                        PIT_003_PAL OR PIT_003_PAH OR PIT_003_PAHH_Latch OR
+                        LIT_100_LAL OR LIT_100_LAH OR LIT_200_LAL OR LIT_200_LAH OR
+                        LIT_300_LAL OR LIT_300_LAH OR LIT_400_LAL OR LIT_400_LAH OR
+                        FT_6401_001_FAL OR FT_6401_001_FAH OR
+                        Latch_ESTOP_P2300 OR Latch_ESTOP_P2400 OR Latch_ESTOP_P2500 OR
+                        Latch_ESTOP_P2600 OR Latch_ESTOP_P3800 OR Latch_ESTOP_P3900;
+
+IF M00001_System_Accept THEN
+    Alarm_Silence_Latch := TRUE;
+ELSIF NOT Any_Unaccepted_Alarm OR M00002_System_Reset THEN
+    Alarm_Silence_Latch := FALSE;
+END_IF;
+
+R01513_3 := Any_Unaccepted_Alarm AND NOT Alarm_Silence_Latch; // Z1 (Tag_DO_15)
+
+// --- 3. PROCESS (PROD, BUILDING) Alarm PA-001 (Local:8:O.Data.23) ---
+// Activated on Process Alarms (PIT-001..003, LIT-100..400, FT-001, 6401-PST-001, 7002-PST-001)
+PA_001 := (PIT_001_PAL OR PIT_001_PAH OR PIT_002_PAL OR PIT_002_PAH OR PIT_002_PAHH_Latch OR
+           PIT_003_PAL OR PIT_003_PAH OR PIT_003_PAHH_Latch OR
+           LIT_100_LAL OR LIT_100_LAH OR LIT_200_LAL OR LIT_200_LAH OR
+           LIT_300_LAL OR LIT_300_LAH OR LIT_400_LAL OR LIT_400_LAH OR
+           FT_6401_001_FAL OR FT_6401_001_FAH OR R00435_6 OR R00455_5 OR R00455_6)
+          AND NOT Alarm_Silence_Latch AND NOT R00709_0;
+
+// --- 4. H2S Alarm Horn/Beacon H2SA-001/002 (Local:8:O.Data.30) ---
+// Per C&amp;E 01-MAN-03-07:
+//   - 10 PPM (Low H2S): Discontinuous alarm (pulsed with R01598_0)
+//   - 20 PPM (High H2S): Continuous alarm
+H2SA_001_002 := ((H2S_Hi_Latch) OR (H2S_Lo_Latch AND R01598_0))
+                AND NOT Alarm_Silence_Latch AND NOT R00709_0;
+
+// --- 5. Smoke Detection Alarm Horn/Beacon SDA-001 (Local:8:O.Data.31) ---
+// Per C&amp;E 01-MAN-03-07: Continuous alarm on SD-001/002 &gt;= 30%
+SDA_001 := SD_001_002_Latch AND NOT Alarm_Silence_Latch AND NOT R00709_0;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-FLT_1">
+          <div class="routine-header">
+            <div>
+              <h2>23. FLT_1 <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>System, Transmitter &amp; Line Fault Aggregation (PLC_Fault Output)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-FLT_1', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-FLT_1"><code>// ============================================================================
+// Routine: FLT_1 (System, I/O Module &amp; Transmitter Fault Aggregation)
+// ============================================================================
+
+// Aggregate Transmitter Out-of-Range Faults, Open-Path Beam Block, Deluge Line Faults &amp; ESDV Discrepancy
+Any_Channel_Fault := R00115_2 OR R00135_2 OR R00155_2 OR R00175_2 OR
+                     R00195_2 OR R00215_2 OR R00235_2 OR R00255_2 OR
+                     R00275_2 OR R00295_2 OR R00315_2 OR R00335_2 OR
+                     R00355_2 OR R00375_2 OR R00395_2 OR R00435_2 OR
+                     R00455_2 OR R00475_2 OR R00495_2 OR R00535_2 OR
+                     GD_001_Fault OR GD_002_Fault OR GD_003_Fault OR
+                     PIT_001_Fault OR PIT_002_Fault OR PIT_003_Fault OR
+                     DF_7404_003_Fault OR SD_001_002_Fault OR
+                     R00700_6 OR R00704_1 OR R00705_1;
+
+// PLC_Fault Output (Local:8:O.Data.10 / R01513_4): Fail-Safe (Energized = No Fault, De-energized = Fault)
+R01513_4 := NOT Any_Channel_Fault;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Sound">
+          <div class="routine-header">
+            <div>
+              <h2>24. Sound <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Pump House Alarm Bell Driver (7404-SA-001/002 Continuous vs Discontinuous Modulation)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Sound', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Sound"><code>// ============================================================================
+// Routine: Sound (7404-SA-001/002 Pump House Alarm Bell Driver)
+// ============================================================================
+
+// Drive 7404-SA-001/002 (R01511_3) Continuous or Discontinuous (modulated by 0.8s flasher R01598_0),
+// silenced by M00001_System_Accept (E12) or inhibited by S3 (R00709_0)
+R01511_3 := (Bell_Mode_Continuous OR (Bell_Mode_Discontinuous AND R01598_0))
+            AND NOT Alarm_Silence_Latch
+            AND NOT R00709_0;</code></pre>
+        </section>
+        
+        <section class="routine-card" id="rt-Output">
+          <div class="routine-header">
+            <div>
+              <h2>25. Output <span class="st-badge">Studio 5000 ST</span></h2>
+              <p>Hardware Digital Output Driver (Internal Tags -&gt; Slot 8 1756-OB32 Local:8:O.Data.0..31)</p>
+            </div>
+            <button class="copy-btn" onclick="copyCode('code-Output', this)">Copy ST Code</button>
+          </div>
+          <pre id="code-Output"><code>// ============================================================================
+// Routine: Output (Map Internal Control Signals to Slot 8 1756-OB32 Module)
+// Reference: IO List 01-MAN-03-06-PDF-C2C Final &amp; Terminal Block 01-MAN-02-13
+// ============================================================================
+
+// Map Legacy Internal Bits to Named Output Tags
+PumpShutdown          := R01510_0;  // TS8-00: ESD_TRIP (Fail-safe: 1=Healthy, 0=Trip)
+EY_6401_001_002       := R01511_0;  // TS8-01: 6401-EY-001/002 ESD Fuel Gas Valve
+SA_7404_001_002       := R01511_3;  // TS8-02: 7404-SA-001/002 Local Alarm Bell Pump House
+Pump_A_PulsOut        := R01513_12; // TS8-03: Pulsed Output for Pump A Line Check
+PUMP_A                := R01512_0;  // TS8-04: Deluge Pump A Start/Stop
+Pump_B_Start_PulsOut  := R01513_13; // TS8-05: Pulsed Output for Pump B Line Check
+PUMP_B_START          := R01512_5;  // TS8-06: Deluge Pump B Start Pulse
+PUMP_B_STOP           := R01512_4;  // TS8-07: Deluge Pump B Stop Pulse
+P2100_P2200           := R01511_1;  // TS8-08: Oil Booster Pump Shutdown Relay (Fail-safe)
+P3600_P3700           := R01511_2;  // TS8-09: Water Booster Pump Shutdown Relay (Fail-safe)
+PLC_Fault             := R01513_4;  // TS8-10: PLC Fault Output
+Tag_DO_13             := R01513_1;  // TS8-11: FGCP-7404-001 L14 ESDV Closed LED
+Tag_DO_12             := R01513_0;  // TS8-12: FGCP-7404-001 L15 ESDV Open LED
+Tag_DO_14             := R01513_2;  // TS8-13: FGCP-7404-001 L16 Low Air Supply LED
+Tag_DO_15             := R01513_3;  // TS8-22: FGCP-7404-001 Z1 PROD CONTROL ROOM Alarm
+
+// Write to Slot 8: 1756-OB32 Hardware Output Points (Local:8:O.Data.0 .. 31)
+Local:8:O.Data.0      := PumpShutdown;          // TS8-00: ESD_TRIP
+Local:8:O.Data.1      := EY_6401_001_002;       // TS8-01: 6401-EY-001/002
+Local:8:O.Data.2      := SA_7404_001_002;       // TS8-02: 7404-SA-001/002
+Local:8:O.Data.3      := Pump_A_PulsOut;        // TS8-03: 7503-PUMP-A Pulse Check
+Local:8:O.Data.4      := PUMP_A;                // TS8-04: 7503-PUMP-A Start/Stop
+Local:8:O.Data.5      := Pump_B_Start_PulsOut;  // TS8-05: 7503-PUMP-B Pulse Check
+Local:8:O.Data.6      := PUMP_B_START;          // TS8-06: 7503-PUMP-B Start
+Local:8:O.Data.7      := PUMP_B_STOP;           // TS8-07: 7503-PUMP-B Stop
+Local:8:O.Data.8      := P2100_P2200;           // TS8-08: EDB1 (P2100/2200)
+Local:8:O.Data.9      := P3600_P3700;           // TS8-09: EDB1 (P3600/3700)
+Local:8:O.Data.10     := PLC_Fault;             // TS8-10: PLC_FAULT
+Local:8:O.Data.11     := Tag_DO_13;             // TS8-11: FGCP-7404-001 L14 (ESDV Closed)
+Local:8:O.Data.12     := Tag_DO_12;             // TS8-12: FGCP-7404-001 L15 (ESDV Open)
+Local:8:O.Data.13     := Tag_DO_14;             // TS8-13: FGCP-7404-001 L16 (ESDV Low Air)
+Local:8:O.Data.14     := LED_Low_Fuel_Gas_L17;  // TS8-14: FGCP-7404-001 L17 (Low Fuel Gas)
+Local:8:O.Data.15     := CR1_P2300_Stop;        // TS8-15: CR1 (L2 &amp; L8 / Stop P-2300)
+Local:8:O.Data.16     := CR2_P2400_Stop;        // TS8-16: CR2 (L3 &amp; L9 / Stop P-2400)
+Local:8:O.Data.17     := CR3_P2500_Stop;        // TS8-17: CR3 (L4 &amp; L10 / Stop P-2500)
+Local:8:O.Data.18     := CR4_P2600_Stop;        // TS8-18: CR4 (L5 &amp; L11 / Stop P-2600)
+Local:8:O.Data.19     := CR5_P3800_Stop;        // TS8-19: CR5 (L6 &amp; L12 / Stop P-3800)
+Local:8:O.Data.20     := CR6_P3900_Stop;        // TS8-20: CR6 (L7 &amp; L13 / Stop P-3900)
+Local:8:O.Data.21     := SD_GE;                 // TS8-21: SD-GE (7404-ESD-GEN Gas Generators Shutdown)
+Local:8:O.Data.22     := Tag_DO_15;             // TS8-22: FGCP-7404-001 Z1 (PROD CONTROL ROOM Alarm)
+Local:8:O.Data.23     := PA_001;                // TS8-23: PA-001 (PROCESS PROD BUILDING Alarm)
+Local:8:O.Data.30     := H2SA_001_002;          // TS8-30: H2SA-001/002 (H2S Alarm Horn/Beacon)
+Local:8:O.Data.31     := SDA_001;               // TS8-31: SDA-001 (Smoke Detection Alarm Horn/Beacon)</code></pre>
+        </section>
+        
+  </main>
+  <script>
+    function scrollToRoutine(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function copyCode(preId, btn) {
+      const text = document.getElementById(preId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerText;
+        btn.innerText = 'Copied!';
+        setTimeout(() => btn.innerText = orig, 1500);
+      });
+    }
+    function filterContent() {
+      const q = document.getElementById('filterInput').value.toLowerCase();
+      document.querySelectorAll('#ioTable tbody tr').forEach(tr => {
+        tr.style.display = tr.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
+      document.querySelectorAll('.routine-card').forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
