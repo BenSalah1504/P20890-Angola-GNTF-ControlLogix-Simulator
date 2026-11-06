@@ -280,8 +280,94 @@ def render_element_to_html(item, tag_map):
 # =============================================================================
 # 3. L5X RELAY LADDER LOGIC (RLL) XML EXPORTER
 # =============================================================================
+TIMER_PRESETS = {
+    'TMR_Flash_Slow': 400,
+    'TMR_Flash_Fast': 200,
+    'TMR_ESDV_Transit': 15000,
+    'TMR_ESDV_CmdOpen': 5000,
+    'TMR_ESDV_CmdClose': 5000,
+    'TMR_Pulse_Period': 60000,
+    'TMR_Pulse_Width': 1000,
+    'TMR_PumpA_WireFlt': 2000,
+    'TMR_PumpB_WireFlt': 2000,
+    'TMR_PumpA_FailToRun': 10000,
+    'TMR_PumpB_StartOn': 2000,
+    'TMR_PumpB_StartOff': 2000,
+    'TMR_PumpB_StopPulse': 2000,
+}
+
+def format_logix_elements(elems):
+    """Format parsed elements into standardized Studio 5000 RLL mnemonic string."""
+    def fmt_item(item):
+        if item[0] == 'BRANCH':
+            legs_str = ' , '.join(' '.join(fmt_item(sub) for sub in leg) for leg in item[1])
+            return f'[ {legs_str} ]'
+        else:
+            name = item[1]
+            args_str = item[2]
+            return f'{name}({args_str})'
+    res = ' '.join(fmt_item(el) for el in elems)
+    if not res.endswith(';'):
+        res += ';'
+    return res
+
+
+def build_tag_xml_lines(tname, dtype, desc, alias_for):
+    """Build compliant Studio 5000 Tag XML lines with <Data Format='Decorated'>."""
+    esc_desc = saxutils.escape(desc)
+    # In Relay Ladder Logic (RLL), Studio 5000 strictly requires TIMER and COUNTER, not FBD types
+    if dtype == 'FBD_TIMER' or tname.startswith('TMR_'):
+        clean_dtype = 'TIMER'
+    elif dtype == 'FBD_COUNTER' or tname.startswith('CTU_') or tname.startswith('CTR_'):
+        clean_dtype = 'COUNTER'
+    else:
+        clean_dtype = dtype
+
+    lines = []
+    if alias_for and not alias_for.startswith("MODBUS"):
+        lines.append(f'      <Tag Name="{tname}" TagType="Alias" AliasFor="{alias_for}" ExternalAccess="Read/Write">')
+        lines.append(f'        <Description><![CDATA[{esc_desc}]]></Description>')
+        lines.append('      </Tag>')
+    else:
+        lines.append(f'      <Tag Name="{tname}" TagType="Base" DataType="{clean_dtype}" Constant="false" ExternalAccess="Read/Write">')
+        lines.append(f'        <Description><![CDATA[{esc_desc}]]></Description>')
+        lines.append('        <Data Format="Decorated">')
+        if clean_dtype == 'BOOL':
+            lines.append('          <DataValue DataType="BOOL" Value="0"/>')
+        elif clean_dtype == 'REAL':
+            lines.append('          <DataValue DataType="REAL" Value="0.0"/>')
+        elif clean_dtype == 'DINT':
+            lines.append('          <DataValue DataType="DINT" Value="0"/>')
+        elif clean_dtype == 'INT':
+            lines.append('          <DataValue DataType="INT" Value="0"/>')
+        elif clean_dtype == 'TIMER':
+            pre = TIMER_PRESETS.get(tname, 1000)
+            lines.append('          <Structure DataType="TIMER">')
+            lines.append(f'            <DataValueMember Name="PRE" DataType="DINT" Value="{pre}"/>')
+            lines.append('            <DataValueMember Name="ACC" DataType="DINT" Value="0"/>')
+            lines.append('            <DataValueMember Name="EN" DataType="BOOL" Value="0"/>')
+            lines.append('            <DataValueMember Name="TT" DataType="BOOL" Value="0"/>')
+            lines.append('            <DataValueMember Name="DN" DataType="BOOL" Value="0"/>')
+            lines.append('          </Structure>')
+        elif clean_dtype == 'COUNTER':
+            lines.append('          <Structure DataType="COUNTER">')
+            lines.append('            <DataValueMember Name="PRE" DataType="DINT" Value="3"/>')
+            lines.append('            <DataValueMember Name="ACC" DataType="DINT" Value="0"/>')
+            lines.append('            <DataValueMember Name="CU" DataType="BOOL" Value="0"/>')
+            lines.append('            <DataValueMember Name="CD" DataType="BOOL" Value="0"/>')
+            lines.append('            <DataValueMember Name="DN" DataType="BOOL" Value="0"/>')
+            lines.append('            <DataValueMember Name="OV" DataType="BOOL" Value="0"/>')
+            lines.append('            <DataValueMember Name="UN" DataType="BOOL" Value="0"/>')
+            lines.append('          </Structure>')
+        else:
+            lines.append(f'          <DataValue DataType="{clean_dtype}" Value="0"/>')
+        lines.append('        </Data>')
+        lines.append('      </Tag>')
+    return lines, clean_dtype
+
+
 def write_l5x_rll(tags, routines):
-    """Generate official Rockwell Automation Studio 5000 v32.00 L5X Project File with Type='RLL'."""
+    """Generate official Rockwell Automation Studio 5000 v32.00 Controller-level L5X Project File."""
     xml_lines = [
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',
         '<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="32.00" TargetName="GNTF_FGCP_7404_001" TargetType="Controller" ContainsContext="false" Owner="EPPM / ASTRE" ExportDate="Fri Nov 06 15:30:00 2026">',
@@ -289,6 +375,8 @@ def write_l5x_rll(tags, routines):
         '    <Description>',
         '      <![CDATA[GNTF Quinguila Tank Farm Control System Upgrade - FGCP-7404-001 (Allen-Bradley Relay Ladder Logic / RLL Converted from GE VersaMax P20890_Angola + New Phase 1 I/O per 01-MAN-03-06 & 01-MAN-03-07)]]>',
         '    </Description>',
+        '    <DataTypes/>',
+        '    <AddOnInstructionDefinitions/>',
         '    <Modules>',
         '      <Module Name="Local" CatalogNumber="1756-L82E" Vendor="1" ProductType="14" ProductCode="167" Major="32" Minor="11" ParentModule="Local" ParentModPortId="1" Inhibited="false" MajorFault="true">',
         '        <Ports>',
@@ -325,15 +413,8 @@ def write_l5x_rll(tags, routines):
     ]
 
     for tname, dtype, desc, alias_for in tags:
-        esc_desc = saxutils.escape(desc)
-        if alias_for and not alias_for.startswith("MODBUS"):
-            xml_lines.append(f'      <Tag Name="{tname}" TagType="Alias" AliasFor="{alias_for}" ExternalAccess="Read/Write">')
-            xml_lines.append(f'        <Description><![CDATA[{esc_desc}]]></Description>')
-            xml_lines.append('      </Tag>')
-        else:
-            xml_lines.append(f'      <Tag Name="{tname}" TagType="Base" DataType="{dtype}" Constant="false" ExternalAccess="Read/Write">')
-            xml_lines.append(f'        <Description><![CDATA[{esc_desc}]]></Description>')
-            xml_lines.append('      </Tag>')
+        tag_lines, _ = build_tag_xml_lines(tname, dtype, desc, alias_for)
+        xml_lines.extend(tag_lines)
 
     xml_lines.extend([
         '    </Tags>',
@@ -350,13 +431,14 @@ def write_l5x_rll(tags, routines):
         xml_lines.append('            <RLLContent>')
         for idx, rg in enumerate(rungs):
             comment = rg.get("comment", "")
-            text = rg.get("text", "")
-            if not text.endswith(";"):
-                text += ";"
+            raw_text = rg.get("text", "")
+            elems = parse_rung_elements(raw_text)
+            formatted_text = format_logix_elements(elems)
+
             xml_lines.append(f'              <Rung Number="{idx}" Type="N">')
             if comment:
                 xml_lines.append(f'                <Comment><![CDATA[{comment}]]></Comment>')
-            xml_lines.append(f'                <Text><![CDATA[{text}]]></Text>')
+            xml_lines.append(f'                <Text><![CDATA[{formatted_text}]]></Text>')
             xml_lines.append('              </Rung>')
         xml_lines.append('            </RLLContent>')
         xml_lines.append('          </Routine>')
@@ -383,15 +465,78 @@ def write_l5x_rll(tags, routines):
         out_path = os.path.join(out_dir, "P20890_Angola_AB_Ladder.L5X")
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(l5x_content)
-        print(f"[OK] Generated L5X Ladder: {out_path} ({len(l5x_content):,} bytes)")
+        print(f"[OK] Generated L5X Controller Ladder: {out_path} ({len(l5x_content):,} bytes)")
 
     # Verify XML well-formedness
     test_path = os.path.join(BASE_DIR, "P20890_Angola_AB_Ladder.L5X")
     try:
         ET.parse(test_path)
-        print(f"[VERIFIED] XML parsed successfully! L5X is strictly well-formed.")
+        print(f"[VERIFIED] XML parsed successfully! Controller L5X is strictly well-formed.")
     except Exception as e:
         print(f"[ERROR] XML parse failed: {e}")
+        raise
+
+
+def write_l5x_program_rll(tags, routines):
+    """Generate Program-level L5X file for direct 'Import Program...' into ANY existing Studio 5000 project."""
+    xml_lines = [
+        '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',
+        '<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="32.00" TargetName="MainProgram" TargetType="Program" ContainsContext="true" Owner="EPPM / ASTRE" ExportDate="Fri Nov 06 15:30:00 2026">',
+        '  <Program Use="Target" Name="MainProgram" TestEdits="false" MainRoutineName="MainRoutine" Disabled="false" UseAsFolder="false">',
+        '    <Description>',
+        '      <![CDATA[GNTF Quinguila Tank Farm Fire, Gas & ESD Control Panel (FGCP-7404-001) Program Import]]>',
+        '    </Description>',
+        '    <Tags>',
+    ]
+
+    for tname, dtype, desc, alias_for in tags:
+        tag_lines, _ = build_tag_xml_lines(tname, dtype, desc, alias_for)
+        xml_lines.extend(tag_lines)
+
+    xml_lines.extend([
+        '    </Tags>',
+        '    <Routines>',
+    ])
+
+    for rname, rdesc, rungs in routines:
+        xml_lines.append(f'      <Routine Name="{rname}" Type="RLL">')
+        xml_lines.append(f'        <Description><![CDATA[{rdesc}]]></Description>')
+        xml_lines.append('        <RLLContent>')
+        for idx, rg in enumerate(rungs):
+            comment = rg.get("comment", "")
+            raw_text = rg.get("text", "")
+            elems = parse_rung_elements(raw_text)
+            formatted_text = format_logix_elements(elems)
+
+            xml_lines.append(f'          <Rung Number="{idx}" Type="N">')
+            if comment:
+                xml_lines.append(f'            <Comment><![CDATA[{comment}]]></Comment>')
+            xml_lines.append(f'            <Text><![CDATA[{formatted_text}]]></Text>')
+            xml_lines.append('          </Rung>')
+        xml_lines.append('        </RLLContent>')
+        xml_lines.append('      </Routine>')
+
+    xml_lines.extend([
+        '    </Routines>',
+        '  </Program>',
+        '</RSLogix5000Content>',
+    ])
+
+    l5x_prog_content = "\n".join(xml_lines) + "\n"
+
+    for out_dir in (BASE_DIR, DESKTOP_DIR):
+        os.makedirs(out_dir, exist_ok=True)
+        out_path = os.path.join(out_dir, "P20890_Angola_AB_Program_Ladder.L5X")
+        with open(out_path, "w", encoding="utf-8") as f:
+            f.write(l5x_prog_content)
+        print(f"[OK] Generated L5X Program Ladder: {out_path} ({len(l5x_prog_content):,} bytes)")
+
+    test_path = os.path.join(BASE_DIR, "P20890_Angola_AB_Program_Ladder.L5X")
+    try:
+        ET.parse(test_path)
+        print(f"[VERIFIED] XML parsed successfully! Program L5X is strictly well-formed.")
+    except Exception as e:
+        print(f"[ERROR] Program XML parse failed: {e}")
         raise
 
 

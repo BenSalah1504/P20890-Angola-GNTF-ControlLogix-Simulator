@@ -784,9 +784,13 @@ def main():
     total_rungs = sum(len(r[2]) for r in routines)
     print(f"[OK] RLL Routines built: {len(routines)} routines, {total_rungs} total rungs")
 
-    # Generate L5X Ladder Project
-    print("\n--- Generating Studio 5000 L5X Project File (Type=RLL) ---")
+    # Generate L5X Ladder Project (Controller Level)
+    print("\n--- Generating Studio 5000 Controller L5X Project File (Type=RLL) ---")
     B.write_l5x_rll(tags, routines)
+
+    # Generate L5X Ladder Program (Program Level for direct Import Program)
+    print("\n--- Generating Studio 5000 Program L5X Import File (TargetType=Program) ---")
+    B.write_l5x_program_rll(tags, routines)
 
     # Generate Interactive HTML Ladder Viewer
     print("\n--- Generating Interactive HTML Ladder Diagram Viewer ---")
