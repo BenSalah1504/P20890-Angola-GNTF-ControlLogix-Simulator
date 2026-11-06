@@ -1,0 +1,470 @@
+Tag Name,Tag Type,Data Type,Data Source,Address,Description,Engineering Units,Minimum,Maximum,Scale,Offset
+"TMR_Flash_Slow","Digital","TIMER","Device","[PLC]TMR_Flash_Slow","400ms Flasher Slow Timer (PCR Annunciator Flash)","ms",0,400,1.0,0.0
+"TMR_Flash_Fast","Digital","TIMER","Device","[PLC]TMR_Flash_Fast","200ms Flasher Fast Timer (High-High Alarm Strobe)","ms",0,200,1.0,0.0
+"TMR_ESDV_Transit","Digital","TIMER","Device","[PLC]TMR_ESDV_Transit","15.0s ESDV-6401-001 Transit Discrepancy Timer","ms",0,15000,1.0,0.0
+"TMR_ESDV_CmdOpen","Digital","TIMER","Device","[PLC]TMR_ESDV_CmdOpen","5.0s ESDV-6401-001 Commanded Open Discrepancy Timer","ms",0,5000,1.0,0.0
+"TMR_ESDV_CmdClose","Digital","TIMER","Device","[PLC]TMR_ESDV_CmdClose","5.0s ESDV-6401-001 Commanded Close Discrepancy Timer","ms",0,5000,1.0,0.0
+"TMR_Deluge_Pulse_Period","Digital","TIMER","Device","[PLC]TMR_Deluge_Pulse_Period","60.0s Deluge Trip Coil Line Continuity Check Timer","ms",0,60000,1.0,0.0
+"TMR_Deluge_Pulse_Width","Digital","TIMER","Device","[PLC]TMR_Deluge_Pulse_Width","1.0s Deluge Trip Coil Line Continuity Pulse Width","ms",0,1000,1.0,0.0
+"TMR_PumpA_WireFlt","Digital","TIMER","Device","[PLC]TMR_PumpA_WireFlt","2.0s Deluge Pump A Coil Line Break Fault Timer","ms",0,2000,1.0,0.0
+"TMR_PumpB_WireFlt","Digital","TIMER","Device","[PLC]TMR_PumpB_WireFlt","2.0s Deluge Pump B Coil Line Break Fault Timer","ms",0,2000,1.0,0.0
+"TMR_PumpA_FailToRun","Digital","TIMER","Device","[PLC]TMR_PumpA_FailToRun","30.0s Deluge Pump A Pressure Proving & Fail-to-Run Timer","ms",0,30000,1.0,0.0
+"TMR_PumpB_StartCrank","Digital","TIMER","Device","[PLC]TMR_PumpB_StartCrank","5.0s Diesel Pump B Starter Crank Pulse Timer","ms",0,5000,1.0,0.0
+"TMR_PumpB_CrankRest","Digital","TIMER","Device","[PLC]TMR_PumpB_CrankRest","5.0s Diesel Pump B Starter Rest Interval Timer","ms",0,5000,1.0,0.0
+"TMR_H2S_Horn_Pulse","Digital","TIMER","Device","[PLC]TMR_H2S_Horn_Pulse","1.0s H2S Discontinuous Alarm Pulse Timer","ms",0,1000,1.0,0.0
+"CTU_PumpB_Attempts","Digital","COUNTER","Device","[PLC]CTU_PumpB_Attempts","Standby Diesel Pump B Start Crank Attempt Counter (3 Attempts)","cnt",0,3,1.0,0.0
+"SYS_First_Scan","Digital","BOOL","Device","[PLC]SYS_First_Scan","Controller First Scan Initialization Flag","",0,1,1.0,0.0
+"SYS_Watchdog_OK","Digital","BOOL","Device","[PLC]SYS_Watchdog_OK","FGCP-7404-001 Controller System Watchdog Healthy","",0,1,1.0,0.0
+"SYS_Alarm_Horn_Muted","Digital","BOOL","Device","[PLC]SYS_Alarm_Horn_Muted","Acoustic Horn Silence / Mute Latch","",0,1,1.0,0.0
+"SYS_Alarm_Reset_Cmd","Digital","BOOL","Device","[PLC]SYS_Alarm_Reset_Cmd","Master Alarm Reset Command Pulse","",0,1,1.0,0.0
+"DG_7404_001_Raw","Analog","INT","Device","[PLC]DG_7404_001_Raw","7404-DG-001 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_001_Scaled","Analog","REAL","Device","[PLC]DG_7404_001_Scaled","7404-DG-001 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_001_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_001_LowAlm","7404-DG-001 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_001_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_001_HiHiAlm","7404-DG-001 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_001_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_001_Flt_Low","7404-DG-001 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_001_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_001_Flt_High","7404-DG-001 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_001_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_001_BeamBlock","7404-DG-001 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_001_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_001_Inhibit","7404-DG-001 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_002_Raw","Analog","INT","Device","[PLC]DG_7404_002_Raw","7404-DG-002 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_002_Scaled","Analog","REAL","Device","[PLC]DG_7404_002_Scaled","7404-DG-002 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_002_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_002_LowAlm","7404-DG-002 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_002_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_002_HiHiAlm","7404-DG-002 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_002_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_002_Flt_Low","7404-DG-002 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_002_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_002_Flt_High","7404-DG-002 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_002_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_002_BeamBlock","7404-DG-002 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_002_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_002_Inhibit","7404-DG-002 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_003_Raw","Analog","INT","Device","[PLC]DG_7404_003_Raw","7404-DG-003 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_003_Scaled","Analog","REAL","Device","[PLC]DG_7404_003_Scaled","7404-DG-003 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_003_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_003_LowAlm","7404-DG-003 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_003_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_003_HiHiAlm","7404-DG-003 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_003_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_003_Flt_Low","7404-DG-003 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_003_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_003_Flt_High","7404-DG-003 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_003_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_003_BeamBlock","7404-DG-003 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_003_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_003_Inhibit","7404-DG-003 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_004_Raw","Analog","INT","Device","[PLC]DG_7404_004_Raw","7404-DG-004 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_004_Scaled","Analog","REAL","Device","[PLC]DG_7404_004_Scaled","7404-DG-004 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_004_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_004_LowAlm","7404-DG-004 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_004_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_004_HiHiAlm","7404-DG-004 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_004_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_004_Flt_Low","7404-DG-004 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_004_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_004_Flt_High","7404-DG-004 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_004_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_004_BeamBlock","7404-DG-004 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_004_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_004_Inhibit","7404-DG-004 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_005_Raw","Analog","INT","Device","[PLC]DG_7404_005_Raw","7404-DG-005 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_005_Scaled","Analog","REAL","Device","[PLC]DG_7404_005_Scaled","7404-DG-005 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_005_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_005_LowAlm","7404-DG-005 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_005_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_005_HiHiAlm","7404-DG-005 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_005_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_005_Flt_Low","7404-DG-005 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_005_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_005_Flt_High","7404-DG-005 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_005_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_005_BeamBlock","7404-DG-005 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_005_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_005_Inhibit","7404-DG-005 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_006_Raw","Analog","INT","Device","[PLC]DG_7404_006_Raw","7404-DG-006 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_006_Scaled","Analog","REAL","Device","[PLC]DG_7404_006_Scaled","7404-DG-006 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_006_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_006_LowAlm","7404-DG-006 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_006_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_006_HiHiAlm","7404-DG-006 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_006_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_006_Flt_Low","7404-DG-006 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_006_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_006_Flt_High","7404-DG-006 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_006_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_006_BeamBlock","7404-DG-006 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_006_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_006_Inhibit","7404-DG-006 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_007_Raw","Analog","INT","Device","[PLC]DG_7404_007_Raw","7404-DG-007 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_007_Scaled","Analog","REAL","Device","[PLC]DG_7404_007_Scaled","7404-DG-007 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_007_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_007_LowAlm","7404-DG-007 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_007_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_007_HiHiAlm","7404-DG-007 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_007_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_007_Flt_Low","7404-DG-007 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_007_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_007_Flt_High","7404-DG-007 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_007_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_007_BeamBlock","7404-DG-007 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_007_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_007_Inhibit","7404-DG-007 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_008_Raw","Analog","INT","Device","[PLC]DG_7404_008_Raw","7404-DG-008 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_008_Scaled","Analog","REAL","Device","[PLC]DG_7404_008_Scaled","7404-DG-008 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_008_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_008_LowAlm","7404-DG-008 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_008_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_008_HiHiAlm","7404-DG-008 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_008_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_008_Flt_Low","7404-DG-008 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_008_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_008_Flt_High","7404-DG-008 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_008_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_008_BeamBlock","7404-DG-008 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_008_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_008_Inhibit","7404-DG-008 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_009_Raw","Analog","INT","Device","[PLC]DG_7404_009_Raw","7404-DG-009 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_009_Scaled","Analog","REAL","Device","[PLC]DG_7404_009_Scaled","7404-DG-009 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_009_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_009_LowAlm","7404-DG-009 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_009_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_009_HiHiAlm","7404-DG-009 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_009_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_009_Flt_Low","7404-DG-009 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_009_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_009_Flt_High","7404-DG-009 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_009_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_009_BeamBlock","7404-DG-009 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_009_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_009_Inhibit","7404-DG-009 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_010_Raw","Analog","INT","Device","[PLC]DG_7404_010_Raw","7404-DG-010 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_010_Scaled","Analog","REAL","Device","[PLC]DG_7404_010_Scaled","7404-DG-010 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_010_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_010_LowAlm","7404-DG-010 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_010_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_010_HiHiAlm","7404-DG-010 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_010_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_010_Flt_Low","7404-DG-010 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_010_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_010_Flt_High","7404-DG-010 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_010_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_010_BeamBlock","7404-DG-010 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_010_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_010_Inhibit","7404-DG-010 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_011_Raw","Analog","INT","Device","[PLC]DG_7404_011_Raw","7404-DG-011 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_011_Scaled","Analog","REAL","Device","[PLC]DG_7404_011_Scaled","7404-DG-011 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_011_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_011_LowAlm","7404-DG-011 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_011_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_011_HiHiAlm","7404-DG-011 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_011_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_011_Flt_Low","7404-DG-011 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_011_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_011_Flt_High","7404-DG-011 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_011_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_011_BeamBlock","7404-DG-011 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_011_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_011_Inhibit","7404-DG-011 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_012_Raw","Analog","INT","Device","[PLC]DG_7404_012_Raw","7404-DG-012 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_012_Scaled","Analog","REAL","Device","[PLC]DG_7404_012_Scaled","7404-DG-012 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_012_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_012_LowAlm","7404-DG-012 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_012_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_012_HiHiAlm","7404-DG-012 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_012_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_012_Flt_Low","7404-DG-012 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_012_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_012_Flt_High","7404-DG-012 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_012_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_012_BeamBlock","7404-DG-012 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_012_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_012_Inhibit","7404-DG-012 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_013_Raw","Analog","INT","Device","[PLC]DG_7404_013_Raw","7404-DG-013 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_013_Scaled","Analog","REAL","Device","[PLC]DG_7404_013_Scaled","7404-DG-013 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_013_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_013_LowAlm","7404-DG-013 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_013_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_013_HiHiAlm","7404-DG-013 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_013_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_013_Flt_Low","7404-DG-013 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_013_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_013_Flt_High","7404-DG-013 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_013_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_013_BeamBlock","7404-DG-013 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_013_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_013_Inhibit","7404-DG-013 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_014_Raw","Analog","INT","Device","[PLC]DG_7404_014_Raw","7404-DG-014 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_014_Scaled","Analog","REAL","Device","[PLC]DG_7404_014_Scaled","7404-DG-014 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_014_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_014_LowAlm","7404-DG-014 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_014_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_014_HiHiAlm","7404-DG-014 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_014_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_014_Flt_Low","7404-DG-014 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_014_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_014_Flt_High","7404-DG-014 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_014_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_014_BeamBlock","7404-DG-014 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_014_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_014_Inhibit","7404-DG-014 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_015_Raw","Analog","INT","Device","[PLC]DG_7404_015_Raw","7404-DG-015 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_015_Scaled","Analog","REAL","Device","[PLC]DG_7404_015_Scaled","7404-DG-015 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_015_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_015_LowAlm","7404-DG-015 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_015_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_015_HiHiAlm","7404-DG-015 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_015_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_015_Flt_Low","7404-DG-015 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_015_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_015_Flt_High","7404-DG-015 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_015_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_015_BeamBlock","7404-DG-015 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_015_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_015_Inhibit","7404-DG-015 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_016_Raw","Analog","INT","Device","[PLC]DG_7404_016_Raw","7404-DG-016 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_016_Scaled","Analog","REAL","Device","[PLC]DG_7404_016_Scaled","7404-DG-016 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_016_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_016_LowAlm","7404-DG-016 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_016_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_016_HiHiAlm","7404-DG-016 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_016_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_016_Flt_Low","7404-DG-016 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_016_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_016_Flt_High","7404-DG-016 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_016_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_016_BeamBlock","7404-DG-016 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_016_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_016_Inhibit","7404-DG-016 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"PIT_001_OilExped_Raw","Analog","INT","Device","[PLC]PIT_001_OilExped_Raw","PIT-001 Raw Channel Data","counts",0,32000,1.0,0.0
+"PIT_001_OilExped_Scaled","Analog","REAL","Device","[PLC]PIT_001_OilExped_Scaled","PIT-001 Scaled Process Value (Oil Expedition Pressure Transmitter)","psi",0,150,1.0,0.0
+"PIT_001_OilExped_LowAlm","Digital","BOOL","Device","[PLC]PIT_001_OilExped_LowAlm","PIT-001 Low Alarm / Low Supply Flag","",0,1,1.0,0.0
+"PIT_001_OilExped_HighAlm","Digital","BOOL","Device","[PLC]PIT_001_OilExped_HighAlm","PIT-001 High Alarm Flag","",0,1,1.0,0.0
+"PIT_001_OilExped_HiHiAlm","Digital","BOOL","Device","[PLC]PIT_001_OilExped_HiHiAlm","PIT-001 High-High Shutdown Trip Flag","",0,1,1.0,0.0
+"PIT_001_OilExped_Flt","Digital","BOOL","Device","[PLC]PIT_001_OilExped_Flt","PIT-001 Transmitter Signal Fault / Out of Range","",0,1,1.0,0.0
+"PIT_001_OilExped_Inhibit","Digital","BOOL","Device","[PLC]PIT_001_OilExped_Inhibit","PIT-001 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"PIT_002_WaterInjMan_Raw","Analog","INT","Device","[PLC]PIT_002_WaterInjMan_Raw","PIT-002 Raw Channel Data","counts",0,32000,1.0,0.0
+"PIT_002_WaterInjMan_Scaled","Analog","REAL","Device","[PLC]PIT_002_WaterInjMan_Scaled","PIT-002 Scaled Process Value (Water Injection Manifold Pressure Transmitter)","psi",0,1000,1.0,0.0
+"PIT_002_WaterInjMan_LowAlm","Digital","BOOL","Device","[PLC]PIT_002_WaterInjMan_LowAlm","PIT-002 Low Alarm / Low Supply Flag","",0,1,1.0,0.0
+"PIT_002_WaterInjMan_HighAlm","Digital","BOOL","Device","[PLC]PIT_002_WaterInjMan_HighAlm","PIT-002 High Alarm Flag","",0,1,1.0,0.0
+"PIT_002_WaterInjMan_HiHiAlm","Digital","BOOL","Device","[PLC]PIT_002_WaterInjMan_HiHiAlm","PIT-002 High-High Shutdown Trip Flag","",0,1,1.0,0.0
+"PIT_002_WaterInjMan_Flt","Digital","BOOL","Device","[PLC]PIT_002_WaterInjMan_Flt","PIT-002 Transmitter Signal Fault / Out of Range","",0,1,1.0,0.0
+"PIT_002_WaterInjMan_Inhibit","Digital","BOOL","Device","[PLC]PIT_002_WaterInjMan_Inhibit","PIT-002 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"PIT_003_OilInjMan_Raw","Analog","INT","Device","[PLC]PIT_003_OilInjMan_Raw","PIT-003 Raw Channel Data","counts",0,32000,1.0,0.0
+"PIT_003_OilInjMan_Scaled","Analog","REAL","Device","[PLC]PIT_003_OilInjMan_Scaled","PIT-003 Scaled Process Value (Oil Injection Manifold Pressure Transmitter)","psi",0,3500,1.0,0.0
+"PIT_003_OilInjMan_LowAlm","Digital","BOOL","Device","[PLC]PIT_003_OilInjMan_LowAlm","PIT-003 Low Alarm / Low Supply Flag","",0,1,1.0,0.0
+"PIT_003_OilInjMan_HighAlm","Digital","BOOL","Device","[PLC]PIT_003_OilInjMan_HighAlm","PIT-003 High Alarm Flag","",0,1,1.0,0.0
+"PIT_003_OilInjMan_HiHiAlm","Digital","BOOL","Device","[PLC]PIT_003_OilInjMan_HiHiAlm","PIT-003 High-High Shutdown Trip Flag","",0,1,1.0,0.0
+"PIT_003_OilInjMan_Flt","Digital","BOOL","Device","[PLC]PIT_003_OilInjMan_Flt","PIT-003 Transmitter Signal Fault / Out of Range","",0,1,1.0,0.0
+"PIT_003_OilInjMan_Inhibit","Digital","BOOL","Device","[PLC]PIT_003_OilInjMan_Inhibit","PIT-003 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"PST_7503_001_Deluge_Raw","Analog","INT","Device","[PLC]PST_7503_001_Deluge_Raw","7503-PST-001 Raw Channel Data","counts",0,32000,1.0,0.0
+"PST_7503_001_Deluge_Scaled","Analog","REAL","Device","[PLC]PST_7503_001_Deluge_Scaled","7503-PST-001 Scaled Process Value (Deluge Line Pressure Transmitter)","psi",0,150,1.0,0.0
+"PST_7503_001_Deluge_LowAlm","Digital","BOOL","Device","[PLC]PST_7503_001_Deluge_LowAlm","7503-PST-001 Low Alarm / Low Supply Flag","",0,1,1.0,0.0
+"PST_7503_001_Deluge_HighAlm","Digital","BOOL","Device","[PLC]PST_7503_001_Deluge_HighAlm","7503-PST-001 High Alarm Flag","",0,1,1.0,0.0
+"PST_7503_001_Deluge_HiHiAlm","Digital","BOOL","Device","[PLC]PST_7503_001_Deluge_HiHiAlm","7503-PST-001 High-High Shutdown Trip Flag","",0,1,1.0,0.0
+"PST_7503_001_Deluge_Flt","Digital","BOOL","Device","[PLC]PST_7503_001_Deluge_Flt","7503-PST-001 Transmitter Signal Fault / Out of Range","",0,1,1.0,0.0
+"PST_7503_001_Deluge_Inhibit","Digital","BOOL","Device","[PLC]PST_7503_001_Deluge_Inhibit","7503-PST-001 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"PST_7002_001_AirAcc_Raw","Analog","INT","Device","[PLC]PST_7002_001_AirAcc_Raw","7002-PST-001 Raw Channel Data","counts",0,32000,1.0,0.0
+"PST_7002_001_AirAcc_Scaled","Analog","REAL","Device","[PLC]PST_7002_001_AirAcc_Scaled","7002-PST-001 Scaled Process Value (ESDV Air Accumulator Pressure Transmitter)","psi",0,150,1.0,0.0
+"PST_7002_001_AirAcc_LowAlm","Digital","BOOL","Device","[PLC]PST_7002_001_AirAcc_LowAlm","7002-PST-001 Low Alarm / Low Supply Flag","",0,1,1.0,0.0
+"PST_7002_001_AirAcc_HighAlm","Digital","BOOL","Device","[PLC]PST_7002_001_AirAcc_HighAlm","7002-PST-001 High Alarm Flag","",0,1,1.0,0.0
+"PST_7002_001_AirAcc_HiHiAlm","Digital","BOOL","Device","[PLC]PST_7002_001_AirAcc_HiHiAlm","7002-PST-001 High-High Shutdown Trip Flag","",0,1,1.0,0.0
+"PST_7002_001_AirAcc_Flt","Digital","BOOL","Device","[PLC]PST_7002_001_AirAcc_Flt","7002-PST-001 Transmitter Signal Fault / Out of Range","",0,1,1.0,0.0
+"PST_7002_001_AirAcc_Inhibit","Digital","BOOL","Device","[PLC]PST_7002_001_AirAcc_Inhibit","7002-PST-001 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"PST_6401_001_FuelGas_Raw","Analog","INT","Device","[PLC]PST_6401_001_FuelGas_Raw","6401-PST-001 Raw Channel Data","counts",0,32000,1.0,0.0
+"PST_6401_001_FuelGas_Scaled","Analog","REAL","Device","[PLC]PST_6401_001_FuelGas_Scaled","6401-PST-001 Scaled Process Value (Fuel Gas Line Pressure Transmitter)","psi",0,150,1.0,0.0
+"PST_6401_001_FuelGas_LowAlm","Digital","BOOL","Device","[PLC]PST_6401_001_FuelGas_LowAlm","6401-PST-001 Low Alarm / Low Supply Flag","",0,1,1.0,0.0
+"PST_6401_001_FuelGas_HighAlm","Digital","BOOL","Device","[PLC]PST_6401_001_FuelGas_HighAlm","6401-PST-001 High Alarm Flag","",0,1,1.0,0.0
+"PST_6401_001_FuelGas_HiHiAlm","Digital","BOOL","Device","[PLC]PST_6401_001_FuelGas_HiHiAlm","6401-PST-001 High-High Shutdown Trip Flag","",0,1,1.0,0.0
+"PST_6401_001_FuelGas_Flt","Digital","BOOL","Device","[PLC]PST_6401_001_FuelGas_Flt","6401-PST-001 Transmitter Signal Fault / Out of Range","",0,1,1.0,0.0
+"PST_6401_001_FuelGas_Inhibit","Digital","BOOL","Device","[PLC]PST_6401_001_FuelGas_Inhibit","6401-PST-001 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"FR_7503_003_LocalCP_Raw","Analog","INT","Device","[PLC]FR_7503_003_LocalCP_Raw","7503-FR-003 Raw Channel Data","counts",0,32000,1.0,0.0
+"FR_7503_003_LocalCP_Scaled","Analog","REAL","Device","[PLC]FR_7503_003_LocalCP_Scaled","7503-FR-003 Scaled Process Value (Manual Foam Release Button Inside Local CP)","state",0,1,1.0,0.0
+"FR_7503_003_LocalCP_LowAlm","Digital","BOOL","Device","[PLC]FR_7503_003_LocalCP_LowAlm","7503-FR-003 Low Alarm / Low Supply Flag","",0,1,1.0,0.0
+"FR_7503_003_LocalCP_HighAlm","Digital","BOOL","Device","[PLC]FR_7503_003_LocalCP_HighAlm","7503-FR-003 High Alarm Flag","",0,1,1.0,0.0
+"FR_7503_003_LocalCP_HiHiAlm","Digital","BOOL","Device","[PLC]FR_7503_003_LocalCP_HiHiAlm","7503-FR-003 High-High Shutdown Trip Flag","",0,1,1.0,0.0
+"FR_7503_003_LocalCP_Flt","Digital","BOOL","Device","[PLC]FR_7503_003_LocalCP_Flt","7503-FR-003 Transmitter Signal Fault / Out of Range","",0,1,1.0,0.0
+"FR_7503_003_LocalCP_Inhibit","Digital","BOOL","Device","[PLC]FR_7503_003_LocalCP_Inhibit","7503-FR-003 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"FR_7503_001_002_Field_Raw","Analog","INT","Device","[PLC]FR_7503_001_002_Field_Raw","7503-FR-001/002 Raw Channel Data","counts",0,32000,1.0,0.0
+"FR_7503_001_002_Field_Scaled","Analog","REAL","Device","[PLC]FR_7503_001_002_Field_Scaled","7503-FR-001/002 Scaled Process Value (Manual Foam Release Button Outside in Field)","state",0,1,1.0,0.0
+"FR_7503_001_002_Field_LowAlm","Digital","BOOL","Device","[PLC]FR_7503_001_002_Field_LowAlm","7503-FR-001/002 Low Alarm / Low Supply Flag","",0,1,1.0,0.0
+"FR_7503_001_002_Field_HighAlm","Digital","BOOL","Device","[PLC]FR_7503_001_002_Field_HighAlm","7503-FR-001/002 High Alarm Flag","",0,1,1.0,0.0
+"FR_7503_001_002_Field_HiHiAlm","Digital","BOOL","Device","[PLC]FR_7503_001_002_Field_HiHiAlm","7503-FR-001/002 High-High Shutdown Trip Flag","",0,1,1.0,0.0
+"FR_7503_001_002_Field_Flt","Digital","BOOL","Device","[PLC]FR_7503_001_002_Field_Flt","7503-FR-001/002 Transmitter Signal Fault / Out of Range","",0,1,1.0,0.0
+"FR_7503_001_002_Field_Inhibit","Digital","BOOL","Device","[PLC]FR_7503_001_002_Field_Inhibit","7503-FR-001/002 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_017_Raw","Analog","INT","Device","[PLC]DG_7404_017_Raw","7404-DG-017 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_017_Scaled","Analog","REAL","Device","[PLC]DG_7404_017_Scaled","7404-DG-017 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_017_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_017_LowAlm","7404-DG-017 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_017_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_017_HiHiAlm","7404-DG-017 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_017_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_017_Flt_Low","7404-DG-017 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_017_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_017_Flt_High","7404-DG-017 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_017_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_017_BeamBlock","7404-DG-017 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_017_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_017_Inhibit","7404-DG-017 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_018_Raw","Analog","INT","Device","[PLC]DG_7404_018_Raw","7404-DG-018 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_018_Scaled","Analog","REAL","Device","[PLC]DG_7404_018_Scaled","7404-DG-018 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_018_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_018_LowAlm","7404-DG-018 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_018_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_018_HiHiAlm","7404-DG-018 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_018_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_018_Flt_Low","7404-DG-018 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_018_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_018_Flt_High","7404-DG-018 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_018_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_018_BeamBlock","7404-DG-018 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_018_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_018_Inhibit","7404-DG-018 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_019_Raw","Analog","INT","Device","[PLC]DG_7404_019_Raw","7404-DG-019 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_019_Scaled","Analog","REAL","Device","[PLC]DG_7404_019_Scaled","7404-DG-019 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_019_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_019_LowAlm","7404-DG-019 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_019_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_019_HiHiAlm","7404-DG-019 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_019_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_019_Flt_Low","7404-DG-019 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_019_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_019_Flt_High","7404-DG-019 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_019_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_019_BeamBlock","7404-DG-019 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_019_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_019_Inhibit","7404-DG-019 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_020_Raw","Analog","INT","Device","[PLC]DG_7404_020_Raw","7404-DG-020 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_020_Scaled","Analog","REAL","Device","[PLC]DG_7404_020_Scaled","7404-DG-020 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_020_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_020_LowAlm","7404-DG-020 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_020_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_020_HiHiAlm","7404-DG-020 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_020_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_020_Flt_Low","7404-DG-020 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_020_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_020_Flt_High","7404-DG-020 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_020_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_020_BeamBlock","7404-DG-020 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_020_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_020_Inhibit","7404-DG-020 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_021_Raw","Analog","INT","Device","[PLC]DG_7404_021_Raw","7404-DG-021 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_021_Scaled","Analog","REAL","Device","[PLC]DG_7404_021_Scaled","7404-DG-021 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_021_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_021_LowAlm","7404-DG-021 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_021_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_021_HiHiAlm","7404-DG-021 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_021_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_021_Flt_Low","7404-DG-021 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_021_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_021_Flt_High","7404-DG-021 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_021_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_021_BeamBlock","7404-DG-021 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_021_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_021_Inhibit","7404-DG-021 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_022_Raw","Analog","INT","Device","[PLC]DG_7404_022_Raw","7404-DG-022 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_022_Scaled","Analog","REAL","Device","[PLC]DG_7404_022_Scaled","7404-DG-022 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_022_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_022_LowAlm","7404-DG-022 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_022_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_022_HiHiAlm","7404-DG-022 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_022_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_022_Flt_Low","7404-DG-022 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_022_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_022_Flt_High","7404-DG-022 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_022_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_022_BeamBlock","7404-DG-022 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_022_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_022_Inhibit","7404-DG-022 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_023_Raw","Analog","INT","Device","[PLC]DG_7404_023_Raw","7404-DG-023 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_023_Scaled","Analog","REAL","Device","[PLC]DG_7404_023_Scaled","7404-DG-023 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_023_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_023_LowAlm","7404-DG-023 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_023_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_023_HiHiAlm","7404-DG-023 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_023_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_023_Flt_Low","7404-DG-023 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_023_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_023_Flt_High","7404-DG-023 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_023_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_023_BeamBlock","7404-DG-023 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_023_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_023_Inhibit","7404-DG-023 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"DG_7404_024_Raw","Analog","INT","Device","[PLC]DG_7404_024_Raw","7404-DG-024 Raw 4-20mA Channel Data","counts",0,32000,1.0,0.0
+"DG_7404_024_Scaled","Analog","REAL","Device","[PLC]DG_7404_024_Scaled","7404-DG-024 Combustible Gas Concentration (%LEL)","%LEL",0,100,1.0,0.0
+"DG_7404_024_LowAlm","Digital","BOOL","Device","[PLC]DG_7404_024_LowAlm","7404-DG-024 Low Gas Alarm (>= 20% LEL)","",0,1,1.0,0.0
+"DG_7404_024_HiHiAlm","Digital","BOOL","Device","[PLC]DG_7404_024_HiHiAlm","7404-DG-024 High-High Gas Alarm (>= 30% LEL)","",0,1,1.0,0.0
+"DG_7404_024_Flt_Low","Digital","BOOL","Device","[PLC]DG_7404_024_Flt_Low","7404-DG-024 Sensor Underrange / Open Circuit Fault (< -4% LEL)","",0,1,1.0,0.0
+"DG_7404_024_Flt_High","Digital","BOOL","Device","[PLC]DG_7404_024_Flt_High","7404-DG-024 Sensor Overrange Fault (> 105% LEL)","",0,1,1.0,0.0
+"DG_7404_024_BeamBlock","Digital","BOOL","Device","[PLC]DG_7404_024_BeamBlock","7404-DG-024 Optical Beam Block Maintenance Flag","",0,1,1.0,0.0
+"DG_7404_024_Inhibit","Digital","BOOL","Device","[PLC]DG_7404_024_Inhibit","7404-DG-024 Maintenance Software Inhibit Flag","",0,1,1.0,0.0
+"AIT_H2S_001_Raw","Analog","INT","Device","[PLC]AIT_H2S_001_Raw","H2S-001 Raw Toxic Gas Channel Data","counts",0,32000,1.0,0.0
+"AIT_H2S_001_Scaled","Analog","REAL","Device","[PLC]AIT_H2S_001_Scaled","H2S-001 Toxic Gas H2S Concentration (ppm)","ppm",0,100,1.0,0.0
+"AIT_H2S_001_LowAlm","Digital","BOOL","Device","[PLC]AIT_H2S_001_LowAlm","H2S-001 Low Toxic Alarm (>= 10 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_001_HiHiAlm","Digital","BOOL","Device","[PLC]AIT_H2S_001_HiHiAlm","H2S-001 High-High Toxic Alarm (>= 20 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_001_Flt","Digital","BOOL","Device","[PLC]AIT_H2S_001_Flt","H2S-001 H2S Detector Sensor Fault","",0,1,1.0,0.0
+"AIT_H2S_001_Inhibit","Digital","BOOL","Device","[PLC]AIT_H2S_001_Inhibit","H2S-001 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"AIT_H2S_002_Raw","Analog","INT","Device","[PLC]AIT_H2S_002_Raw","H2S-002 Raw Toxic Gas Channel Data","counts",0,32000,1.0,0.0
+"AIT_H2S_002_Scaled","Analog","REAL","Device","[PLC]AIT_H2S_002_Scaled","H2S-002 Toxic Gas H2S Concentration (ppm)","ppm",0,100,1.0,0.0
+"AIT_H2S_002_LowAlm","Digital","BOOL","Device","[PLC]AIT_H2S_002_LowAlm","H2S-002 Low Toxic Alarm (>= 10 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_002_HiHiAlm","Digital","BOOL","Device","[PLC]AIT_H2S_002_HiHiAlm","H2S-002 High-High Toxic Alarm (>= 20 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_002_Flt","Digital","BOOL","Device","[PLC]AIT_H2S_002_Flt","H2S-002 H2S Detector Sensor Fault","",0,1,1.0,0.0
+"AIT_H2S_002_Inhibit","Digital","BOOL","Device","[PLC]AIT_H2S_002_Inhibit","H2S-002 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"AIT_H2S_003_Raw","Analog","INT","Device","[PLC]AIT_H2S_003_Raw","H2S-003 Raw Toxic Gas Channel Data","counts",0,32000,1.0,0.0
+"AIT_H2S_003_Scaled","Analog","REAL","Device","[PLC]AIT_H2S_003_Scaled","H2S-003 Toxic Gas H2S Concentration (ppm)","ppm",0,100,1.0,0.0
+"AIT_H2S_003_LowAlm","Digital","BOOL","Device","[PLC]AIT_H2S_003_LowAlm","H2S-003 Low Toxic Alarm (>= 10 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_003_HiHiAlm","Digital","BOOL","Device","[PLC]AIT_H2S_003_HiHiAlm","H2S-003 High-High Toxic Alarm (>= 20 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_003_Flt","Digital","BOOL","Device","[PLC]AIT_H2S_003_Flt","H2S-003 H2S Detector Sensor Fault","",0,1,1.0,0.0
+"AIT_H2S_003_Inhibit","Digital","BOOL","Device","[PLC]AIT_H2S_003_Inhibit","H2S-003 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"AIT_H2S_004_Raw","Analog","INT","Device","[PLC]AIT_H2S_004_Raw","H2S-004 Raw Toxic Gas Channel Data","counts",0,32000,1.0,0.0
+"AIT_H2S_004_Scaled","Analog","REAL","Device","[PLC]AIT_H2S_004_Scaled","H2S-004 Toxic Gas H2S Concentration (ppm)","ppm",0,100,1.0,0.0
+"AIT_H2S_004_LowAlm","Digital","BOOL","Device","[PLC]AIT_H2S_004_LowAlm","H2S-004 Low Toxic Alarm (>= 10 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_004_HiHiAlm","Digital","BOOL","Device","[PLC]AIT_H2S_004_HiHiAlm","H2S-004 High-High Toxic Alarm (>= 20 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_004_Flt","Digital","BOOL","Device","[PLC]AIT_H2S_004_Flt","H2S-004 H2S Detector Sensor Fault","",0,1,1.0,0.0
+"AIT_H2S_004_Inhibit","Digital","BOOL","Device","[PLC]AIT_H2S_004_Inhibit","H2S-004 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"AIT_H2S_005_Raw","Analog","INT","Device","[PLC]AIT_H2S_005_Raw","H2S-005 Raw Toxic Gas Channel Data","counts",0,32000,1.0,0.0
+"AIT_H2S_005_Scaled","Analog","REAL","Device","[PLC]AIT_H2S_005_Scaled","H2S-005 Toxic Gas H2S Concentration (ppm)","ppm",0,100,1.0,0.0
+"AIT_H2S_005_LowAlm","Digital","BOOL","Device","[PLC]AIT_H2S_005_LowAlm","H2S-005 Low Toxic Alarm (>= 10 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_005_HiHiAlm","Digital","BOOL","Device","[PLC]AIT_H2S_005_HiHiAlm","H2S-005 High-High Toxic Alarm (>= 20 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_005_Flt","Digital","BOOL","Device","[PLC]AIT_H2S_005_Flt","H2S-005 H2S Detector Sensor Fault","",0,1,1.0,0.0
+"AIT_H2S_005_Inhibit","Digital","BOOL","Device","[PLC]AIT_H2S_005_Inhibit","H2S-005 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"AIT_H2S_006_Raw","Analog","INT","Device","[PLC]AIT_H2S_006_Raw","H2S-006 Raw Toxic Gas Channel Data","counts",0,32000,1.0,0.0
+"AIT_H2S_006_Scaled","Analog","REAL","Device","[PLC]AIT_H2S_006_Scaled","H2S-006 Toxic Gas H2S Concentration (ppm)","ppm",0,100,1.0,0.0
+"AIT_H2S_006_LowAlm","Digital","BOOL","Device","[PLC]AIT_H2S_006_LowAlm","H2S-006 Low Toxic Alarm (>= 10 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_006_HiHiAlm","Digital","BOOL","Device","[PLC]AIT_H2S_006_HiHiAlm","H2S-006 High-High Toxic Alarm (>= 20 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_006_Flt","Digital","BOOL","Device","[PLC]AIT_H2S_006_Flt","H2S-006 H2S Detector Sensor Fault","",0,1,1.0,0.0
+"AIT_H2S_006_Inhibit","Digital","BOOL","Device","[PLC]AIT_H2S_006_Inhibit","H2S-006 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"AIT_H2S_007_Raw","Analog","INT","Device","[PLC]AIT_H2S_007_Raw","H2S-007 Raw Toxic Gas Channel Data","counts",0,32000,1.0,0.0
+"AIT_H2S_007_Scaled","Analog","REAL","Device","[PLC]AIT_H2S_007_Scaled","H2S-007 Toxic Gas H2S Concentration (ppm)","ppm",0,100,1.0,0.0
+"AIT_H2S_007_LowAlm","Digital","BOOL","Device","[PLC]AIT_H2S_007_LowAlm","H2S-007 Low Toxic Alarm (>= 10 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_007_HiHiAlm","Digital","BOOL","Device","[PLC]AIT_H2S_007_HiHiAlm","H2S-007 High-High Toxic Alarm (>= 20 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_007_Flt","Digital","BOOL","Device","[PLC]AIT_H2S_007_Flt","H2S-007 H2S Detector Sensor Fault","",0,1,1.0,0.0
+"AIT_H2S_007_Inhibit","Digital","BOOL","Device","[PLC]AIT_H2S_007_Inhibit","H2S-007 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"AIT_H2S_008_Raw","Analog","INT","Device","[PLC]AIT_H2S_008_Raw","H2S-008 Raw Toxic Gas Channel Data","counts",0,32000,1.0,0.0
+"AIT_H2S_008_Scaled","Analog","REAL","Device","[PLC]AIT_H2S_008_Scaled","H2S-008 Toxic Gas H2S Concentration (ppm)","ppm",0,100,1.0,0.0
+"AIT_H2S_008_LowAlm","Digital","BOOL","Device","[PLC]AIT_H2S_008_LowAlm","H2S-008 Low Toxic Alarm (>= 10 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_008_HiHiAlm","Digital","BOOL","Device","[PLC]AIT_H2S_008_HiHiAlm","H2S-008 High-High Toxic Alarm (>= 20 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_008_Flt","Digital","BOOL","Device","[PLC]AIT_H2S_008_Flt","H2S-008 H2S Detector Sensor Fault","",0,1,1.0,0.0
+"AIT_H2S_008_Inhibit","Digital","BOOL","Device","[PLC]AIT_H2S_008_Inhibit","H2S-008 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"AIT_H2S_009_Raw","Analog","INT","Device","[PLC]AIT_H2S_009_Raw","H2S-009 Raw Toxic Gas Channel Data","counts",0,32000,1.0,0.0
+"AIT_H2S_009_Scaled","Analog","REAL","Device","[PLC]AIT_H2S_009_Scaled","H2S-009 Toxic Gas H2S Concentration (ppm)","ppm",0,100,1.0,0.0
+"AIT_H2S_009_LowAlm","Digital","BOOL","Device","[PLC]AIT_H2S_009_LowAlm","H2S-009 Low Toxic Alarm (>= 10 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_009_HiHiAlm","Digital","BOOL","Device","[PLC]AIT_H2S_009_HiHiAlm","H2S-009 High-High Toxic Alarm (>= 20 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_009_Flt","Digital","BOOL","Device","[PLC]AIT_H2S_009_Flt","H2S-009 H2S Detector Sensor Fault","",0,1,1.0,0.0
+"AIT_H2S_009_Inhibit","Digital","BOOL","Device","[PLC]AIT_H2S_009_Inhibit","H2S-009 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"AIT_H2S_010_Raw","Analog","INT","Device","[PLC]AIT_H2S_010_Raw","H2S-010 Raw Toxic Gas Channel Data","counts",0,32000,1.0,0.0
+"AIT_H2S_010_Scaled","Analog","REAL","Device","[PLC]AIT_H2S_010_Scaled","H2S-010 Toxic Gas H2S Concentration (ppm)","ppm",0,100,1.0,0.0
+"AIT_H2S_010_LowAlm","Digital","BOOL","Device","[PLC]AIT_H2S_010_LowAlm","H2S-010 Low Toxic Alarm (>= 10 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_010_HiHiAlm","Digital","BOOL","Device","[PLC]AIT_H2S_010_HiHiAlm","H2S-010 High-High Toxic Alarm (>= 20 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_010_Flt","Digital","BOOL","Device","[PLC]AIT_H2S_010_Flt","H2S-010 H2S Detector Sensor Fault","",0,1,1.0,0.0
+"AIT_H2S_010_Inhibit","Digital","BOOL","Device","[PLC]AIT_H2S_010_Inhibit","H2S-010 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"AIT_H2S_011_Raw","Analog","INT","Device","[PLC]AIT_H2S_011_Raw","H2S-011 Raw Toxic Gas Channel Data","counts",0,32000,1.0,0.0
+"AIT_H2S_011_Scaled","Analog","REAL","Device","[PLC]AIT_H2S_011_Scaled","H2S-011 Toxic Gas H2S Concentration (ppm)","ppm",0,100,1.0,0.0
+"AIT_H2S_011_LowAlm","Digital","BOOL","Device","[PLC]AIT_H2S_011_LowAlm","H2S-011 Low Toxic Alarm (>= 10 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_011_HiHiAlm","Digital","BOOL","Device","[PLC]AIT_H2S_011_HiHiAlm","H2S-011 High-High Toxic Alarm (>= 20 ppm H2S)","",0,1,1.0,0.0
+"AIT_H2S_011_Flt","Digital","BOOL","Device","[PLC]AIT_H2S_011_Flt","H2S-011 H2S Detector Sensor Fault","",0,1,1.0,0.0
+"AIT_H2S_011_Inhibit","Digital","BOOL","Device","[PLC]AIT_H2S_011_Inhibit","H2S-011 Maintenance Inhibit Flag","",0,1,1.0,0.0
+"DF_7404_001_Raw","Analog","INT","Device","[PLC]DF_7404_001_Raw","7404-DF-001 Optical Flame Detector Raw Data","counts",0,32000,1.0,0.0
+"DF_7404_001_FireAlarm","Digital","BOOL","Device","[PLC]DF_7404_001_FireAlarm","7404-DF-001 Triple-IR Optical Flame Confirmed Alarm","",0,1,1.0,0.0
+"DF_7404_001_Fault","Digital","BOOL","Device","[PLC]DF_7404_001_Fault","7404-DF-001 Optical Flame Window Dirty / Circuit Fault","",0,1,1.0,0.0
+"DF_7404_001_Inhibit","Digital","BOOL","Device","[PLC]DF_7404_001_Inhibit","7404-DF-001 Flame Detector Maintenance Inhibit","",0,1,1.0,0.0
+"DF_7404_002_Raw","Analog","INT","Device","[PLC]DF_7404_002_Raw","7404-DF-002 Optical Flame Detector Raw Data","counts",0,32000,1.0,0.0
+"DF_7404_002_FireAlarm","Digital","BOOL","Device","[PLC]DF_7404_002_FireAlarm","7404-DF-002 Triple-IR Optical Flame Confirmed Alarm","",0,1,1.0,0.0
+"DF_7404_002_Fault","Digital","BOOL","Device","[PLC]DF_7404_002_Fault","7404-DF-002 Optical Flame Window Dirty / Circuit Fault","",0,1,1.0,0.0
+"DF_7404_002_Inhibit","Digital","BOOL","Device","[PLC]DF_7404_002_Inhibit","7404-DF-002 Flame Detector Maintenance Inhibit","",0,1,1.0,0.0
+"DF_7404_003_Raw","Analog","INT","Device","[PLC]DF_7404_003_Raw","7404-DF-003 Optical Flame Detector Raw Data","counts",0,32000,1.0,0.0
+"DF_7404_003_FireAlarm","Digital","BOOL","Device","[PLC]DF_7404_003_FireAlarm","7404-DF-003 Triple-IR Optical Flame Confirmed Alarm","",0,1,1.0,0.0
+"DF_7404_003_Fault","Digital","BOOL","Device","[PLC]DF_7404_003_Fault","7404-DF-003 Optical Flame Window Dirty / Circuit Fault","",0,1,1.0,0.0
+"DF_7404_003_Inhibit","Digital","BOOL","Device","[PLC]DF_7404_003_Inhibit","7404-DF-003 Flame Detector Maintenance Inhibit","",0,1,1.0,0.0
+"SD_001_002_Raw","Analog","INT","Device","[PLC]SD_001_002_Raw","SD-001/002 Gas Generator Smoke Detector Raw","counts",0,32000,1.0,0.0
+"SD_001_002_Alarm","Digital","BOOL","Device","[PLC]SD_001_002_Alarm","SD-001/002 Gas Generator Smoke Confirmed Alarm","",0,1,1.0,0.0
+"SD_001_002_Fault","Digital","BOOL","Device","[PLC]SD_001_002_Fault","SD-001/002 Smoke Detector Circuit Fault","",0,1,1.0,0.0
+"SD_001_002_Inhibit","Digital","BOOL","Device","[PLC]SD_001_002_Inhibit","SD-001/002 Smoke Detector Maintenance Inhibit","",0,1,1.0,0.0
+"LIT_100_Tank_Raw","Analog","INT","Device","[PLC]LIT_100_Tank_Raw","LIT-100 Crude Storage Tank Radar Raw Data","counts",0,32000,1.0,0.0
+"LIT_100_Tank_Scaled","Analog","REAL","Device","[PLC]LIT_100_Tank_Scaled","LIT-100 Crude Storage Tank Liquid Level (m)","m",0,14,1.0,0.0
+"LIT_100_Tank_LowAlm","Digital","BOOL","Device","[PLC]LIT_100_Tank_LowAlm","LIT-100 Low Tank Level Alarm (LAL <= 0.7m)","",0,1,1.0,0.0
+"LIT_100_Tank_HighAlm","Digital","BOOL","Device","[PLC]LIT_100_Tank_HighAlm","LIT-100 High Tank Level Alarm (LAH >= 9.0m/11.0m)","",0,1,1.0,0.0
+"LIT_100_Tank_Flt","Digital","BOOL","Device","[PLC]LIT_100_Tank_Flt","LIT-100 Radar Transmitter Diagnostic Fault","",0,1,1.0,0.0
+"LIT_100_Tank_Inhibit","Digital","BOOL","Device","[PLC]LIT_100_Tank_Inhibit","LIT-100 Tank Level Maintenance Inhibit","",0,1,1.0,0.0
+"LIT_200_Tank_Raw","Analog","INT","Device","[PLC]LIT_200_Tank_Raw","LIT-200 Crude Storage Tank Radar Raw Data","counts",0,32000,1.0,0.0
+"LIT_200_Tank_Scaled","Analog","REAL","Device","[PLC]LIT_200_Tank_Scaled","LIT-200 Crude Storage Tank Liquid Level (m)","m",0,14,1.0,0.0
+"LIT_200_Tank_LowAlm","Digital","BOOL","Device","[PLC]LIT_200_Tank_LowAlm","LIT-200 Low Tank Level Alarm (LAL <= 0.7m)","",0,1,1.0,0.0
+"LIT_200_Tank_HighAlm","Digital","BOOL","Device","[PLC]LIT_200_Tank_HighAlm","LIT-200 High Tank Level Alarm (LAH >= 9.0m/11.0m)","",0,1,1.0,0.0
+"LIT_200_Tank_Flt","Digital","BOOL","Device","[PLC]LIT_200_Tank_Flt","LIT-200 Radar Transmitter Diagnostic Fault","",0,1,1.0,0.0
+"LIT_200_Tank_Inhibit","Digital","BOOL","Device","[PLC]LIT_200_Tank_Inhibit","LIT-200 Tank Level Maintenance Inhibit","",0,1,1.0,0.0
+"LIT_300_Tank_Raw","Analog","INT","Device","[PLC]LIT_300_Tank_Raw","LIT-300 Crude Storage Tank Radar Raw Data","counts",0,32000,1.0,0.0
+"LIT_300_Tank_Scaled","Analog","REAL","Device","[PLC]LIT_300_Tank_Scaled","LIT-300 Crude Storage Tank Liquid Level (m)","m",0,14,1.0,0.0
+"LIT_300_Tank_LowAlm","Digital","BOOL","Device","[PLC]LIT_300_Tank_LowAlm","LIT-300 Low Tank Level Alarm (LAL <= 0.7m)","",0,1,1.0,0.0
+"LIT_300_Tank_HighAlm","Digital","BOOL","Device","[PLC]LIT_300_Tank_HighAlm","LIT-300 High Tank Level Alarm (LAH >= 9.0m/11.0m)","",0,1,1.0,0.0
+"LIT_300_Tank_Flt","Digital","BOOL","Device","[PLC]LIT_300_Tank_Flt","LIT-300 Radar Transmitter Diagnostic Fault","",0,1,1.0,0.0
+"LIT_300_Tank_Inhibit","Digital","BOOL","Device","[PLC]LIT_300_Tank_Inhibit","LIT-300 Tank Level Maintenance Inhibit","",0,1,1.0,0.0
+"LIT_400_Tank_Raw","Analog","INT","Device","[PLC]LIT_400_Tank_Raw","LIT-400 Crude Storage Tank Radar Raw Data","counts",0,32000,1.0,0.0
+"LIT_400_Tank_Scaled","Analog","REAL","Device","[PLC]LIT_400_Tank_Scaled","LIT-400 Crude Storage Tank Liquid Level (m)","m",0,14,1.0,0.0
+"LIT_400_Tank_LowAlm","Digital","BOOL","Device","[PLC]LIT_400_Tank_LowAlm","LIT-400 Low Tank Level Alarm (LAL <= 0.7m)","",0,1,1.0,0.0
+"LIT_400_Tank_HighAlm","Digital","BOOL","Device","[PLC]LIT_400_Tank_HighAlm","LIT-400 High Tank Level Alarm (LAH >= 9.0m/11.0m)","",0,1,1.0,0.0
+"LIT_400_Tank_Flt","Digital","BOOL","Device","[PLC]LIT_400_Tank_Flt","LIT-400 Radar Transmitter Diagnostic Fault","",0,1,1.0,0.0
+"LIT_400_Tank_Inhibit","Digital","BOOL","Device","[PLC]LIT_400_Tank_Inhibit","LIT-400 Tank Level Maintenance Inhibit","",0,1,1.0,0.0
+"ZSH_6401_001","Digital","BOOL","Device","[PLC]ZSH_6401_001","6401-ZSH-001: ESDV Fuel Gas Fully Open Limit Switch","state",0,1,1.0,0.0
+"ZSL_6401_001","Digital","BOOL","Device","[PLC]ZSL_6401_001","6401-ZSL-001: ESDV Fuel Gas Fully Closed Limit Switch","state",0,1,1.0,0.0
+"DI_Slot7_Spare_2","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_2","SPARE: Spare Digital Input Terminal 3","state",0,1,1.0,0.0
+"LS_7503_002_DieselTank","Digital","BOOL","Device","[PLC]LS_7503_002_DieselTank","7503-LS-002: Deluge Standby Diesel Fuel Tank Low Level Switch","state",0,1,1.0,0.0
+"FS_7503_001_FoamStop","Digital","BOOL","Device","[PLC]FS_7503_001_FoamStop","7503-FS-001: Deluge Foam Release System Stop Pushbutton","state",0,1,1.0,0.0
+"LS_7503_001_FoamTank","Digital","BOOL","Device","[PLC]LS_7503_001_FoamTank","7503-LS-001: AFFF Foam Concentrate Tank Low Level Switch","state",0,1,1.0,0.0
+"C_75_01A_PumpAPulse","Digital","BOOL","Device","[PLC]C_75_01A_PumpAPulse","75-C-01A: Deluge Pump A Trip Coil Continuity Pulse Return","state",0,1,1.0,0.0
+"C_75_01B_PumpBPulse","Digital","BOOL","Device","[PLC]C_75_01B_PumpBPulse","75-C-01B: Deluge Standby Pump B Trip Coil Continuity Pulse Return","state",0,1,1.0,0.0
+"SB_75_01B_PumpBInhKey","Digital","BOOL","Device","[PLC]SB_75_01B_PumpBInhKey","75-SB-01B: Standby Diesel Pump B Maintenance Inhibit Keyswitch","state",0,1,1.0,0.0
+"DI_Slot7_Spare_9","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_9","SPARE: Spare Digital Input Terminal 10","state",0,1,1.0,0.0
+"PB_E11_AlarmReset","Digital","BOOL","Device","[PLC]PB_E11_AlarmReset","FGCP-7404-001-E11: Master Alarm Reset Pushbutton (E11)","state",0,1,1.0,0.0
+"PB_E12_AlarmMute","Digital","BOOL","Device","[PLC]PB_E12_AlarmMute","FGCP-7404-001-E12: Master Alarm Acoustic Mute / Silence Pushbutton (E12)","state",0,1,1.0,0.0
+"PB_E9_ESD_FuelGas","Digital","BOOL","Device","[PLC]PB_E9_ESD_FuelGas","6401-ESDV-001-E9: Emergency Shutdown Fuel Gas Line Pushbutton (E9)","state",0,1,1.0,0.0
+"KEY_S2_FoamInhibit","Digital","BOOL","Device","[PLC]KEY_S2_FoamInhibit","FGCP-7404-001-S2: Deluge Foam Release Inhibit Keyswitch (S2)","state",0,1,1.0,0.0
+"KEY_S3_AllOutputsInhibit","Digital","BOOL","Device","[PLC]KEY_S3_AllOutputsInhibit","FGCP-7404-001-S3: Maintenance Override Inhibit All Outputs Keyswitch (S3)","state",0,1,1.0,0.0
+"PB_E1_E4_PowerOilStop","Digital","BOOL","Device","[PLC]PB_E1_E4_PowerOilStop","E1-E4: Emergency Stop Power Oil Pumps Pushbuttons E1..E4","state",0,1,1.0,0.0
+"PB_E5_E6_WaterInjStop","Digital","BOOL","Device","[PLC]PB_E5_E6_WaterInjStop","E5-E6: Emergency Stop Water Injection Pumps Pushbuttons E5..E6","state",0,1,1.0,0.0
+"PUMP_A_Run_Feedback","Digital","BOOL","Device","[PLC]PUMP_A_Run_Feedback","PUMP-A-AUX: Deluge Electric Duty Pump A Run Aux Contact","state",0,1,1.0,0.0
+"PUMP_B_Run_Feedback","Digital","BOOL","Device","[PLC]PUMP_B_Run_Feedback","PUMP-B-AUX: Deluge Diesel Standby Pump B Run Aux Contact","state",0,1,1.0,0.0
+"PSLL_7404_001_LoPress","Digital","BOOL","Device","[PLC]PSLL_7404_001_LoPress","7404-PSLL-001: Firewater Ring Main Header Low Pressure Switch (< 7.0 bar)","state",0,1,1.0,0.0
+"DI_Slot7_Spare_20","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_20","Slot 7 Spare Digital Input Bit 20","state",0,1,1.0,0.0
+"DI_Slot7_Spare_21","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_21","Slot 7 Spare Digital Input Bit 21","state",0,1,1.0,0.0
+"DI_Slot7_Spare_22","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_22","Slot 7 Spare Digital Input Bit 22","state",0,1,1.0,0.0
+"DI_Slot7_Spare_23","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_23","Slot 7 Spare Digital Input Bit 23","state",0,1,1.0,0.0
+"DI_Slot7_Spare_24","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_24","Slot 7 Spare Digital Input Bit 24","state",0,1,1.0,0.0
+"DI_Slot7_Spare_25","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_25","Slot 7 Spare Digital Input Bit 25","state",0,1,1.0,0.0
+"DI_Slot7_Spare_26","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_26","Slot 7 Spare Digital Input Bit 26","state",0,1,1.0,0.0
+"DI_Slot7_Spare_27","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_27","Slot 7 Spare Digital Input Bit 27","state",0,1,1.0,0.0
+"DI_Slot7_Spare_28","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_28","Slot 7 Spare Digital Input Bit 28","state",0,1,1.0,0.0
+"DI_Slot7_Spare_29","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_29","Slot 7 Spare Digital Input Bit 29","state",0,1,1.0,0.0
+"DI_Slot7_Spare_30","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_30","Slot 7 Spare Digital Input Bit 30","state",0,1,1.0,0.0
+"DI_Slot7_Spare_31","Digital","BOOL","Device","[PLC]DI_Slot7_Spare_31","Slot 7 Spare Digital Input Bit 31","state",0,1,1.0,0.0
+"ESD_TRIP_Master","Digital","BOOL","Device","[PLC]ESD_TRIP_Master","ESD_TRIP: Master Plant Emergency Shutdown Relay (Fail-Safe 1=Run)","state",0,1,1.0,0.0
+"EY_6401_001_002","Digital","BOOL","Device","[PLC]EY_6401_001_002","6401-EY-001/002: Fuel Gas ESDV Solenoid Valve (Fail-Safe 1=Open)","state",0,1,1.0,0.0
+"SA_7404_001_002","Digital","BOOL","Device","[PLC]SA_7404_001_002","7404-SA-001/002: Pump House Local Fire & Gas Alarm Bell","state",0,1,1.0,0.0
+"DO_7503_PumpA_Pulse","Digital","BOOL","Device","[PLC]DO_7503_PumpA_Pulse","7503-PUMP-A-PULSE: Deluge Pump A Trip Coil Test Pulse Output","state",0,1,1.0,0.0
+"DO_7503_PumpA_Cmd","Digital","BOOL","Device","[PLC]DO_7503_PumpA_Cmd","7503-PUMP-A-CMD: Deluge Duty Electric Pump A Run Command","state",0,1,1.0,0.0
+"DO_7503_PumpB_Pulse","Digital","BOOL","Device","[PLC]DO_7503_PumpB_Pulse","7503-PUMP-B-PULSE: Deluge Standby Pump B Test Pulse Output","state",0,1,1.0,0.0
+"DO_7503_PumpB_Start","Digital","BOOL","Device","[PLC]DO_7503_PumpB_Start","7503-PUMP-B-START: Deluge Standby Diesel Pump B Start Pulse","state",0,1,1.0,0.0
+"DO_7503_PumpB_Stop","Digital","BOOL","Device","[PLC]DO_7503_PumpB_Stop","7503-PUMP-B-STOP: Deluge Standby Diesel Pump B Stop Pulse","state",0,1,1.0,0.0
+"EDB1_OilBoosterStop","Digital","BOOL","Device","[PLC]EDB1_OilBoosterStop","EDB1-OIL: Oil Booster Pump Shutdown Relay (Fail-Safe 1=Run)","state",0,1,1.0,0.0
+"EDB1_WaterBoosterStop","Digital","BOOL","Device","[PLC]EDB1_WaterBoosterStop","EDB1-WATER: Water Booster Pump Shutdown Relay (Fail-Safe 1=Run)","state",0,1,1.0,0.0
+"DO_Slot8_Spare_10","Digital","BOOL","Device","[PLC]DO_Slot8_Spare_10","SPARE: Spare Discrete Output Bit 10","state",0,1,1.0,0.0
+"LED_L14_ESDV_Closed","Digital","BOOL","Device","[PLC]LED_L14_ESDV_Closed","FGCP-L14: PCR Panel LED L14: ESDV Fuel Gas Closed (Red)","state",0,1,1.0,0.0
+"LED_L15_ESDV_Open","Digital","BOOL","Device","[PLC]LED_L15_ESDV_Open","FGCP-L15: PCR Panel LED L15: ESDV Fuel Gas Open (Green)","state",0,1,1.0,0.0
+"LED_L16_LowAirAcc","Digital","BOOL","Device","[PLC]LED_L16_LowAirAcc","FGCP-L16: PCR Panel LED L16: ESDV Low Air Supply Accumulator (Amber)","state",0,1,1.0,0.0
+"LED_L17_LowFuelGas","Digital","BOOL","Device","[PLC]LED_L17_LowFuelGas","FGCP-L17: PCR Panel LED L17: Fuel Gas Line Low Pressure (Amber)","state",0,1,1.0,0.0
+"CR1_P2300_Stop_L8","Digital","BOOL","Device","[PLC]CR1_P2300_Stop_L8","CR1-L8: Stop Power Oil Pump P-2300 Relay & PCR LED L8","state",0,1,1.0,0.0
+"CR2_P2400_Stop_L9","Digital","BOOL","Device","[PLC]CR2_P2400_Stop_L9","CR2-L9: Stop Power Oil Pump P-2400 Relay & PCR LED L9","state",0,1,1.0,0.0
+"CR3_P2500_Stop_L10","Digital","BOOL","Device","[PLC]CR3_P2500_Stop_L10","CR3-L10: Stop Power Oil Pump P-2500 Relay & PCR LED L10","state",0,1,1.0,0.0
+"CR4_P2600_Stop_L11","Digital","BOOL","Device","[PLC]CR4_P2600_Stop_L11","CR4-L11: Stop Power Oil Pump P-2600 Relay & PCR LED L11","state",0,1,1.0,0.0
+"CR5_P3800_Stop_L12","Digital","BOOL","Device","[PLC]CR5_P3800_Stop_L12","CR5-L12: Stop Water Injection Pump P-3800 Relay & PCR LED L12","state",0,1,1.0,0.0
+"CR6_P3900_Stop_L13","Digital","BOOL","Device","[PLC]CR6_P3900_Stop_L13","CR6-L13: Stop Water Injection Pump P-3900 Relay & PCR LED L13","state",0,1,1.0,0.0
+"SD_GE_GasGenTrip","Digital","BOOL","Device","[PLC]SD_GE_GasGenTrip","SD-GE: Emergency Trip of All Gas Turbine Generators Output","state",0,1,1.0,0.0
+"HORN_PCR_Z1","Digital","BOOL","Device","[PLC]HORN_PCR_Z1","FGCP-Z1: Production Control Room Main Alarm Horn Z1","state",0,1,1.0,0.0
+"HORN_PA_001_Building","Digital","BOOL","Device","[PLC]HORN_PA_001_Building","PA-001: Process Production Building Alarm Siren","state",0,1,1.0,0.0
+"DO_Slot8_Spare_24","Digital","BOOL","Device","[PLC]DO_Slot8_Spare_24","SPARE: Spare Discrete Output Bit 24","state",0,1,1.0,0.0
+"DO_Slot8_Spare_25","Digital","BOOL","Device","[PLC]DO_Slot8_Spare_25","SPARE: Spare Discrete Output Bit 25","state",0,1,1.0,0.0
+"DO_Slot8_Spare_26","Digital","BOOL","Device","[PLC]DO_Slot8_Spare_26","SPARE: Spare Discrete Output Bit 26","state",0,1,1.0,0.0
+"DO_Slot8_Spare_27","Digital","BOOL","Device","[PLC]DO_Slot8_Spare_27","SPARE: Spare Discrete Output Bit 27","state",0,1,1.0,0.0
+"DO_Slot8_Spare_28","Digital","BOOL","Device","[PLC]DO_Slot8_Spare_28","SPARE: Spare Discrete Output Bit 28","state",0,1,1.0,0.0
+"DO_Slot8_Spare_29","Digital","BOOL","Device","[PLC]DO_Slot8_Spare_29","SPARE: Spare Discrete Output Bit 29","state",0,1,1.0,0.0
+"ALARM_H2S_SirenStrobe","Digital","BOOL","Device","[PLC]ALARM_H2S_SirenStrobe","H2SA-001/002: H2S Toxic Gas Siren and Blue Strobe Beacon","state",0,1,1.0,0.0
+"ALARM_Smoke_SirenStrobe","Digital","BOOL","Device","[PLC]ALARM_Smoke_SirenStrobe","SDA-001: Smoke Detection Siren and Amber Strobe Beacon","state",0,1,1.0,0.0
+"SET_CH4_LowAlm_LEL","Analog","REAL","Device","[PLC]SET_CH4_LowAlm_LEL","Calibrated CH4 Gas Low Alarm Setpoint (%LEL)","%LEL",0,100,1.0,0.0
+"SET_CH4_HiHiAlm_LEL","Analog","REAL","Device","[PLC]SET_CH4_HiHiAlm_LEL","Calibrated CH4 Gas High-High Alarm Setpoint (%LEL)","%LEL",0,100,1.0,0.0
+"SET_H2S_LowAlm_PPM","Analog","REAL","Device","[PLC]SET_H2S_LowAlm_PPM","Calibrated H2S Toxic Gas Low Alarm Setpoint (ppm)","ppm",0,100,1.0,0.0
+"SET_H2S_HiHiAlm_PPM","Analog","REAL","Device","[PLC]SET_H2S_HiHiAlm_PPM","Calibrated H2S Toxic Gas High-High Alarm Setpoint (ppm)","ppm",0,100,1.0,0.0
+"SET_OilInj_PAL_PSI","Analog","REAL","Device","[PLC]SET_OilInj_PAL_PSI","Oil Injection Manifold Low Pressure Alarm Setpoint (psi)","psi",0,3500,1.0,0.0
+"SET_OilInj_PAH_PSI","Analog","REAL","Device","[PLC]SET_OilInj_PAH_PSI","Oil Injection Manifold High Pressure Alarm Setpoint (psi)","psi",0,3500,1.0,0.0
+"SET_OilInj_PAHH_PSI","Analog","REAL","Device","[PLC]SET_OilInj_PAHH_PSI","Oil Injection Manifold High-High Shutdown Trip Setpoint (psi)","psi",0,3500,1.0,0.0
+"SET_WaterInj_PAL_PSI","Analog","REAL","Device","[PLC]SET_WaterInj_PAL_PSI","Water Injection Manifold Low Pressure Alarm Setpoint (psi)","psi",0,1000,1.0,0.0
+"SET_WaterInj_PAH_PSI","Analog","REAL","Device","[PLC]SET_WaterInj_PAH_PSI","Water Injection Manifold High Pressure Alarm Setpoint (psi)","psi",0,1000,1.0,0.0
+"SET_WaterInj_PAHH_PSI","Analog","REAL","Device","[PLC]SET_WaterInj_PAHH_PSI","Water Injection Manifold High-High Shutdown Trip Setpoint (psi)","psi",0,1000,1.0,0.0
+"SET_FuelGas_PAL_PSI","Analog","REAL","Device","[PLC]SET_FuelGas_PAL_PSI","Fuel Gas Line Low Pressure Alarm Setpoint (psi)","psi",0,150,1.0,0.0
+"SET_FuelGas_PAH_PSI","Analog","REAL","Device","[PLC]SET_FuelGas_PAH_PSI","Fuel Gas Line High Pressure Shutdown Trip Setpoint (psi)","psi",0,150,1.0,0.0
+"SET_AirAcc_Low_PSI","Analog","REAL","Device","[PLC]SET_AirAcc_Low_PSI","ESDV Air Accumulator Minimum Supply Pressure Setpoint (psi)","psi",0,150,1.0,0.0
+"SET_OilExped_PAL_PSI","Analog","REAL","Device","[PLC]SET_OilExped_PAL_PSI","Oil Expedition Line Low Pressure Setpoint (psi)","psi",0,150,1.0,0.0
+"SET_OilExped_PAH_PSI","Analog","REAL","Device","[PLC]SET_OilExped_PAH_PSI","Oil Expedition Line High Pressure Setpoint (psi)","psi",0,150,1.0,0.0
+"SET_Tank_LAL_Meters","Analog","REAL","Device","[PLC]SET_Tank_LAL_Meters","Crude Storage Tanks Low Level Alarm Limit (m)","m",0,14,1.0,0.0
+"SET_Tank_LAH_Meters","Analog","REAL","Device","[PLC]SET_Tank_LAH_Meters","Crude Storage Tanks High Level Alarm Limit (m)","m",0,14,1.0,0.0
+"VOTE_Zone1_Gas_Confirmed","Digital","BOOL","Device","[PLC]VOTE_Zone1_Gas_Confirmed","Zone 1 (Separator Area) 2ooN Confirmed Gas Cloud","",0,1,1.0,0.0
+"VOTE_Zone2_Gas_Confirmed","Digital","BOOL","Device","[PLC]VOTE_Zone2_Gas_Confirmed","Zone 2 (Pump House) 2ooN Confirmed Gas Cloud","",0,1,1.0,0.0
+"VOTE_Zone3_Gas_Confirmed","Digital","BOOL","Device","[PLC]VOTE_Zone3_Gas_Confirmed","Zone 3 (Tank Farm) 2ooN Confirmed Gas Cloud","",0,1,1.0,0.0
+"VOTE_Zone4_Gas_Confirmed","Digital","BOOL","Device","[PLC]VOTE_Zone4_Gas_Confirmed","Zone 4 (Gas Generator Building) 2ooN Confirmed Gas Cloud","",0,1,1.0,0.0
+"VOTE_Any_Confirmed_Gas","Digital","BOOL","Device","[PLC]VOTE_Any_Confirmed_Gas","Global Plant Confirmed Combustible Gas Detected","",0,1,1.0,0.0
+"VOTE_Any_Confirmed_Fire","Digital","BOOL","Device","[PLC]VOTE_Any_Confirmed_Fire","Global Plant Confirmed Optical Flame / Fire Detected","",0,1,1.0,0.0
+"VOTE_Any_Confirmed_Toxic","Digital","BOOL","Device","[PLC]VOTE_Any_Confirmed_Toxic","Global Plant Confirmed Toxic H2S Gas Detected","",0,1,1.0,0.0
+"VOTE_Deluge_Demand","Digital","BOOL","Device","[PLC]VOTE_Deluge_Demand","Master Deluge Firewater Release Demand Active","",0,1,1.0,0.0
+"ESD_Matrix_Master_Trip","Digital","BOOL","Device","[PLC]ESD_Matrix_Master_Trip","Master Cause & Effect Matrix Plant Shutdown Trip Latch","",0,1,1.0,0.0
+"ESD_Gas_Turbine_Trip","Digital","BOOL","Device","[PLC]ESD_Gas_Turbine_Trip","Gas Turbine Generators Shutdown Trip Latch","",0,1,1.0,0.0
+"ESD_Power_Oil_Trip","Digital","BOOL","Device","[PLC]ESD_Power_Oil_Trip","Power Oil Booster Pumps P2100/P2200 Trip Latch","",0,1,1.0,0.0
+"ESD_Water_Inj_Trip","Digital","BOOL","Device","[PLC]ESD_Water_Inj_Trip","Water Injection Booster Pumps P3600/P3700 Trip Latch","",0,1,1.0,0.0
+"ESDV_Transit_Discrepancy","Digital","BOOL","Device","[PLC]ESDV_Transit_Discrepancy","ESDV-6401-001 Open/Close Transit Discrepancy Fault","",0,1,1.0,0.0
+"ESDV_Fail_To_Open","Digital","BOOL","Device","[PLC]ESDV_Fail_To_Open","ESDV-6401-001 Commanded Open but Failed to Confirm","",0,1,1.0,0.0
+"ESDV_Fail_To_Close","Digital","BOOL","Device","[PLC]ESDV_Fail_To_Close","ESDV-6401-001 Commanded Close but Failed to Confirm","",0,1,1.0,0.0
+"COMMON_SYSTEM_FAULT","Digital","BOOL","Device","[PLC]COMMON_SYSTEM_FAULT","General Instrumentation & Hardware Diagnostic Fault Summary","",0,1,1.0,0.0

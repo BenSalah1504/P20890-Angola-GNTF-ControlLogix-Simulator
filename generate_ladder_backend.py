@@ -543,7 +543,7 @@ def write_l5x_program_rll(tags, routines):
 # =============================================================================
 # 4. INTERACTIVE HTML LADDER DIAGRAM VIEWER GENERATOR
 # =============================================================================
-def write_ladder_html(tags, routines):
+def write_ladder_html(tags, routines, filename="P20890_Angola_AB_Ladder.html", project_title="Project P20890"):
     """Generate standalone high-fidelity interactive SVG/HTML Ladder Diagram Viewer."""
     import re
 
@@ -1228,7 +1228,7 @@ def write_ladder_html(tags, routines):
 
     for out_dir in (BASE_DIR, DESKTOP_DIR):
         os.makedirs(out_dir, exist_ok=True)
-        out_path = os.path.join(out_dir, "P20890_Angola_AB_Ladder.html")
+        out_path = os.path.join(out_dir, filename)
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(html_content)
         print(f"[OK] Generated HTML Ladder Viewer: {out_path} ({len(html_content):,} bytes)")

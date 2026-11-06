@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quinguila Tank Farm (GNTF) &bull; SCADA / HMI Operator Workstation &bull; FGCP-7404-001</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #0b0f19;
+            color: #f8fafc;
+            user-select: none;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Industrial SCADA Styling */
+        .scada-card {
+            background: linear-gradient(180deg, #161f30 0%, #0f172a 100%);
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.5);
+        }
+        .scada-card:hover {
+            border-color: #334155;
+        }
+        .scada-tab-btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #94a3b8;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .scada-tab-btn:hover {
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .scada-tab-btn.active {
+            color: #38bdf8;
+            border-bottom-color: #38bdf8;
+            background-color: rgba(56, 189, 248, 0.08);
+        }
+        /* Piping and flow animations */
+        @keyframes flowAnimation {
+            0% { stroke-dashoffset: 24; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .pipe-flow {
+            stroke-dasharray: 6 6;
+            animation: flowAnimation 1s linear infinite;
+        }
+        .alarm-blink {
+            animation: alarmBlink 0.8s ease-in-out infinite alternate;
+        }
+        @keyframes alarmBlink {
+            from { opacity: 1; }
+            to { opacity: 0.3; }
+        }
+        /* LED Indicators */
+        .scada-led {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid #334155;
+            display: inline-block;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.6);
+            transition: all 0.2s;
+        }
+        .scada-led.red-on { background-color: #ef4444; border-color: #b91c1c; box-shadow: 0 0 10px #ef4444; }
+        .scada-led.green-on { background-color: #22c55e; border-color: #15803d; box-shadow: 0 0 10px #22c55e; }
+        .scada-led.amber-on { background-color: #f59e0b; border-color: #b45309; box-shadow: 0 0 10px #f59e0b; }
+        .scada-led.blue-on { background-color: #3b82f6; border-color: #1d4ed8; box-shadow: 0 0 10px #3b82f6; }
+        .scada-led.off { background-color: #1e293b; border-color: #0f172a; }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+
+    <!-- Top SCADA Header Bar -->
+    <header class="bg-slate-950 border-b border-slate-800 px-6 py-2.5 flex items-center justify-between flex-shrink-0 z-30 shadow-lg">
+        <div class="flex items-center space-x-4">
+            <div class="h-10 w-10 bg-gradient-to-br from-blue-600 to-indigo-800 rounded-lg flex items-center justify-center font-black text-xl text-white shadow-inner border border-blue-500/30">
+                SC
+            </div>
+            <div>
+                <div class="flex items-center space-x-2.5">
+                    <h1 class="text-base font-extrabold text-white tracking-tight">QUINGUILA TANK FARM &bull; SCADA WORKSTATION</h1>
+                    <span class="bg-blue-900/60 text-blue-200 border border-blue-700/50 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">FGCP-7404-001 UPGRADED</span>
+                    <span class="bg-emerald-900/60 text-emerald-200 border border-emerald-700/50 text-[10px] font-bold px-2 py-0.5 rounded flex items-center">
+                        <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping mr-1.5"></span>
+                        PLC ONLINE (1756-L82E)
+                    </span>
+                </div>
+                <p class="text-xs text-slate-400">Integrated Fire & Gas, Deluge, Emergency Shutdown (ESD) & Process Telemetry System</p>
+            </div>
+        </div>
+
+        <!-- Master Status Pills & Action Controls -->
+        <div class="flex items-center space-x-3">
+            <div id="masterEsdBadge" class="px-3 py-1.5 rounded bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 text-xs font-bold flex items-center space-x-2 shadow-inner">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
+                <span id="masterEsdTxt">PLANT ESD: HEALTHY (24V)</span>
+            </div>
+
+            <div id="delugeStatusBadge" class="px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-bold flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span>
+                <span id="delugeStatusTxt">DELUGE: STANDBY</span>
+            </div>
+
+            <button onclick="toggleAlarmSilence()" id="btnMuteHorn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold px-3 py-2 rounded border border-slate-700 transition flex items-center space-x-1.5">
+                <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                <span id="btnMuteTxt">Silence Horn (E12)</span>
+            </button>
+
+            <button onclick="resetAllAlarms()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3 py-2 rounded shadow transition flex items-center space-x-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                <span>Reset Alarms (E11)</span>
+            </button>
+
+            <button onclick="toggleSimulatorDrawer()" class="bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold px-3.5 py-2 rounded shadow transition flex items-center space-x-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                <span>Live Test Simulator</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Navigation Tab Bar -->
+    <nav class="bg-slate-900 border-b border-slate-800 px-6 flex items-center space-x-2 flex-shrink-0 z-20">
+        <button class="scada-tab-btn active" onclick="switchTab('tab-overview', this)">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            Plant Process Overview
+        </button>
+        <button class="scada-tab-btn" onclick="switchTab('tab-fag', this)">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path></svg>
+            Fire & Gas System (2ooN)
+        </button>
+        <button class="scada-tab-btn" onclick="switchTab('tab-deluge', this)">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+            Deluge & Firewater Skid
+        </button>
+        <button class="scada-tab-btn" onclick="switchTab('tab-process', this)">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            Pressures & Tank Farm
+        </button>
+        <button class="scada-tab-btn" onclick="switchTab('tab-matrix', this)">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+            Cause & Effect Matrix (C2C)
+        </button>
+        <button class="scada-tab-btn" onclick="switchTab('tab-pcr', this)">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+            PCR Annunciator Panel (LCP)
+        </button>
+        <button class="scada-tab-btn" onclick="switchTab('tab-alarms', this)">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            Alarm & Event Log
+            <span id="alarmCountBadge" class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full ml-1">0</span>
+        </button>
+    </nav>
+
+    <!-- Main Workspace Container -->
+    <main class="flex-1 overflow-y-auto p-6 bg-slate-950 relative" id="hmiContentArea">
+
+        <!-- TAB 1: PLANT PROCESS OVERVIEW -->
+        <div id="tab-overview" class="hmi-tab-pane space-y-6">
+            <div class="grid grid-cols-1 xl:grid-cols-4 gap-6">
+                <!-- Status Cards -->
+                <div class="scada-card p-4 flex items-center justify-between">
+                    <div>
+                        <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Fuel Gas ESDV 6401-001</div>
+                        <div id="cardEsdvTxt" class="text-lg font-black text-emerald-400 mt-1">OPEN (NORMAL)</div>
+                        <div class="text-xs text-slate-500 font-mono">Feedback: ZSH=1, ZSL=0</div>
+                    </div>
+                    <div class="h-12 w-12 rounded-full bg-emerald-950 border border-emerald-500 flex items-center justify-center">
+                        <span class="text-2xl">&#x26FD;</span>
+                    </div>
+                </div>
+
+                <div class="scada-card p-4 flex items-center justify-between">
+                    <div>
+                        <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Power Oil Pumps (P2100/2200)</div>
+                        <div id="cardOilPumpTxt" class="text-lg font-black text-emerald-400 mt-1">RUNNING (AUTO)</div>
+                        <div class="text-xs text-slate-500 font-mono">Discharge: <span id="valOilInjP">2250</span> psi</div>
+                    </div>
+                    <div class="h-12 w-12 rounded-full bg-emerald-950 border border-emerald-500 flex items-center justify-center">
+                        <span class="text-2xl">&#x2699;</span>
+                    </div>
+                </div>
+
+                <div class="scada-card p-4 flex items-center justify-between">
+                    <div>
+                        <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Water Injection (P3600/3700)</div>
+                        <div id="cardWaterPumpTxt" class="text-lg font-black text-emerald-400 mt-1">RUNNING (AUTO)</div>
+                        <div class="text-xs text-slate-500 font-mono">Discharge: <span id="valWaterInjP">650</span> psi</div>
+                    </div>
+                    <div class="h-12 w-12 rounded-full bg-emerald-950 border border-emerald-500 flex items-center justify-center">
+                        <span class="text-2xl">&#x1F4A7;</span>
+                    </div>
+                </div>
+
+                <div class="scada-card p-4 flex items-center justify-between">
+                    <div>
+                        <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Gas Turbines SD-GE</div>
+                        <div id="cardGasGenTxt" class="text-lg font-black text-emerald-400 mt-1">ONLINE (NORMAL)</div>
+                        <div class="text-xs text-slate-500 font-mono">Fuel Gas: <span id="valFuelGasP">68</span> psi</div>
+                    </div>
+                    <div class="h-12 w-12 rounded-full bg-emerald-950 border border-emerald-500 flex items-center justify-center">
+                        <span class="text-2xl">&#x26A1;</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SVG Plant Process Mimic Graphic -->
+            <div class="scada-card p-6 overflow-x-auto">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-sm font-black uppercase text-slate-200 tracking-wider flex items-center">
+                        <span class="w-2.5 h-2.5 bg-blue-500 rounded-full mr-2"></span>
+                        Dynamic Process Flow & Safeguards Mimic
+                    </h2>
+                    <span class="text-xs text-slate-400 font-mono">Live SVG Hardware State Telemetry</span>
+                </div>
+
+                <svg viewBox="0 0 1100 480" class="w-full h-auto min-w-[900px] bg-slate-900/90 rounded border border-slate-800">
+                    <!-- Grid background -->
+                    <defs>
+                        <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#1e293b" stroke-width="0.5" />
+                        </pattern>
+                        <linearGradient id="tankGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.8"/>
+                            <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.9"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="1100" height="480" fill="url(#grid)" />
+
+                    <!-- PIPING -->
+                    <!-- Crude Inlet Line -->
+                    <path d="M 30 180 L 160 180" stroke="#0ea5e9" stroke-width="6" fill="none" class="pipe-flow" />
+                    <!-- Fuel Gas ESDV Line -->
+                    <path d="M 160 180 L 320 180" stroke="#22c55e" stroke-width="6" fill="none" id="pipeFuelGas" class="pipe-flow" />
+                    <path d="M 320 180 L 480 180" stroke="#22c55e" stroke-width="6" fill="none" />
+                    <!-- Branch to Turbines -->
+                    <path d="M 480 180 L 480 90 L 620 90" stroke="#22c55e" stroke-width="4" fill="none" />
+                    <!-- Branch to Booster Pumps -->
+                    <path d="M 480 180 L 480 270 L 620 270" stroke="#f59e0b" stroke-width="6" fill="none" />
+                    <!-- Water Injection Line -->
+                    <path d="M 480 370 L 620 370" stroke="#3b82f6" stroke-width="6" fill="none" />
+                    <!-- Tank Farm Header -->
+                    <path d="M 720 270 L 820 270 L 820 150 L 980 150" stroke="#f59e0b" stroke-width="6" fill="none" />
+                    <path d="M 820 270 L 980 270" stroke="#f59e0b" stroke-width="6" fill="none" />
+
+                    <!-- EQUIPMENT -->
+                    <!-- 1. Fuel Gas ESD Valve -->
+                    <g transform="translate(240, 155)">
+                        <polygon points="0,0 30,25 0,50" fill="#22c55e" id="esdvLeft" />
+                        <polygon points="30,0 0,25 30,50" transform="translate(30,0)" fill="#22c55e" id="esdvRight" />
+                        <circle cx="30" cy="25" r="7" fill="#ffffff" />
+                        <line x1="30" y1="25" x2="30" y2="-5" stroke="#ffffff" stroke-width="3" />
+                        <rect x="15" y="-20" width="30" height="15" rx="3" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
+                        <text x="30" y="-9" fill="#38bdf8" font-size="9" font-weight="bold" text-anchor="middle" font-family="JetBrains Mono">ESDV</text>
+                        <text x="30" y="65" fill="#f8fafc" font-size="10" font-weight="bold" text-anchor="middle" font-family="Inter">6401-EY-001</text>
+                    </g>
+
+                    <!-- 2. Gas Turbine Generators -->
+                    <g transform="translate(620, 60)">
+                        <rect width="120" height="60" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="2" id="boxTurbines" />
+                        <text x="60" y="26" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">GAS TURBINES</text>
+                        <text x="60" y="44" fill="#22c55e" font-size="10" font-weight="bold" text-anchor="middle" id="txtTurbineStatus">ONLINE (SD-GE=1)</text>
+                    </g>
+
+                    <!-- 3. Power Oil Booster Pumps -->
+                    <g transform="translate(620, 240)">
+                        <rect width="120" height="60" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="2" id="boxOilPumps" />
+                        <text x="60" y="26" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">OIL BOOSTER (P2100)</text>
+                        <text x="60" y="44" fill="#22c55e" font-size="10" font-weight="bold" text-anchor="middle" id="txtOilPumpStatus">RUNNING (2250 psi)</text>
+                    </g>
+
+                    <!-- 4. Water Injection Pumps -->
+                    <g transform="translate(620, 340)">
+                        <rect width="120" height="60" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="2" id="boxWaterPumps" />
+                        <text x="60" y="26" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">WATER INJ (P3600)</text>
+                        <text x="60" y="44" fill="#22c55e" font-size="10" font-weight="bold" text-anchor="middle" id="txtWaterPumpStatus">RUNNING (650 psi)</text>
+                    </g>
+
+                    <!-- 5. Crude Storage Tanks T-100 & T-200 -->
+                    <!-- Tank T-100 -->
+                    <g transform="translate(860, 90)">
+                        <rect width="90" height="100" rx="4" fill="#0f172a" stroke="#64748b" stroke-width="2" />
+                        <rect x="2" y="30" width="86" height="68" fill="url(#tankGrad)" id="tankLevelT100" />
+                        <text x="45" y="22" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">TANK T-100</text>
+                        <text x="45" y="65" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle" id="txtLIT100">8.4 m</text>
+                        <text x="45" y="115" fill="#94a3b8" font-size="9" text-anchor="middle">LIT-100 (Radar)</text>
+                    </g>
+
+                    <!-- Tank T-200 -->
+                    <g transform="translate(980, 90)">
+                        <rect width="90" height="100" rx="4" fill="#0f172a" stroke="#64748b" stroke-width="2" />
+                        <rect x="2" y="45" width="86" height="53" fill="url(#tankGrad)" id="tankLevelT200" />
+                        <text x="45" y="22" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">TANK T-200</text>
+                        <text x="45" y="65" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle" id="txtLIT200">6.2 m</text>
+                        <text x="45" y="115" fill="#94a3b8" font-size="9" text-anchor="middle">LIT-200 (Radar)</text>
+                    </g>
+
+                    <!-- Deluge Pump House Mimic -->
+                    <g transform="translate(60, 310)">
+                        <rect width="180" height="110" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="2" />
+                        <text x="90" y="25" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">DELUGE PUMP HOUSE</text>
+                        <rect x="15" y="40" width="70" height="30" rx="3" fill="#0f172a" stroke="#3b82f6" />
+                        <text x="50" y="58" fill="#38bdf8" font-size="9" font-weight="bold" text-anchor="middle">PUMP A (DUTY)</text>
+                        <rect x="95" y="40" width="70" height="30" rx="3" fill="#0f172a" stroke="#f59e0b" />
+                        <text x="130" y="58" fill="#fbbf24" font-size="9" font-weight="bold" text-anchor="middle">PUMP B (DIESEL)</text>
+                        <text x="90" y="95" fill="#94a3b8" font-size="10" text-anchor="middle">Discharge: <tspan id="txtDelugeP" class="text-white font-bold">8.5 bar</tspan></text>
+                    </g>
+                </svg>
+            </div>
+        </div>
+
+        <!-- TAB 2: FIRE & GAS 2ooN MATRIX -->
+        <div id="tab-fag" class="hmi-tab-pane hidden space-y-6">
+            <div class="scada-card p-4 flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-black text-white">FIRE & GAS SYSTEM &bull; 2-OUT-OF-N COINCIDENCE VOTING</h2>
+                    <p class="text-xs text-slate-400">24 CH4 Detectors, 12 Toxic H2S Detectors, 3 Triple-IR Flame Detectors</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded border border-slate-700">Low Alm: 20% LEL</span>
+                    <span class="text-xs bg-red-950 text-red-300 px-3 py-1 rounded border border-red-700">High-High Alm: 30% LEL</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-3" id="gasDetectorGrid">
+                <!-- Injected via JavaScript for all 24 detectors -->
+            </div>
+        </div>
+
+        <!-- TAB 3: DELUGE & FIREWATER SKID -->
+        <div id="tab-deluge" class="hmi-tab-pane hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Pump A Card -->
+                <div class="scada-card p-5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                        <h3 class="font-bold text-sm text-blue-400">PUMP A &bull; ELECTRIC DUTY PUMP</h3>
+                        <span id="badgePumpA" class="bg-slate-800 text-slate-300 text-xs px-2.5 py-0.5 rounded font-bold">STOPPED</span>
+                    </div>
+                    <div class="space-y-3 text-xs">
+                        <div class="flex justify-between"><span class="text-slate-400">Run Command (Slot 8 Ch 4):</span><span id="statPumpACmd" class="font-mono font-bold text-slate-200">0</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">Run Feedback Aux (Slot 7 Ch 17):</span><span id="statPumpAFbk" class="font-mono font-bold text-slate-200">0</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">Trip Coil Pulse (60s check):</span><span class="scada-led green-on ml-2"></span></div>
+                    </div>
+                    <div class="mt-6 flex space-x-2">
+                        <button onclick="simStartPumpA()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded text-xs transition">Manual Start</button>
+                        <button onclick="simStopPumpA()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2 rounded text-xs transition">Stop</button>
+                    </div>
+                </div>
+
+                <!-- Pump B Card -->
+                <div class="scada-card p-5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                        <h3 class="font-bold text-sm text-amber-400">PUMP B &bull; DIESEL STANDBY PUMP</h3>
+                        <span id="badgePumpB" class="bg-slate-800 text-slate-300 text-xs px-2.5 py-0.5 rounded font-bold">STANDBY</span>
+                    </div>
+                    <div class="space-y-3 text-xs">
+                        <div class="flex justify-between"><span class="text-slate-400">Start Pulse Command (Slot 8 Ch 6):</span><span id="statPumpBStart" class="font-mono font-bold text-slate-200">0</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">Crank Attempt Counter:</span><span id="statPumpBCrank" class="font-mono font-bold text-slate-200">0 / 3</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">Maintenance Inhibit Keyswitch:</span><span class="font-mono text-emerald-400 font-bold">NORMAL (0)</span></div>
+                    </div>
+                    <div class="mt-6 flex space-x-2">
+                        <button onclick="simStartPumpB()" class="flex-1 bg-amber-600 hover:bg-amber-500 text-white font-bold py-2 rounded text-xs transition">Manual Crank</button>
+                        <button onclick="simStopPumpB()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2 rounded text-xs transition">Stop</button>
+                    </div>
+                </div>
+
+                <!-- Auxiliary Tanks & Release -->
+                <div class="scada-card p-5">
+                    <div class="border-b border-slate-800 pb-3 mb-4">
+                        <h3 class="font-bold text-sm text-red-400">FOAM RELEASE & STORAGE</h3>
+                    </div>
+                    <div class="space-y-3 text-xs">
+                        <div class="flex justify-between"><span class="text-slate-400">AFFF Foam Tank Level (LS-001):</span><span class="text-emerald-400 font-bold">NORMAL (&gt; 25%)</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">Diesel Fuel Day Tank (LS-002):</span><span class="text-emerald-400 font-bold">NORMAL (&gt; 50%)</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">Discharge Header Pressure (PST-001):</span><span class="font-mono font-bold text-white">8.5 bar</span></div>
+                    </div>
+                    <div class="mt-6 flex space-x-2">
+                        <button onclick="simFoamRelease()" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-2 rounded text-xs transition animate-pulse">MANUAL FOAM RELEASE</button>
+                        <button onclick="simFoamStop()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2 rounded text-xs transition">FOAM STOP</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: PRESSURES & TANK FARM -->
+        <div id="tab-process" class="hmi-tab-pane hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Pressures Table -->
+                <div class="scada-card p-5">
+                    <h3 class="font-bold text-sm text-slate-200 mb-4 border-b border-slate-800 pb-2">PROCESS PRESSURE TRANSMITTERS</h3>
+                    <table class="w-full text-xs text-left">
+                        <thead class="text-slate-500 uppercase font-mono border-b border-slate-800">
+                            <tr><th class="py-2">Tag</th><th>Description</th><th>Current</th><th>Trip Limits</th><th>Status</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 font-mono">
+                            <tr><td class="py-2.5 text-blue-400 font-bold">PIT-001</td><td class="text-slate-300">Oil Expedition</td><td id="tdPit001">45 psi</td><td>PAL:10, PAH:100</td><td><span class="scada-led green-on"></span></td></tr>
+                            <tr><td class="py-2.5 text-blue-400 font-bold">PIT-002</td><td class="text-slate-300">Water Injection Manifold</td><td id="tdPit002">650 psi</td><td>PAL:200, PAHH:800</td><td><span class="scada-led green-on"></span></td></tr>
+                            <tr><td class="py-2.5 text-blue-400 font-bold">PIT-003</td><td class="text-slate-300">Oil Injection Manifold</td><td id="tdPit003">2250 psi</td><td>PAL:1700, PAHH:2800</td><td><span class="scada-led green-on"></span></td></tr>
+                            <tr><td class="py-2.5 text-blue-400 font-bold">6401-PST-001</td><td class="text-slate-300">Fuel Gas Line</td><td id="tdPst6401">68 psi</td><td>PAL:40, PAH:100</td><td><span class="scada-led green-on"></span></td></tr>
+                            <tr><td class="py-2.5 text-blue-400 font-bold">7002-PST-001</td><td class="text-slate-300">ESDV Air Accumulator</td><td id="tdPst7002">95 psi</td><td>Min: 50 psi</td><td><span class="scada-led green-on"></span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tanks Table -->
+                <div class="scada-card p-5">
+                    <h3 class="font-bold text-sm text-slate-200 mb-4 border-b border-slate-800 pb-2">CRUDE STORAGE RADAR LEVEL TRANSMITTERS</h3>
+                    <table class="w-full text-xs text-left">
+                        <thead class="text-slate-500 uppercase font-mono border-b border-slate-800">
+                            <tr><th class="py-2">Tag</th><th>Vessel</th><th>Level (m)</th><th>Limits (m)</th><th>Bar</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 font-mono">
+                            <tr><td class="py-2.5 text-blue-400 font-bold">LIT-100</td><td class="text-slate-300">Tank T-100</td><td id="tdLit100">8.4 m</td><td>LAL:0.7, LAH:9.0</td><td><div class="w-24 bg-slate-800 h-2 rounded"><div class="bg-blue-500 h-2 rounded" style="width: 60%"></div></div></td></tr>
+                            <tr><td class="py-2.5 text-blue-400 font-bold">LIT-200</td><td class="text-slate-300">Tank T-200</td><td id="tdLit200">6.2 m</td><td>LAL:0.7, LAH:9.0</td><td><div class="w-24 bg-slate-800 h-2 rounded"><div class="bg-blue-500 h-2 rounded" style="width: 44%"></div></div></td></tr>
+                            <tr><td class="py-2.5 text-blue-400 font-bold">LIT-300</td><td class="text-slate-300">Tank T-300</td><td id="tdLit300">7.8 m</td><td>LAL:0.7, LAH:9.0</td><td><div class="w-24 bg-slate-800 h-2 rounded"><div class="bg-blue-500 h-2 rounded" style="width: 55%"></div></div></td></tr>
+                            <tr><td class="py-2.5 text-blue-400 font-bold">LIT-400</td><td class="text-slate-300">Tank T-400</td><td id="tdLit400">5.5 m</td><td>LAL:0.7, LAH:11.0</td><td><div class="w-24 bg-slate-800 h-2 rounded"><div class="bg-blue-500 h-2 rounded" style="width: 50%"></div></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: CAUSE & EFFECT MATRIX -->
+        <div id="tab-matrix" class="hmi-tab-pane hidden space-y-6">
+            <div class="scada-card p-4 overflow-x-auto">
+                <h2 class="text-base font-bold text-white mb-2">CAUSE & EFFECT INTERLOCK MATRIX (01-MAN-03-07-PDF-C2C Final)</h2>
+                <p class="text-xs text-slate-400 mb-4">Fail-Safe De-energize to Trip Interlocks</p>
+                <table class="w-full text-xs text-center border-collapse">
+                    <thead>
+                        <tr class="bg-slate-900 text-slate-400 font-mono">
+                            <th class="p-2 border border-slate-800 text-left">Initiating Cause</th>
+                            <th class="p-2 border border-slate-800">Master ESD (DO 0)</th>
+                            <th class="p-2 border border-slate-800">Fuel Gas ESDV (DO 1)</th>
+                            <th class="p-2 border border-slate-800">Gas Turbines (DO 21)</th>
+                            <th class="p-2 border border-slate-800">Oil Booster (DO 8)</th>
+                            <th class="p-2 border border-slate-800">Deluge Demand</th>
+                        </tr>
+                    </thead>
+                    <tbody class="font-mono text-slate-300">
+                        <tr><td class="p-2 border border-slate-800 text-left font-bold text-red-400">ESD Pushbutton (PB-E9)</td><td class="border border-slate-800 text-red-400 font-bold">X</td><td class="border border-slate-800 text-red-400 font-bold">X</td><td class="border border-slate-800"></td><td class="border border-slate-800 text-red-400 font-bold">X</td><td class="border border-slate-800"></td></tr>
+                        <tr><td class="p-2 border border-slate-800 text-left font-bold text-amber-400">Confirmed Fire (Triple-IR)</td><td class="border border-slate-800 text-red-400 font-bold">X</td><td class="border border-slate-800 text-red-400 font-bold">X</td><td class="border border-slate-800"></td><td class="border border-slate-800 text-red-400 font-bold">X</td><td class="border border-slate-800 text-red-400 font-bold">X</td></tr>
+                        <tr><td class="p-2 border border-slate-800 text-left font-bold text-amber-400">Confirmed Gas 2ooN</td><td class="border border-slate-800 text-red-400 font-bold">X</td><td class="border border-slate-800 text-red-400 font-bold">X</td><td class="border border-slate-800"></td><td class="border border-slate-800 text-red-400 font-bold">X</td><td class="border border-slate-800 text-red-400 font-bold">X</td></tr>
+                        <tr><td class="p-2 border border-slate-800 text-left font-bold text-amber-400">Generator Smoke SD-001/002</td><td class="border border-slate-800"></td><td class="border border-slate-800"></td><td class="border border-slate-800 text-red-400 font-bold">X</td><td class="border border-slate-800"></td><td class="border border-slate-800"></td></tr>
+                        <tr><td class="p-2 border border-slate-800 text-left font-bold text-blue-400">Oil Inj PAHH (2800 psi)</td><td class="border border-slate-800"></td><td class="border border-slate-800"></td><td class="border border-slate-800"></td><td class="border border-slate-800 text-red-400 font-bold">X</td><td class="border border-slate-800"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 6: PCR ANNUNCIATOR PANEL (LCP) -->
+        <div id="tab-pcr" class="hmi-tab-pane hidden space-y-6">
+            <div class="max-w-2xl mx-auto scada-card p-6 border-2 border-slate-700 bg-slate-900 shadow-2xl">
+                <div class="border-b-2 border-slate-700 pb-3 mb-6 text-center">
+                    <h2 class="text-lg font-black text-white tracking-widest uppercase">PRODUCTION CONTROL ROOM PANEL (FGCP-7404-001)</h2>
+                    <p class="text-xs text-slate-400">Door Mimic: Status LEDs, Keyswitches & Pushbuttons</p>
+                </div>
+
+                <!-- LEDs Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-slate-950 rounded border border-slate-800 mb-6">
+                    <div class="flex items-center space-x-2">
+                        <span id="pcrL14" class="scada-led off"></span>
+                        <span class="text-xs font-mono font-bold text-slate-300">L14: ESDV Closed (Red)</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span id="pcrL15" class="scada-led green-on"></span>
+                        <span class="text-xs font-mono font-bold text-slate-300">L15: ESDV Open (Grn)</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span id="pcrL16" class="scada-led off"></span>
+                        <span class="text-xs font-mono font-bold text-slate-300">L16: Low Air Acc (Amb)</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span id="pcrL17" class="scada-led off"></span>
+                        <span class="text-xs font-mono font-bold text-slate-300">L17: Low Fuel Gas (Amb)</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span id="pcrL8" class="scada-led off"></span>
+                        <span class="text-xs font-mono font-bold text-slate-300">L8: P2300 Stop (Red)</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span id="pcrL9" class="scada-led off"></span>
+                        <span class="text-xs font-mono font-bold text-slate-300">L9: P2400 Stop (Red)</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span id="pcrL12" class="scada-led off"></span>
+                        <span class="text-xs font-mono font-bold text-slate-300">L12: P3800 Stop (Red)</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span id="pcrL13" class="scada-led off"></span>
+                        <span class="text-xs font-mono font-bold text-slate-300">L13: P3900 Stop (Red)</span>
+                    </div>
+                </div>
+
+                <!-- Keyswitches -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-3 bg-slate-950 rounded border border-slate-800 text-center">
+                        <div class="text-xs font-bold text-slate-400 uppercase mb-2">Keyswitch S2: Foam Inhibit</div>
+                        <button onclick="toggleKeyS2()" id="btnKeyS2" class="px-4 py-1.5 bg-slate-800 border border-slate-600 rounded text-xs font-bold text-white hover:bg-slate-700">POSITION: O (NORMAL)</button>
+                    </div>
+                    <div class="p-3 bg-slate-950 rounded border border-slate-800 text-center">
+                        <div class="text-xs font-bold text-slate-400 uppercase mb-2">Keyswitch S3: All Outputs Inhibit</div>
+                        <button onclick="toggleKeyS3()" id="btnKeyS3" class="px-4 py-1.5 bg-slate-800 border border-slate-600 rounded text-xs font-bold text-white hover:bg-slate-700">POSITION: O (NORMAL)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 7: ALARMS & EVENTS LOG -->
+        <div id="tab-alarms" class="hmi-tab-pane hidden space-y-6">
+            <div class="scada-card p-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-base font-black text-white">ACTIVE ALARM & EVENT CHRONOLOGY</h2>
+                    <button onclick="clearAlarmLog()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded border border-slate-700 font-semibold">Clear Cleared Events</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left" id="alarmLogTable">
+                        <thead class="text-slate-500 uppercase font-mono border-b border-slate-800">
+                            <tr><th class="py-2">Timestamp</th><th>Tag</th><th>Severity</th><th>Message</th><th>State</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 font-mono" id="alarmLogBody">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Collapsible Live Test Simulator Drawer -->
+    <div id="simDrawer" class="fixed right-0 top-0 bottom-0 w-80 bg-slate-900 border-l border-slate-800 shadow-2xl transform translate-x-full transition-transform duration-300 z-40 flex flex-col">
+        <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+            <h3 class="font-bold text-sm text-amber-400 flex items-center">
+                <span class="w-2.5 h-2.5 bg-amber-400 rounded-full mr-2 animate-ping"></span>
+                Live Hardware Simulator
+            </h3>
+            <button onclick="toggleSimulatorDrawer()" class="text-slate-400 hover:text-white">&times;</button>
+        </div>
+        <div class="p-4 flex-1 overflow-y-auto space-y-4 text-xs">
+            <div>
+                <label class="font-bold text-slate-300 block mb-1">Simulate Gas Leak (% LEL)</label>
+                <input type="range" min="0" max="100" value="0" id="rngGasSim" oninput="simInjectGas(this.value)" class="w-full accent-amber-500">
+                <div class="flex justify-between text-[11px] text-slate-500 font-mono"><span>0%</span><span id="lblGasVal" class="text-amber-400 font-bold">0% LEL</span><span>100%</span></div>
+            </div>
+
+            <div>
+                <label class="font-bold text-slate-300 block mb-1">Simulate Toxic H2S (ppm)</label>
+                <input type="range" min="0" max="100" value="0" id="rngH2sSim" oninput="simInjectH2S(this.value)" class="w-full accent-blue-500">
+                <div class="flex justify-between text-[11px] text-slate-500 font-mono"><span>0 ppm</span><span id="lblH2sVal" class="text-blue-400 font-bold">0 ppm</span><span>100 ppm</span></div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-800 space-y-2">
+                <button onclick="simTriggerFlame()" class="w-full bg-red-900/80 hover:bg-red-800 border border-red-700 text-red-200 font-bold py-2 rounded">Trigger Optical Flame Alarm</button>
+                <button onclick="simTriggerSmoke()" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold py-2 rounded">Trigger Smoke Alarm (Turbine)</button>
+                <button onclick="simTriggerEsd()" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-2 rounded shadow">TRIGGER MASTER ESD (PB-E9)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client Logic Script -->
+    <script>
+        const TAG_DB = {"TMR_Flash_Slow": {"type": "TIMER", "desc": "400ms Flasher Slow Timer (PCR Annunciator Flash)", "alias": "", "unit": "ms", "min": 0, "max": 400}, "TMR_Flash_Fast": {"type": "TIMER", "desc": "200ms Flasher Fast Timer (High-High Alarm Strobe)", "alias": "", "unit": "ms", "min": 0, "max": 200}, "TMR_ESDV_Transit": {"type": "TIMER", "desc": "15.0s ESDV-6401-001 Transit Discrepancy Timer", "alias": "", "unit": "ms", "min": 0, "max": 15000}, "TMR_ESDV_CmdOpen": {"type": "TIMER", "desc": "5.0s ESDV-6401-001 Commanded Open Discrepancy Timer", "alias": "", "unit": "ms", "min": 0, "max": 5000}, "TMR_ESDV_CmdClose": {"type": "TIMER", "desc": "5.0s ESDV-6401-001 Commanded Close Discrepancy Timer", "alias": "", "unit": "ms", "min": 0, "max": 5000}, "TMR_Deluge_Pulse_Period": {"type": "TIMER", "desc": "60.0s Deluge Trip Coil Line Continuity Check Timer", "alias": "", "unit": "ms", "min": 0, "max": 60000}, "TMR_Deluge_Pulse_Width": {"type": "TIMER", "desc": "1.0s Deluge Trip Coil Line Continuity Pulse Width", "alias": "", "unit": "ms", "min": 0, "max": 1000}, "TMR_PumpA_WireFlt": {"type": "TIMER", "desc": "2.0s Deluge Pump A Coil Line Break Fault Timer", "alias": "", "unit": "ms", "min": 0, "max": 2000}, "TMR_PumpB_WireFlt": {"type": "TIMER", "desc": "2.0s Deluge Pump B Coil Line Break Fault Timer", "alias": "", "unit": "ms", "min": 0, "max": 2000}, "TMR_PumpA_FailToRun": {"type": "TIMER", "desc": "30.0s Deluge Pump A Pressure Proving & Fail-to-Run Timer", "alias": "", "unit": "ms", "min": 0, "max": 30000}, "TMR_PumpB_StartCrank": {"type": "TIMER", "desc": "5.0s Diesel Pump B Starter Crank Pulse Timer", "alias": "", "unit": "ms", "min": 0, "max": 5000}, "TMR_PumpB_CrankRest": {"type": "TIMER", "desc": "5.0s Diesel Pump B Starter Rest Interval Timer", "alias": "", "unit": "ms", "min": 0, "max": 5000}, "TMR_H2S_Horn_Pulse": {"type": "TIMER", "desc": "1.0s H2S Discontinuous Alarm Pulse Timer", "alias": "", "unit": "ms", "min": 0, "max": 1000}, "CTU_PumpB_Attempts": {"type": "COUNTER", "desc": "Standby Diesel Pump B Start Crank Attempt Counter (3 Attempts)", "alias": "", "unit": "cnt", "min": 0, "max": 3}, "SYS_First_Scan": {"type": "BOOL", "desc": "Controller First Scan Initialization Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "SYS_Watchdog_OK": {"type": "BOOL", "desc": "FGCP-7404-001 Controller System Watchdog Healthy", "alias": "", "unit": "", "min": 0, "max": 1}, "SYS_Alarm_Horn_Muted": {"type": "BOOL", "desc": "Acoustic Horn Silence / Mute Latch", "alias": "", "unit": "", "min": 0, "max": 1}, "SYS_Alarm_Reset_Cmd": {"type": "BOOL", "desc": "Master Alarm Reset Command Pulse", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_001_Raw": {"type": "INT", "desc": "7404-DG-001 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch0Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_001_Scaled": {"type": "REAL", "desc": "7404-DG-001 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_001_LowAlm": {"type": "BOOL", "desc": "7404-DG-001 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_001_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-001 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_001_Flt_Low": {"type": "BOOL", "desc": "7404-DG-001 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_001_Flt_High": {"type": "BOOL", "desc": "7404-DG-001 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_001_BeamBlock": {"type": "BOOL", "desc": "7404-DG-001 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_001_Inhibit": {"type": "BOOL", "desc": "7404-DG-001 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_002_Raw": {"type": "INT", "desc": "7404-DG-002 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch1Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_002_Scaled": {"type": "REAL", "desc": "7404-DG-002 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_002_LowAlm": {"type": "BOOL", "desc": "7404-DG-002 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_002_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-002 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_002_Flt_Low": {"type": "BOOL", "desc": "7404-DG-002 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_002_Flt_High": {"type": "BOOL", "desc": "7404-DG-002 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_002_BeamBlock": {"type": "BOOL", "desc": "7404-DG-002 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_002_Inhibit": {"type": "BOOL", "desc": "7404-DG-002 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_003_Raw": {"type": "INT", "desc": "7404-DG-003 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch2Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_003_Scaled": {"type": "REAL", "desc": "7404-DG-003 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_003_LowAlm": {"type": "BOOL", "desc": "7404-DG-003 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_003_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-003 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_003_Flt_Low": {"type": "BOOL", "desc": "7404-DG-003 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_003_Flt_High": {"type": "BOOL", "desc": "7404-DG-003 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_003_BeamBlock": {"type": "BOOL", "desc": "7404-DG-003 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_003_Inhibit": {"type": "BOOL", "desc": "7404-DG-003 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_004_Raw": {"type": "INT", "desc": "7404-DG-004 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch3Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_004_Scaled": {"type": "REAL", "desc": "7404-DG-004 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_004_LowAlm": {"type": "BOOL", "desc": "7404-DG-004 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_004_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-004 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_004_Flt_Low": {"type": "BOOL", "desc": "7404-DG-004 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_004_Flt_High": {"type": "BOOL", "desc": "7404-DG-004 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_004_BeamBlock": {"type": "BOOL", "desc": "7404-DG-004 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_004_Inhibit": {"type": "BOOL", "desc": "7404-DG-004 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_005_Raw": {"type": "INT", "desc": "7404-DG-005 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch4Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_005_Scaled": {"type": "REAL", "desc": "7404-DG-005 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_005_LowAlm": {"type": "BOOL", "desc": "7404-DG-005 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_005_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-005 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_005_Flt_Low": {"type": "BOOL", "desc": "7404-DG-005 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_005_Flt_High": {"type": "BOOL", "desc": "7404-DG-005 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_005_BeamBlock": {"type": "BOOL", "desc": "7404-DG-005 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_005_Inhibit": {"type": "BOOL", "desc": "7404-DG-005 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_006_Raw": {"type": "INT", "desc": "7404-DG-006 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch5Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_006_Scaled": {"type": "REAL", "desc": "7404-DG-006 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_006_LowAlm": {"type": "BOOL", "desc": "7404-DG-006 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_006_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-006 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_006_Flt_Low": {"type": "BOOL", "desc": "7404-DG-006 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_006_Flt_High": {"type": "BOOL", "desc": "7404-DG-006 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_006_BeamBlock": {"type": "BOOL", "desc": "7404-DG-006 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_006_Inhibit": {"type": "BOOL", "desc": "7404-DG-006 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_007_Raw": {"type": "INT", "desc": "7404-DG-007 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch6Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_007_Scaled": {"type": "REAL", "desc": "7404-DG-007 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_007_LowAlm": {"type": "BOOL", "desc": "7404-DG-007 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_007_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-007 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_007_Flt_Low": {"type": "BOOL", "desc": "7404-DG-007 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_007_Flt_High": {"type": "BOOL", "desc": "7404-DG-007 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_007_BeamBlock": {"type": "BOOL", "desc": "7404-DG-007 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_007_Inhibit": {"type": "BOOL", "desc": "7404-DG-007 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_008_Raw": {"type": "INT", "desc": "7404-DG-008 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch7Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_008_Scaled": {"type": "REAL", "desc": "7404-DG-008 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_008_LowAlm": {"type": "BOOL", "desc": "7404-DG-008 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_008_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-008 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_008_Flt_Low": {"type": "BOOL", "desc": "7404-DG-008 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_008_Flt_High": {"type": "BOOL", "desc": "7404-DG-008 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_008_BeamBlock": {"type": "BOOL", "desc": "7404-DG-008 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_008_Inhibit": {"type": "BOOL", "desc": "7404-DG-008 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_009_Raw": {"type": "INT", "desc": "7404-DG-009 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch8Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_009_Scaled": {"type": "REAL", "desc": "7404-DG-009 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_009_LowAlm": {"type": "BOOL", "desc": "7404-DG-009 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_009_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-009 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_009_Flt_Low": {"type": "BOOL", "desc": "7404-DG-009 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_009_Flt_High": {"type": "BOOL", "desc": "7404-DG-009 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_009_BeamBlock": {"type": "BOOL", "desc": "7404-DG-009 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_009_Inhibit": {"type": "BOOL", "desc": "7404-DG-009 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_010_Raw": {"type": "INT", "desc": "7404-DG-010 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch9Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_010_Scaled": {"type": "REAL", "desc": "7404-DG-010 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_010_LowAlm": {"type": "BOOL", "desc": "7404-DG-010 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_010_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-010 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_010_Flt_Low": {"type": "BOOL", "desc": "7404-DG-010 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_010_Flt_High": {"type": "BOOL", "desc": "7404-DG-010 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_010_BeamBlock": {"type": "BOOL", "desc": "7404-DG-010 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_010_Inhibit": {"type": "BOOL", "desc": "7404-DG-010 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_011_Raw": {"type": "INT", "desc": "7404-DG-011 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch10Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_011_Scaled": {"type": "REAL", "desc": "7404-DG-011 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_011_LowAlm": {"type": "BOOL", "desc": "7404-DG-011 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_011_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-011 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_011_Flt_Low": {"type": "BOOL", "desc": "7404-DG-011 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_011_Flt_High": {"type": "BOOL", "desc": "7404-DG-011 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_011_BeamBlock": {"type": "BOOL", "desc": "7404-DG-011 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_011_Inhibit": {"type": "BOOL", "desc": "7404-DG-011 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_012_Raw": {"type": "INT", "desc": "7404-DG-012 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch11Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_012_Scaled": {"type": "REAL", "desc": "7404-DG-012 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_012_LowAlm": {"type": "BOOL", "desc": "7404-DG-012 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_012_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-012 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_012_Flt_Low": {"type": "BOOL", "desc": "7404-DG-012 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_012_Flt_High": {"type": "BOOL", "desc": "7404-DG-012 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_012_BeamBlock": {"type": "BOOL", "desc": "7404-DG-012 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_012_Inhibit": {"type": "BOOL", "desc": "7404-DG-012 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_013_Raw": {"type": "INT", "desc": "7404-DG-013 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch12Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_013_Scaled": {"type": "REAL", "desc": "7404-DG-013 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_013_LowAlm": {"type": "BOOL", "desc": "7404-DG-013 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_013_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-013 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_013_Flt_Low": {"type": "BOOL", "desc": "7404-DG-013 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_013_Flt_High": {"type": "BOOL", "desc": "7404-DG-013 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_013_BeamBlock": {"type": "BOOL", "desc": "7404-DG-013 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_013_Inhibit": {"type": "BOOL", "desc": "7404-DG-013 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_014_Raw": {"type": "INT", "desc": "7404-DG-014 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch13Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_014_Scaled": {"type": "REAL", "desc": "7404-DG-014 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_014_LowAlm": {"type": "BOOL", "desc": "7404-DG-014 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_014_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-014 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_014_Flt_Low": {"type": "BOOL", "desc": "7404-DG-014 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_014_Flt_High": {"type": "BOOL", "desc": "7404-DG-014 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_014_BeamBlock": {"type": "BOOL", "desc": "7404-DG-014 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_014_Inhibit": {"type": "BOOL", "desc": "7404-DG-014 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_015_Raw": {"type": "INT", "desc": "7404-DG-015 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch14Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_015_Scaled": {"type": "REAL", "desc": "7404-DG-015 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_015_LowAlm": {"type": "BOOL", "desc": "7404-DG-015 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_015_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-015 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_015_Flt_Low": {"type": "BOOL", "desc": "7404-DG-015 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_015_Flt_High": {"type": "BOOL", "desc": "7404-DG-015 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_015_BeamBlock": {"type": "BOOL", "desc": "7404-DG-015 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_015_Inhibit": {"type": "BOOL", "desc": "7404-DG-015 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_016_Raw": {"type": "INT", "desc": "7404-DG-016 Raw 4-20mA Channel Data", "alias": "Local:2:I.Ch15Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_016_Scaled": {"type": "REAL", "desc": "7404-DG-016 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_016_LowAlm": {"type": "BOOL", "desc": "7404-DG-016 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_016_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-016 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_016_Flt_Low": {"type": "BOOL", "desc": "7404-DG-016 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_016_Flt_High": {"type": "BOOL", "desc": "7404-DG-016 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_016_BeamBlock": {"type": "BOOL", "desc": "7404-DG-016 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_016_Inhibit": {"type": "BOOL", "desc": "7404-DG-016 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_001_OilExped_Raw": {"type": "INT", "desc": "PIT-001 Raw Channel Data", "alias": "Local:3:I.Ch0Data", "unit": "counts", "min": 0, "max": 32000}, "PIT_001_OilExped_Scaled": {"type": "REAL", "desc": "PIT-001 Scaled Process Value (Oil Expedition Pressure Transmitter)", "alias": "", "unit": "psi", "min": 0, "max": 150}, "PIT_001_OilExped_LowAlm": {"type": "BOOL", "desc": "PIT-001 Low Alarm / Low Supply Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_001_OilExped_HighAlm": {"type": "BOOL", "desc": "PIT-001 High Alarm Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_001_OilExped_HiHiAlm": {"type": "BOOL", "desc": "PIT-001 High-High Shutdown Trip Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_001_OilExped_Flt": {"type": "BOOL", "desc": "PIT-001 Transmitter Signal Fault / Out of Range", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_001_OilExped_Inhibit": {"type": "BOOL", "desc": "PIT-001 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_002_WaterInjMan_Raw": {"type": "INT", "desc": "PIT-002 Raw Channel Data", "alias": "Local:3:I.Ch1Data", "unit": "counts", "min": 0, "max": 32000}, "PIT_002_WaterInjMan_Scaled": {"type": "REAL", "desc": "PIT-002 Scaled Process Value (Water Injection Manifold Pressure Transmitter)", "alias": "", "unit": "psi", "min": 0, "max": 1000}, "PIT_002_WaterInjMan_LowAlm": {"type": "BOOL", "desc": "PIT-002 Low Alarm / Low Supply Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_002_WaterInjMan_HighAlm": {"type": "BOOL", "desc": "PIT-002 High Alarm Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_002_WaterInjMan_HiHiAlm": {"type": "BOOL", "desc": "PIT-002 High-High Shutdown Trip Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_002_WaterInjMan_Flt": {"type": "BOOL", "desc": "PIT-002 Transmitter Signal Fault / Out of Range", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_002_WaterInjMan_Inhibit": {"type": "BOOL", "desc": "PIT-002 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_003_OilInjMan_Raw": {"type": "INT", "desc": "PIT-003 Raw Channel Data", "alias": "Local:3:I.Ch2Data", "unit": "counts", "min": 0, "max": 32000}, "PIT_003_OilInjMan_Scaled": {"type": "REAL", "desc": "PIT-003 Scaled Process Value (Oil Injection Manifold Pressure Transmitter)", "alias": "", "unit": "psi", "min": 0, "max": 3500}, "PIT_003_OilInjMan_LowAlm": {"type": "BOOL", "desc": "PIT-003 Low Alarm / Low Supply Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_003_OilInjMan_HighAlm": {"type": "BOOL", "desc": "PIT-003 High Alarm Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_003_OilInjMan_HiHiAlm": {"type": "BOOL", "desc": "PIT-003 High-High Shutdown Trip Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_003_OilInjMan_Flt": {"type": "BOOL", "desc": "PIT-003 Transmitter Signal Fault / Out of Range", "alias": "", "unit": "", "min": 0, "max": 1}, "PIT_003_OilInjMan_Inhibit": {"type": "BOOL", "desc": "PIT-003 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_7503_001_Deluge_Raw": {"type": "INT", "desc": "7503-PST-001 Raw Channel Data", "alias": "Local:3:I.Ch3Data", "unit": "counts", "min": 0, "max": 32000}, "PST_7503_001_Deluge_Scaled": {"type": "REAL", "desc": "7503-PST-001 Scaled Process Value (Deluge Line Pressure Transmitter)", "alias": "", "unit": "psi", "min": 0, "max": 150}, "PST_7503_001_Deluge_LowAlm": {"type": "BOOL", "desc": "7503-PST-001 Low Alarm / Low Supply Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_7503_001_Deluge_HighAlm": {"type": "BOOL", "desc": "7503-PST-001 High Alarm Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_7503_001_Deluge_HiHiAlm": {"type": "BOOL", "desc": "7503-PST-001 High-High Shutdown Trip Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_7503_001_Deluge_Flt": {"type": "BOOL", "desc": "7503-PST-001 Transmitter Signal Fault / Out of Range", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_7503_001_Deluge_Inhibit": {"type": "BOOL", "desc": "7503-PST-001 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_7002_001_AirAcc_Raw": {"type": "INT", "desc": "7002-PST-001 Raw Channel Data", "alias": "Local:3:I.Ch4Data", "unit": "counts", "min": 0, "max": 32000}, "PST_7002_001_AirAcc_Scaled": {"type": "REAL", "desc": "7002-PST-001 Scaled Process Value (ESDV Air Accumulator Pressure Transmitter)", "alias": "", "unit": "psi", "min": 0, "max": 150}, "PST_7002_001_AirAcc_LowAlm": {"type": "BOOL", "desc": "7002-PST-001 Low Alarm / Low Supply Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_7002_001_AirAcc_HighAlm": {"type": "BOOL", "desc": "7002-PST-001 High Alarm Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_7002_001_AirAcc_HiHiAlm": {"type": "BOOL", "desc": "7002-PST-001 High-High Shutdown Trip Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_7002_001_AirAcc_Flt": {"type": "BOOL", "desc": "7002-PST-001 Transmitter Signal Fault / Out of Range", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_7002_001_AirAcc_Inhibit": {"type": "BOOL", "desc": "7002-PST-001 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_6401_001_FuelGas_Raw": {"type": "INT", "desc": "6401-PST-001 Raw Channel Data", "alias": "Local:3:I.Ch5Data", "unit": "counts", "min": 0, "max": 32000}, "PST_6401_001_FuelGas_Scaled": {"type": "REAL", "desc": "6401-PST-001 Scaled Process Value (Fuel Gas Line Pressure Transmitter)", "alias": "", "unit": "psi", "min": 0, "max": 150}, "PST_6401_001_FuelGas_LowAlm": {"type": "BOOL", "desc": "6401-PST-001 Low Alarm / Low Supply Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_6401_001_FuelGas_HighAlm": {"type": "BOOL", "desc": "6401-PST-001 High Alarm Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_6401_001_FuelGas_HiHiAlm": {"type": "BOOL", "desc": "6401-PST-001 High-High Shutdown Trip Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_6401_001_FuelGas_Flt": {"type": "BOOL", "desc": "6401-PST-001 Transmitter Signal Fault / Out of Range", "alias": "", "unit": "", "min": 0, "max": 1}, "PST_6401_001_FuelGas_Inhibit": {"type": "BOOL", "desc": "6401-PST-001 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "FR_7503_003_LocalCP_Raw": {"type": "INT", "desc": "7503-FR-003 Raw Channel Data", "alias": "Local:3:I.Ch6Data", "unit": "counts", "min": 0, "max": 32000}, "FR_7503_003_LocalCP_Scaled": {"type": "REAL", "desc": "7503-FR-003 Scaled Process Value (Manual Foam Release Button Inside Local CP)", "alias": "", "unit": "state", "min": 0, "max": 1}, "FR_7503_003_LocalCP_LowAlm": {"type": "BOOL", "desc": "7503-FR-003 Low Alarm / Low Supply Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "FR_7503_003_LocalCP_HighAlm": {"type": "BOOL", "desc": "7503-FR-003 High Alarm Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "FR_7503_003_LocalCP_HiHiAlm": {"type": "BOOL", "desc": "7503-FR-003 High-High Shutdown Trip Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "FR_7503_003_LocalCP_Flt": {"type": "BOOL", "desc": "7503-FR-003 Transmitter Signal Fault / Out of Range", "alias": "", "unit": "", "min": 0, "max": 1}, "FR_7503_003_LocalCP_Inhibit": {"type": "BOOL", "desc": "7503-FR-003 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "FR_7503_001_002_Field_Raw": {"type": "INT", "desc": "7503-FR-001/002 Raw Channel Data", "alias": "Local:3:I.Ch7Data", "unit": "counts", "min": 0, "max": 32000}, "FR_7503_001_002_Field_Scaled": {"type": "REAL", "desc": "7503-FR-001/002 Scaled Process Value (Manual Foam Release Button Outside in Field)", "alias": "", "unit": "state", "min": 0, "max": 1}, "FR_7503_001_002_Field_LowAlm": {"type": "BOOL", "desc": "7503-FR-001/002 Low Alarm / Low Supply Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "FR_7503_001_002_Field_HighAlm": {"type": "BOOL", "desc": "7503-FR-001/002 High Alarm Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "FR_7503_001_002_Field_HiHiAlm": {"type": "BOOL", "desc": "7503-FR-001/002 High-High Shutdown Trip Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "FR_7503_001_002_Field_Flt": {"type": "BOOL", "desc": "7503-FR-001/002 Transmitter Signal Fault / Out of Range", "alias": "", "unit": "", "min": 0, "max": 1}, "FR_7503_001_002_Field_Inhibit": {"type": "BOOL", "desc": "7503-FR-001/002 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_017_Raw": {"type": "INT", "desc": "7404-DG-017 Raw 4-20mA Channel Data", "alias": "Local:3:I.Ch8Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_017_Scaled": {"type": "REAL", "desc": "7404-DG-017 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_017_LowAlm": {"type": "BOOL", "desc": "7404-DG-017 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_017_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-017 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_017_Flt_Low": {"type": "BOOL", "desc": "7404-DG-017 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_017_Flt_High": {"type": "BOOL", "desc": "7404-DG-017 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_017_BeamBlock": {"type": "BOOL", "desc": "7404-DG-017 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_017_Inhibit": {"type": "BOOL", "desc": "7404-DG-017 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_018_Raw": {"type": "INT", "desc": "7404-DG-018 Raw 4-20mA Channel Data", "alias": "Local:3:I.Ch9Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_018_Scaled": {"type": "REAL", "desc": "7404-DG-018 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_018_LowAlm": {"type": "BOOL", "desc": "7404-DG-018 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_018_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-018 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_018_Flt_Low": {"type": "BOOL", "desc": "7404-DG-018 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_018_Flt_High": {"type": "BOOL", "desc": "7404-DG-018 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_018_BeamBlock": {"type": "BOOL", "desc": "7404-DG-018 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_018_Inhibit": {"type": "BOOL", "desc": "7404-DG-018 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_019_Raw": {"type": "INT", "desc": "7404-DG-019 Raw 4-20mA Channel Data", "alias": "Local:3:I.Ch10Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_019_Scaled": {"type": "REAL", "desc": "7404-DG-019 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_019_LowAlm": {"type": "BOOL", "desc": "7404-DG-019 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_019_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-019 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_019_Flt_Low": {"type": "BOOL", "desc": "7404-DG-019 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_019_Flt_High": {"type": "BOOL", "desc": "7404-DG-019 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_019_BeamBlock": {"type": "BOOL", "desc": "7404-DG-019 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_019_Inhibit": {"type": "BOOL", "desc": "7404-DG-019 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_020_Raw": {"type": "INT", "desc": "7404-DG-020 Raw 4-20mA Channel Data", "alias": "Local:3:I.Ch11Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_020_Scaled": {"type": "REAL", "desc": "7404-DG-020 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_020_LowAlm": {"type": "BOOL", "desc": "7404-DG-020 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_020_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-020 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_020_Flt_Low": {"type": "BOOL", "desc": "7404-DG-020 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_020_Flt_High": {"type": "BOOL", "desc": "7404-DG-020 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_020_BeamBlock": {"type": "BOOL", "desc": "7404-DG-020 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_020_Inhibit": {"type": "BOOL", "desc": "7404-DG-020 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_021_Raw": {"type": "INT", "desc": "7404-DG-021 Raw 4-20mA Channel Data", "alias": "Local:3:I.Ch12Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_021_Scaled": {"type": "REAL", "desc": "7404-DG-021 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_021_LowAlm": {"type": "BOOL", "desc": "7404-DG-021 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_021_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-021 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_021_Flt_Low": {"type": "BOOL", "desc": "7404-DG-021 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_021_Flt_High": {"type": "BOOL", "desc": "7404-DG-021 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_021_BeamBlock": {"type": "BOOL", "desc": "7404-DG-021 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_021_Inhibit": {"type": "BOOL", "desc": "7404-DG-021 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_022_Raw": {"type": "INT", "desc": "7404-DG-022 Raw 4-20mA Channel Data", "alias": "Local:3:I.Ch13Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_022_Scaled": {"type": "REAL", "desc": "7404-DG-022 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_022_LowAlm": {"type": "BOOL", "desc": "7404-DG-022 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_022_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-022 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_022_Flt_Low": {"type": "BOOL", "desc": "7404-DG-022 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_022_Flt_High": {"type": "BOOL", "desc": "7404-DG-022 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_022_BeamBlock": {"type": "BOOL", "desc": "7404-DG-022 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_022_Inhibit": {"type": "BOOL", "desc": "7404-DG-022 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_023_Raw": {"type": "INT", "desc": "7404-DG-023 Raw 4-20mA Channel Data", "alias": "Local:3:I.Ch14Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_023_Scaled": {"type": "REAL", "desc": "7404-DG-023 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_023_LowAlm": {"type": "BOOL", "desc": "7404-DG-023 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_023_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-023 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_023_Flt_Low": {"type": "BOOL", "desc": "7404-DG-023 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_023_Flt_High": {"type": "BOOL", "desc": "7404-DG-023 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_023_BeamBlock": {"type": "BOOL", "desc": "7404-DG-023 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_023_Inhibit": {"type": "BOOL", "desc": "7404-DG-023 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_024_Raw": {"type": "INT", "desc": "7404-DG-024 Raw 4-20mA Channel Data", "alias": "Local:3:I.Ch15Data", "unit": "counts", "min": 0, "max": 32000}, "DG_7404_024_Scaled": {"type": "REAL", "desc": "7404-DG-024 Combustible Gas Concentration (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "DG_7404_024_LowAlm": {"type": "BOOL", "desc": "7404-DG-024 Low Gas Alarm (>= 20% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_024_HiHiAlm": {"type": "BOOL", "desc": "7404-DG-024 High-High Gas Alarm (>= 30% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_024_Flt_Low": {"type": "BOOL", "desc": "7404-DG-024 Sensor Underrange / Open Circuit Fault (< -4% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_024_Flt_High": {"type": "BOOL", "desc": "7404-DG-024 Sensor Overrange Fault (> 105% LEL)", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_024_BeamBlock": {"type": "BOOL", "desc": "7404-DG-024 Optical Beam Block Maintenance Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DG_7404_024_Inhibit": {"type": "BOOL", "desc": "7404-DG-024 Maintenance Software Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_001_Raw": {"type": "INT", "desc": "H2S-001 Raw Toxic Gas Channel Data", "alias": "Local:4:I.Ch0Data", "unit": "counts", "min": 0, "max": 32000}, "AIT_H2S_001_Scaled": {"type": "REAL", "desc": "H2S-001 Toxic Gas H2S Concentration (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "AIT_H2S_001_LowAlm": {"type": "BOOL", "desc": "H2S-001 Low Toxic Alarm (>= 10 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_001_HiHiAlm": {"type": "BOOL", "desc": "H2S-001 High-High Toxic Alarm (>= 20 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_001_Flt": {"type": "BOOL", "desc": "H2S-001 H2S Detector Sensor Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_001_Inhibit": {"type": "BOOL", "desc": "H2S-001 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_002_Raw": {"type": "INT", "desc": "H2S-002 Raw Toxic Gas Channel Data", "alias": "Local:4:I.Ch1Data", "unit": "counts", "min": 0, "max": 32000}, "AIT_H2S_002_Scaled": {"type": "REAL", "desc": "H2S-002 Toxic Gas H2S Concentration (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "AIT_H2S_002_LowAlm": {"type": "BOOL", "desc": "H2S-002 Low Toxic Alarm (>= 10 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_002_HiHiAlm": {"type": "BOOL", "desc": "H2S-002 High-High Toxic Alarm (>= 20 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_002_Flt": {"type": "BOOL", "desc": "H2S-002 H2S Detector Sensor Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_002_Inhibit": {"type": "BOOL", "desc": "H2S-002 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_003_Raw": {"type": "INT", "desc": "H2S-003 Raw Toxic Gas Channel Data", "alias": "Local:4:I.Ch2Data", "unit": "counts", "min": 0, "max": 32000}, "AIT_H2S_003_Scaled": {"type": "REAL", "desc": "H2S-003 Toxic Gas H2S Concentration (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "AIT_H2S_003_LowAlm": {"type": "BOOL", "desc": "H2S-003 Low Toxic Alarm (>= 10 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_003_HiHiAlm": {"type": "BOOL", "desc": "H2S-003 High-High Toxic Alarm (>= 20 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_003_Flt": {"type": "BOOL", "desc": "H2S-003 H2S Detector Sensor Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_003_Inhibit": {"type": "BOOL", "desc": "H2S-003 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_004_Raw": {"type": "INT", "desc": "H2S-004 Raw Toxic Gas Channel Data", "alias": "Local:4:I.Ch3Data", "unit": "counts", "min": 0, "max": 32000}, "AIT_H2S_004_Scaled": {"type": "REAL", "desc": "H2S-004 Toxic Gas H2S Concentration (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "AIT_H2S_004_LowAlm": {"type": "BOOL", "desc": "H2S-004 Low Toxic Alarm (>= 10 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_004_HiHiAlm": {"type": "BOOL", "desc": "H2S-004 High-High Toxic Alarm (>= 20 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_004_Flt": {"type": "BOOL", "desc": "H2S-004 H2S Detector Sensor Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_004_Inhibit": {"type": "BOOL", "desc": "H2S-004 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_005_Raw": {"type": "INT", "desc": "H2S-005 Raw Toxic Gas Channel Data", "alias": "Local:4:I.Ch4Data", "unit": "counts", "min": 0, "max": 32000}, "AIT_H2S_005_Scaled": {"type": "REAL", "desc": "H2S-005 Toxic Gas H2S Concentration (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "AIT_H2S_005_LowAlm": {"type": "BOOL", "desc": "H2S-005 Low Toxic Alarm (>= 10 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_005_HiHiAlm": {"type": "BOOL", "desc": "H2S-005 High-High Toxic Alarm (>= 20 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_005_Flt": {"type": "BOOL", "desc": "H2S-005 H2S Detector Sensor Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_005_Inhibit": {"type": "BOOL", "desc": "H2S-005 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_006_Raw": {"type": "INT", "desc": "H2S-006 Raw Toxic Gas Channel Data", "alias": "Local:4:I.Ch5Data", "unit": "counts", "min": 0, "max": 32000}, "AIT_H2S_006_Scaled": {"type": "REAL", "desc": "H2S-006 Toxic Gas H2S Concentration (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "AIT_H2S_006_LowAlm": {"type": "BOOL", "desc": "H2S-006 Low Toxic Alarm (>= 10 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_006_HiHiAlm": {"type": "BOOL", "desc": "H2S-006 High-High Toxic Alarm (>= 20 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_006_Flt": {"type": "BOOL", "desc": "H2S-006 H2S Detector Sensor Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_006_Inhibit": {"type": "BOOL", "desc": "H2S-006 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_007_Raw": {"type": "INT", "desc": "H2S-007 Raw Toxic Gas Channel Data", "alias": "Local:4:I.Ch6Data", "unit": "counts", "min": 0, "max": 32000}, "AIT_H2S_007_Scaled": {"type": "REAL", "desc": "H2S-007 Toxic Gas H2S Concentration (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "AIT_H2S_007_LowAlm": {"type": "BOOL", "desc": "H2S-007 Low Toxic Alarm (>= 10 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_007_HiHiAlm": {"type": "BOOL", "desc": "H2S-007 High-High Toxic Alarm (>= 20 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_007_Flt": {"type": "BOOL", "desc": "H2S-007 H2S Detector Sensor Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_007_Inhibit": {"type": "BOOL", "desc": "H2S-007 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_008_Raw": {"type": "INT", "desc": "H2S-008 Raw Toxic Gas Channel Data", "alias": "Local:4:I.Ch7Data", "unit": "counts", "min": 0, "max": 32000}, "AIT_H2S_008_Scaled": {"type": "REAL", "desc": "H2S-008 Toxic Gas H2S Concentration (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "AIT_H2S_008_LowAlm": {"type": "BOOL", "desc": "H2S-008 Low Toxic Alarm (>= 10 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_008_HiHiAlm": {"type": "BOOL", "desc": "H2S-008 High-High Toxic Alarm (>= 20 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_008_Flt": {"type": "BOOL", "desc": "H2S-008 H2S Detector Sensor Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_008_Inhibit": {"type": "BOOL", "desc": "H2S-008 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_009_Raw": {"type": "INT", "desc": "H2S-009 Raw Toxic Gas Channel Data", "alias": "Local:4:I.Ch8Data", "unit": "counts", "min": 0, "max": 32000}, "AIT_H2S_009_Scaled": {"type": "REAL", "desc": "H2S-009 Toxic Gas H2S Concentration (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "AIT_H2S_009_LowAlm": {"type": "BOOL", "desc": "H2S-009 Low Toxic Alarm (>= 10 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_009_HiHiAlm": {"type": "BOOL", "desc": "H2S-009 High-High Toxic Alarm (>= 20 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_009_Flt": {"type": "BOOL", "desc": "H2S-009 H2S Detector Sensor Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_009_Inhibit": {"type": "BOOL", "desc": "H2S-009 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_010_Raw": {"type": "INT", "desc": "H2S-010 Raw Toxic Gas Channel Data", "alias": "Local:4:I.Ch9Data", "unit": "counts", "min": 0, "max": 32000}, "AIT_H2S_010_Scaled": {"type": "REAL", "desc": "H2S-010 Toxic Gas H2S Concentration (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "AIT_H2S_010_LowAlm": {"type": "BOOL", "desc": "H2S-010 Low Toxic Alarm (>= 10 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_010_HiHiAlm": {"type": "BOOL", "desc": "H2S-010 High-High Toxic Alarm (>= 20 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_010_Flt": {"type": "BOOL", "desc": "H2S-010 H2S Detector Sensor Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_010_Inhibit": {"type": "BOOL", "desc": "H2S-010 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_011_Raw": {"type": "INT", "desc": "H2S-011 Raw Toxic Gas Channel Data", "alias": "Local:4:I.Ch10Data", "unit": "counts", "min": 0, "max": 32000}, "AIT_H2S_011_Scaled": {"type": "REAL", "desc": "H2S-011 Toxic Gas H2S Concentration (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "AIT_H2S_011_LowAlm": {"type": "BOOL", "desc": "H2S-011 Low Toxic Alarm (>= 10 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_011_HiHiAlm": {"type": "BOOL", "desc": "H2S-011 High-High Toxic Alarm (>= 20 ppm H2S)", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_011_Flt": {"type": "BOOL", "desc": "H2S-011 H2S Detector Sensor Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "AIT_H2S_011_Inhibit": {"type": "BOOL", "desc": "H2S-011 Maintenance Inhibit Flag", "alias": "", "unit": "", "min": 0, "max": 1}, "DF_7404_001_Raw": {"type": "INT", "desc": "7404-DF-001 Optical Flame Detector Raw Data", "alias": "Local:4:I.Ch11Data", "unit": "counts", "min": 0, "max": 32000}, "DF_7404_001_FireAlarm": {"type": "BOOL", "desc": "7404-DF-001 Triple-IR Optical Flame Confirmed Alarm", "alias": "", "unit": "", "min": 0, "max": 1}, "DF_7404_001_Fault": {"type": "BOOL", "desc": "7404-DF-001 Optical Flame Window Dirty / Circuit Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "DF_7404_001_Inhibit": {"type": "BOOL", "desc": "7404-DF-001 Flame Detector Maintenance Inhibit", "alias": "", "unit": "", "min": 0, "max": 1}, "DF_7404_002_Raw": {"type": "INT", "desc": "7404-DF-002 Optical Flame Detector Raw Data", "alias": "Local:4:I.Ch12Data", "unit": "counts", "min": 0, "max": 32000}, "DF_7404_002_FireAlarm": {"type": "BOOL", "desc": "7404-DF-002 Triple-IR Optical Flame Confirmed Alarm", "alias": "", "unit": "", "min": 0, "max": 1}, "DF_7404_002_Fault": {"type": "BOOL", "desc": "7404-DF-002 Optical Flame Window Dirty / Circuit Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "DF_7404_002_Inhibit": {"type": "BOOL", "desc": "7404-DF-002 Flame Detector Maintenance Inhibit", "alias": "", "unit": "", "min": 0, "max": 1}, "DF_7404_003_Raw": {"type": "INT", "desc": "7404-DF-003 Optical Flame Detector Raw Data", "alias": "Local:4:I.Ch13Data", "unit": "counts", "min": 0, "max": 32000}, "DF_7404_003_FireAlarm": {"type": "BOOL", "desc": "7404-DF-003 Triple-IR Optical Flame Confirmed Alarm", "alias": "", "unit": "", "min": 0, "max": 1}, "DF_7404_003_Fault": {"type": "BOOL", "desc": "7404-DF-003 Optical Flame Window Dirty / Circuit Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "DF_7404_003_Inhibit": {"type": "BOOL", "desc": "7404-DF-003 Flame Detector Maintenance Inhibit", "alias": "", "unit": "", "min": 0, "max": 1}, "SD_001_002_Raw": {"type": "INT", "desc": "SD-001/002 Gas Generator Smoke Detector Raw", "alias": "Local:4:I.Ch14Data", "unit": "counts", "min": 0, "max": 32000}, "SD_001_002_Alarm": {"type": "BOOL", "desc": "SD-001/002 Gas Generator Smoke Confirmed Alarm", "alias": "", "unit": "", "min": 0, "max": 1}, "SD_001_002_Fault": {"type": "BOOL", "desc": "SD-001/002 Smoke Detector Circuit Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "SD_001_002_Inhibit": {"type": "BOOL", "desc": "SD-001/002 Smoke Detector Maintenance Inhibit", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_100_Tank_Raw": {"type": "INT", "desc": "LIT-100 Crude Storage Tank Radar Raw Data", "alias": "Local:6:I.Ch0Data", "unit": "counts", "min": 0, "max": 32000}, "LIT_100_Tank_Scaled": {"type": "REAL", "desc": "LIT-100 Crude Storage Tank Liquid Level (m)", "alias": "", "unit": "m", "min": 0, "max": 14}, "LIT_100_Tank_LowAlm": {"type": "BOOL", "desc": "LIT-100 Low Tank Level Alarm (LAL <= 0.7m)", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_100_Tank_HighAlm": {"type": "BOOL", "desc": "LIT-100 High Tank Level Alarm (LAH >= 9.0m/11.0m)", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_100_Tank_Flt": {"type": "BOOL", "desc": "LIT-100 Radar Transmitter Diagnostic Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_100_Tank_Inhibit": {"type": "BOOL", "desc": "LIT-100 Tank Level Maintenance Inhibit", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_200_Tank_Raw": {"type": "INT", "desc": "LIT-200 Crude Storage Tank Radar Raw Data", "alias": "Local:6:I.Ch1Data", "unit": "counts", "min": 0, "max": 32000}, "LIT_200_Tank_Scaled": {"type": "REAL", "desc": "LIT-200 Crude Storage Tank Liquid Level (m)", "alias": "", "unit": "m", "min": 0, "max": 14}, "LIT_200_Tank_LowAlm": {"type": "BOOL", "desc": "LIT-200 Low Tank Level Alarm (LAL <= 0.7m)", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_200_Tank_HighAlm": {"type": "BOOL", "desc": "LIT-200 High Tank Level Alarm (LAH >= 9.0m/11.0m)", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_200_Tank_Flt": {"type": "BOOL", "desc": "LIT-200 Radar Transmitter Diagnostic Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_200_Tank_Inhibit": {"type": "BOOL", "desc": "LIT-200 Tank Level Maintenance Inhibit", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_300_Tank_Raw": {"type": "INT", "desc": "LIT-300 Crude Storage Tank Radar Raw Data", "alias": "Local:6:I.Ch2Data", "unit": "counts", "min": 0, "max": 32000}, "LIT_300_Tank_Scaled": {"type": "REAL", "desc": "LIT-300 Crude Storage Tank Liquid Level (m)", "alias": "", "unit": "m", "min": 0, "max": 14}, "LIT_300_Tank_LowAlm": {"type": "BOOL", "desc": "LIT-300 Low Tank Level Alarm (LAL <= 0.7m)", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_300_Tank_HighAlm": {"type": "BOOL", "desc": "LIT-300 High Tank Level Alarm (LAH >= 9.0m/11.0m)", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_300_Tank_Flt": {"type": "BOOL", "desc": "LIT-300 Radar Transmitter Diagnostic Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_300_Tank_Inhibit": {"type": "BOOL", "desc": "LIT-300 Tank Level Maintenance Inhibit", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_400_Tank_Raw": {"type": "INT", "desc": "LIT-400 Crude Storage Tank Radar Raw Data", "alias": "Local:6:I.Ch3Data", "unit": "counts", "min": 0, "max": 32000}, "LIT_400_Tank_Scaled": {"type": "REAL", "desc": "LIT-400 Crude Storage Tank Liquid Level (m)", "alias": "", "unit": "m", "min": 0, "max": 14}, "LIT_400_Tank_LowAlm": {"type": "BOOL", "desc": "LIT-400 Low Tank Level Alarm (LAL <= 0.7m)", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_400_Tank_HighAlm": {"type": "BOOL", "desc": "LIT-400 High Tank Level Alarm (LAH >= 9.0m/11.0m)", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_400_Tank_Flt": {"type": "BOOL", "desc": "LIT-400 Radar Transmitter Diagnostic Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "LIT_400_Tank_Inhibit": {"type": "BOOL", "desc": "LIT-400 Tank Level Maintenance Inhibit", "alias": "", "unit": "", "min": 0, "max": 1}, "ZSH_6401_001": {"type": "BOOL", "desc": "6401-ZSH-001: ESDV Fuel Gas Fully Open Limit Switch", "alias": "Local:7:I.Data.0", "unit": "state", "min": 0, "max": 1}, "ZSL_6401_001": {"type": "BOOL", "desc": "6401-ZSL-001: ESDV Fuel Gas Fully Closed Limit Switch", "alias": "Local:7:I.Data.1", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_2": {"type": "BOOL", "desc": "SPARE: Spare Digital Input Terminal 3", "alias": "Local:7:I.Data.2", "unit": "state", "min": 0, "max": 1}, "LS_7503_002_DieselTank": {"type": "BOOL", "desc": "7503-LS-002: Deluge Standby Diesel Fuel Tank Low Level Switch", "alias": "Local:7:I.Data.3", "unit": "state", "min": 0, "max": 1}, "FS_7503_001_FoamStop": {"type": "BOOL", "desc": "7503-FS-001: Deluge Foam Release System Stop Pushbutton", "alias": "Local:7:I.Data.4", "unit": "state", "min": 0, "max": 1}, "LS_7503_001_FoamTank": {"type": "BOOL", "desc": "7503-LS-001: AFFF Foam Concentrate Tank Low Level Switch", "alias": "Local:7:I.Data.5", "unit": "state", "min": 0, "max": 1}, "C_75_01A_PumpAPulse": {"type": "BOOL", "desc": "75-C-01A: Deluge Pump A Trip Coil Continuity Pulse Return", "alias": "Local:7:I.Data.6", "unit": "state", "min": 0, "max": 1}, "C_75_01B_PumpBPulse": {"type": "BOOL", "desc": "75-C-01B: Deluge Standby Pump B Trip Coil Continuity Pulse Return", "alias": "Local:7:I.Data.7", "unit": "state", "min": 0, "max": 1}, "SB_75_01B_PumpBInhKey": {"type": "BOOL", "desc": "75-SB-01B: Standby Diesel Pump B Maintenance Inhibit Keyswitch", "alias": "Local:7:I.Data.8", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_9": {"type": "BOOL", "desc": "SPARE: Spare Digital Input Terminal 10", "alias": "Local:7:I.Data.9", "unit": "state", "min": 0, "max": 1}, "PB_E11_AlarmReset": {"type": "BOOL", "desc": "FGCP-7404-001-E11: Master Alarm Reset Pushbutton (E11)", "alias": "Local:7:I.Data.10", "unit": "state", "min": 0, "max": 1}, "PB_E12_AlarmMute": {"type": "BOOL", "desc": "FGCP-7404-001-E12: Master Alarm Acoustic Mute / Silence Pushbutton (E12)", "alias": "Local:7:I.Data.11", "unit": "state", "min": 0, "max": 1}, "PB_E9_ESD_FuelGas": {"type": "BOOL", "desc": "6401-ESDV-001-E9: Emergency Shutdown Fuel Gas Line Pushbutton (E9)", "alias": "Local:7:I.Data.12", "unit": "state", "min": 0, "max": 1}, "KEY_S2_FoamInhibit": {"type": "BOOL", "desc": "FGCP-7404-001-S2: Deluge Foam Release Inhibit Keyswitch (S2)", "alias": "Local:7:I.Data.13", "unit": "state", "min": 0, "max": 1}, "KEY_S3_AllOutputsInhibit": {"type": "BOOL", "desc": "FGCP-7404-001-S3: Maintenance Override Inhibit All Outputs Keyswitch (S3)", "alias": "Local:7:I.Data.14", "unit": "state", "min": 0, "max": 1}, "PB_E1_E4_PowerOilStop": {"type": "BOOL", "desc": "E1-E4: Emergency Stop Power Oil Pumps Pushbuttons E1..E4", "alias": "Local:7:I.Data.15", "unit": "state", "min": 0, "max": 1}, "PB_E5_E6_WaterInjStop": {"type": "BOOL", "desc": "E5-E6: Emergency Stop Water Injection Pumps Pushbuttons E5..E6", "alias": "Local:7:I.Data.16", "unit": "state", "min": 0, "max": 1}, "PUMP_A_Run_Feedback": {"type": "BOOL", "desc": "PUMP-A-AUX: Deluge Electric Duty Pump A Run Aux Contact", "alias": "Local:7:I.Data.17", "unit": "state", "min": 0, "max": 1}, "PUMP_B_Run_Feedback": {"type": "BOOL", "desc": "PUMP-B-AUX: Deluge Diesel Standby Pump B Run Aux Contact", "alias": "Local:7:I.Data.18", "unit": "state", "min": 0, "max": 1}, "PSLL_7404_001_LoPress": {"type": "BOOL", "desc": "7404-PSLL-001: Firewater Ring Main Header Low Pressure Switch (< 7.0 bar)", "alias": "Local:7:I.Data.19", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_20": {"type": "BOOL", "desc": "Slot 7 Spare Digital Input Bit 20", "alias": "Local:7:I.Data.20", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_21": {"type": "BOOL", "desc": "Slot 7 Spare Digital Input Bit 21", "alias": "Local:7:I.Data.21", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_22": {"type": "BOOL", "desc": "Slot 7 Spare Digital Input Bit 22", "alias": "Local:7:I.Data.22", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_23": {"type": "BOOL", "desc": "Slot 7 Spare Digital Input Bit 23", "alias": "Local:7:I.Data.23", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_24": {"type": "BOOL", "desc": "Slot 7 Spare Digital Input Bit 24", "alias": "Local:7:I.Data.24", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_25": {"type": "BOOL", "desc": "Slot 7 Spare Digital Input Bit 25", "alias": "Local:7:I.Data.25", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_26": {"type": "BOOL", "desc": "Slot 7 Spare Digital Input Bit 26", "alias": "Local:7:I.Data.26", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_27": {"type": "BOOL", "desc": "Slot 7 Spare Digital Input Bit 27", "alias": "Local:7:I.Data.27", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_28": {"type": "BOOL", "desc": "Slot 7 Spare Digital Input Bit 28", "alias": "Local:7:I.Data.28", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_29": {"type": "BOOL", "desc": "Slot 7 Spare Digital Input Bit 29", "alias": "Local:7:I.Data.29", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_30": {"type": "BOOL", "desc": "Slot 7 Spare Digital Input Bit 30", "alias": "Local:7:I.Data.30", "unit": "state", "min": 0, "max": 1}, "DI_Slot7_Spare_31": {"type": "BOOL", "desc": "Slot 7 Spare Digital Input Bit 31", "alias": "Local:7:I.Data.31", "unit": "state", "min": 0, "max": 1}, "ESD_TRIP_Master": {"type": "BOOL", "desc": "ESD_TRIP: Master Plant Emergency Shutdown Relay (Fail-Safe 1=Run)", "alias": "Local:8:O.Data.0", "unit": "state", "min": 0, "max": 1}, "EY_6401_001_002": {"type": "BOOL", "desc": "6401-EY-001/002: Fuel Gas ESDV Solenoid Valve (Fail-Safe 1=Open)", "alias": "Local:8:O.Data.1", "unit": "state", "min": 0, "max": 1}, "SA_7404_001_002": {"type": "BOOL", "desc": "7404-SA-001/002: Pump House Local Fire & Gas Alarm Bell", "alias": "Local:8:O.Data.2", "unit": "state", "min": 0, "max": 1}, "DO_7503_PumpA_Pulse": {"type": "BOOL", "desc": "7503-PUMP-A-PULSE: Deluge Pump A Trip Coil Test Pulse Output", "alias": "Local:8:O.Data.3", "unit": "state", "min": 0, "max": 1}, "DO_7503_PumpA_Cmd": {"type": "BOOL", "desc": "7503-PUMP-A-CMD: Deluge Duty Electric Pump A Run Command", "alias": "Local:8:O.Data.4", "unit": "state", "min": 0, "max": 1}, "DO_7503_PumpB_Pulse": {"type": "BOOL", "desc": "7503-PUMP-B-PULSE: Deluge Standby Pump B Test Pulse Output", "alias": "Local:8:O.Data.5", "unit": "state", "min": 0, "max": 1}, "DO_7503_PumpB_Start": {"type": "BOOL", "desc": "7503-PUMP-B-START: Deluge Standby Diesel Pump B Start Pulse", "alias": "Local:8:O.Data.6", "unit": "state", "min": 0, "max": 1}, "DO_7503_PumpB_Stop": {"type": "BOOL", "desc": "7503-PUMP-B-STOP: Deluge Standby Diesel Pump B Stop Pulse", "alias": "Local:8:O.Data.7", "unit": "state", "min": 0, "max": 1}, "EDB1_OilBoosterStop": {"type": "BOOL", "desc": "EDB1-OIL: Oil Booster Pump Shutdown Relay (Fail-Safe 1=Run)", "alias": "Local:8:O.Data.8", "unit": "state", "min": 0, "max": 1}, "EDB1_WaterBoosterStop": {"type": "BOOL", "desc": "EDB1-WATER: Water Booster Pump Shutdown Relay (Fail-Safe 1=Run)", "alias": "Local:8:O.Data.9", "unit": "state", "min": 0, "max": 1}, "DO_Slot8_Spare_10": {"type": "BOOL", "desc": "SPARE: Spare Discrete Output Bit 10", "alias": "Local:8:O.Data.10", "unit": "state", "min": 0, "max": 1}, "LED_L14_ESDV_Closed": {"type": "BOOL", "desc": "FGCP-L14: PCR Panel LED L14: ESDV Fuel Gas Closed (Red)", "alias": "Local:8:O.Data.11", "unit": "state", "min": 0, "max": 1}, "LED_L15_ESDV_Open": {"type": "BOOL", "desc": "FGCP-L15: PCR Panel LED L15: ESDV Fuel Gas Open (Green)", "alias": "Local:8:O.Data.12", "unit": "state", "min": 0, "max": 1}, "LED_L16_LowAirAcc": {"type": "BOOL", "desc": "FGCP-L16: PCR Panel LED L16: ESDV Low Air Supply Accumulator (Amber)", "alias": "Local:8:O.Data.13", "unit": "state", "min": 0, "max": 1}, "LED_L17_LowFuelGas": {"type": "BOOL", "desc": "FGCP-L17: PCR Panel LED L17: Fuel Gas Line Low Pressure (Amber)", "alias": "Local:8:O.Data.14", "unit": "state", "min": 0, "max": 1}, "CR1_P2300_Stop_L8": {"type": "BOOL", "desc": "CR1-L8: Stop Power Oil Pump P-2300 Relay & PCR LED L8", "alias": "Local:8:O.Data.15", "unit": "state", "min": 0, "max": 1}, "CR2_P2400_Stop_L9": {"type": "BOOL", "desc": "CR2-L9: Stop Power Oil Pump P-2400 Relay & PCR LED L9", "alias": "Local:8:O.Data.16", "unit": "state", "min": 0, "max": 1}, "CR3_P2500_Stop_L10": {"type": "BOOL", "desc": "CR3-L10: Stop Power Oil Pump P-2500 Relay & PCR LED L10", "alias": "Local:8:O.Data.17", "unit": "state", "min": 0, "max": 1}, "CR4_P2600_Stop_L11": {"type": "BOOL", "desc": "CR4-L11: Stop Power Oil Pump P-2600 Relay & PCR LED L11", "alias": "Local:8:O.Data.18", "unit": "state", "min": 0, "max": 1}, "CR5_P3800_Stop_L12": {"type": "BOOL", "desc": "CR5-L12: Stop Water Injection Pump P-3800 Relay & PCR LED L12", "alias": "Local:8:O.Data.19", "unit": "state", "min": 0, "max": 1}, "CR6_P3900_Stop_L13": {"type": "BOOL", "desc": "CR6-L13: Stop Water Injection Pump P-3900 Relay & PCR LED L13", "alias": "Local:8:O.Data.20", "unit": "state", "min": 0, "max": 1}, "SD_GE_GasGenTrip": {"type": "BOOL", "desc": "SD-GE: Emergency Trip of All Gas Turbine Generators Output", "alias": "Local:8:O.Data.21", "unit": "state", "min": 0, "max": 1}, "HORN_PCR_Z1": {"type": "BOOL", "desc": "FGCP-Z1: Production Control Room Main Alarm Horn Z1", "alias": "Local:8:O.Data.22", "unit": "state", "min": 0, "max": 1}, "HORN_PA_001_Building": {"type": "BOOL", "desc": "PA-001: Process Production Building Alarm Siren", "alias": "Local:8:O.Data.23", "unit": "state", "min": 0, "max": 1}, "DO_Slot8_Spare_24": {"type": "BOOL", "desc": "SPARE: Spare Discrete Output Bit 24", "alias": "Local:8:O.Data.24", "unit": "state", "min": 0, "max": 1}, "DO_Slot8_Spare_25": {"type": "BOOL", "desc": "SPARE: Spare Discrete Output Bit 25", "alias": "Local:8:O.Data.25", "unit": "state", "min": 0, "max": 1}, "DO_Slot8_Spare_26": {"type": "BOOL", "desc": "SPARE: Spare Discrete Output Bit 26", "alias": "Local:8:O.Data.26", "unit": "state", "min": 0, "max": 1}, "DO_Slot8_Spare_27": {"type": "BOOL", "desc": "SPARE: Spare Discrete Output Bit 27", "alias": "Local:8:O.Data.27", "unit": "state", "min": 0, "max": 1}, "DO_Slot8_Spare_28": {"type": "BOOL", "desc": "SPARE: Spare Discrete Output Bit 28", "alias": "Local:8:O.Data.28", "unit": "state", "min": 0, "max": 1}, "DO_Slot8_Spare_29": {"type": "BOOL", "desc": "SPARE: Spare Discrete Output Bit 29", "alias": "Local:8:O.Data.29", "unit": "state", "min": 0, "max": 1}, "ALARM_H2S_SirenStrobe": {"type": "BOOL", "desc": "H2SA-001/002: H2S Toxic Gas Siren and Blue Strobe Beacon", "alias": "Local:8:O.Data.30", "unit": "state", "min": 0, "max": 1}, "ALARM_Smoke_SirenStrobe": {"type": "BOOL", "desc": "SDA-001: Smoke Detection Siren and Amber Strobe Beacon", "alias": "Local:8:O.Data.31", "unit": "state", "min": 0, "max": 1}, "SET_CH4_LowAlm_LEL": {"type": "REAL", "desc": "Calibrated CH4 Gas Low Alarm Setpoint (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "SET_CH4_HiHiAlm_LEL": {"type": "REAL", "desc": "Calibrated CH4 Gas High-High Alarm Setpoint (%LEL)", "alias": "", "unit": "%LEL", "min": 0, "max": 100}, "SET_H2S_LowAlm_PPM": {"type": "REAL", "desc": "Calibrated H2S Toxic Gas Low Alarm Setpoint (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "SET_H2S_HiHiAlm_PPM": {"type": "REAL", "desc": "Calibrated H2S Toxic Gas High-High Alarm Setpoint (ppm)", "alias": "", "unit": "ppm", "min": 0, "max": 100}, "SET_OilInj_PAL_PSI": {"type": "REAL", "desc": "Oil Injection Manifold Low Pressure Alarm Setpoint (psi)", "alias": "", "unit": "psi", "min": 0, "max": 3500}, "SET_OilInj_PAH_PSI": {"type": "REAL", "desc": "Oil Injection Manifold High Pressure Alarm Setpoint (psi)", "alias": "", "unit": "psi", "min": 0, "max": 3500}, "SET_OilInj_PAHH_PSI": {"type": "REAL", "desc": "Oil Injection Manifold High-High Shutdown Trip Setpoint (psi)", "alias": "", "unit": "psi", "min": 0, "max": 3500}, "SET_WaterInj_PAL_PSI": {"type": "REAL", "desc": "Water Injection Manifold Low Pressure Alarm Setpoint (psi)", "alias": "", "unit": "psi", "min": 0, "max": 1000}, "SET_WaterInj_PAH_PSI": {"type": "REAL", "desc": "Water Injection Manifold High Pressure Alarm Setpoint (psi)", "alias": "", "unit": "psi", "min": 0, "max": 1000}, "SET_WaterInj_PAHH_PSI": {"type": "REAL", "desc": "Water Injection Manifold High-High Shutdown Trip Setpoint (psi)", "alias": "", "unit": "psi", "min": 0, "max": 1000}, "SET_FuelGas_PAL_PSI": {"type": "REAL", "desc": "Fuel Gas Line Low Pressure Alarm Setpoint (psi)", "alias": "", "unit": "psi", "min": 0, "max": 150}, "SET_FuelGas_PAH_PSI": {"type": "REAL", "desc": "Fuel Gas Line High Pressure Shutdown Trip Setpoint (psi)", "alias": "", "unit": "psi", "min": 0, "max": 150}, "SET_AirAcc_Low_PSI": {"type": "REAL", "desc": "ESDV Air Accumulator Minimum Supply Pressure Setpoint (psi)", "alias": "", "unit": "psi", "min": 0, "max": 150}, "SET_OilExped_PAL_PSI": {"type": "REAL", "desc": "Oil Expedition Line Low Pressure Setpoint (psi)", "alias": "", "unit": "psi", "min": 0, "max": 150}, "SET_OilExped_PAH_PSI": {"type": "REAL", "desc": "Oil Expedition Line High Pressure Setpoint (psi)", "alias": "", "unit": "psi", "min": 0, "max": 150}, "SET_Tank_LAL_Meters": {"type": "REAL", "desc": "Crude Storage Tanks Low Level Alarm Limit (m)", "alias": "", "unit": "m", "min": 0, "max": 14}, "SET_Tank_LAH_Meters": {"type": "REAL", "desc": "Crude Storage Tanks High Level Alarm Limit (m)", "alias": "", "unit": "m", "min": 0, "max": 14}, "VOTE_Zone1_Gas_Confirmed": {"type": "BOOL", "desc": "Zone 1 (Separator Area) 2ooN Confirmed Gas Cloud", "alias": "", "unit": "", "min": 0, "max": 1}, "VOTE_Zone2_Gas_Confirmed": {"type": "BOOL", "desc": "Zone 2 (Pump House) 2ooN Confirmed Gas Cloud", "alias": "", "unit": "", "min": 0, "max": 1}, "VOTE_Zone3_Gas_Confirmed": {"type": "BOOL", "desc": "Zone 3 (Tank Farm) 2ooN Confirmed Gas Cloud", "alias": "", "unit": "", "min": 0, "max": 1}, "VOTE_Zone4_Gas_Confirmed": {"type": "BOOL", "desc": "Zone 4 (Gas Generator Building) 2ooN Confirmed Gas Cloud", "alias": "", "unit": "", "min": 0, "max": 1}, "VOTE_Any_Confirmed_Gas": {"type": "BOOL", "desc": "Global Plant Confirmed Combustible Gas Detected", "alias": "", "unit": "", "min": 0, "max": 1}, "VOTE_Any_Confirmed_Fire": {"type": "BOOL", "desc": "Global Plant Confirmed Optical Flame / Fire Detected", "alias": "", "unit": "", "min": 0, "max": 1}, "VOTE_Any_Confirmed_Toxic": {"type": "BOOL", "desc": "Global Plant Confirmed Toxic H2S Gas Detected", "alias": "", "unit": "", "min": 0, "max": 1}, "VOTE_Deluge_Demand": {"type": "BOOL", "desc": "Master Deluge Firewater Release Demand Active", "alias": "", "unit": "", "min": 0, "max": 1}, "ESD_Matrix_Master_Trip": {"type": "BOOL", "desc": "Master Cause & Effect Matrix Plant Shutdown Trip Latch", "alias": "", "unit": "", "min": 0, "max": 1}, "ESD_Gas_Turbine_Trip": {"type": "BOOL", "desc": "Gas Turbine Generators Shutdown Trip Latch", "alias": "", "unit": "", "min": 0, "max": 1}, "ESD_Power_Oil_Trip": {"type": "BOOL", "desc": "Power Oil Booster Pumps P2100/P2200 Trip Latch", "alias": "", "unit": "", "min": 0, "max": 1}, "ESD_Water_Inj_Trip": {"type": "BOOL", "desc": "Water Injection Booster Pumps P3600/P3700 Trip Latch", "alias": "", "unit": "", "min": 0, "max": 1}, "ESDV_Transit_Discrepancy": {"type": "BOOL", "desc": "ESDV-6401-001 Open/Close Transit Discrepancy Fault", "alias": "", "unit": "", "min": 0, "max": 1}, "ESDV_Fail_To_Open": {"type": "BOOL", "desc": "ESDV-6401-001 Commanded Open but Failed to Confirm", "alias": "", "unit": "", "min": 0, "max": 1}, "ESDV_Fail_To_Close": {"type": "BOOL", "desc": "ESDV-6401-001 Commanded Close but Failed to Confirm", "alias": "", "unit": "", "min": 0, "max": 1}, "COMMON_SYSTEM_FAULT": {"type": "BOOL", "desc": "General Instrumentation & Hardware Diagnostic Fault Summary", "alias": "", "unit": "", "min": 0, "max": 1}};
+        let hornMuted = false;
+        let esdTripped = false;
+        let keyS2 = false;
+        let keyS3 = false;
+        let alarmLog = [];
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.hmi-tab-pane').forEach(p => p.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+            document.querySelectorAll('.scada-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function toggleSimulatorDrawer() {
+            document.getElementById('simDrawer').classList.toggle('translate-x-full');
+        }
+
+        // Populate 24 Gas Detectors in Tab 2
+        function initGasGrid() {
+            const grid = document.getElementById('gasDetectorGrid');
+            grid.innerHTML = '';
+            for (let i = 1; i <= 24; i++) {
+                const id = `DG_7404_${String(i).padStart(3, '0')}`;
+                const card = document.createElement('div');
+                card.className = 'scada-card p-3 text-center';
+                card.id = `card-${id}`;
+                card.innerHTML = `
+                    <div class="text-[10px] text-slate-400 font-mono">7404-DG-${String(i).padStart(3, '0')}</div>
+                    <div class="text-base font-black font-mono text-slate-200 my-1" id="val-${id}">0.0%</div>
+                    <div class="w-full bg-slate-800 h-1.5 rounded overflow-hidden">
+                        <div class="bg-blue-500 h-1.5 rounded transition-all" id="bar-${id}" style="width: 0%"></div>
+                    </div>
+                    <div class="text-[9px] text-slate-500 mt-1" id="stat-${id}">NORMAL</div>
+                `;
+                grid.appendChild(card);
+            }
+        }
+
+        function simInjectGas(val) {
+            document.getElementById('lblGasVal').textContent = val + '% LEL';
+            for (let i = 1; i <= 6; i++) {
+                const id = `DG_7404_${String(i).padStart(3, '0')}`;
+                document.getElementById(`val-${id}`).textContent = val + '%';
+                document.getElementById(`bar-${id}`).style.width = val + '%';
+                const stat = document.getElementById(`stat-${id}`);
+                if (val >= 30) {
+                    stat.textContent = 'HIGH-HIGH ALM';
+                    stat.className = 'text-[9px] text-red-400 font-bold alarm-blink';
+                } else if (val >= 20) {
+                    stat.textContent = 'LOW ALARM';
+                    stat.className = 'text-[9px] text-amber-400 font-bold';
+                } else {
+                    stat.textContent = 'NORMAL';
+                    stat.className = 'text-[9px] text-slate-500';
+                }
+            }
+            if (val >= 30 && !esdTripped) {
+                addAlarm('DG_7404_001_HiHiAlm', 'HIGH-HIGH', 'Combustible Gas Cloud 2ooN Confirmed (>= 30% LEL)');
+                triggerEsdSequence();
+            }
+        }
+
+        function simInjectH2S(val) {
+            document.getElementById('lblH2sVal').textContent = val + ' ppm';
+            if (val >= 20) {
+                addAlarm('AIT_H2S_001_HiHiAlm', 'HIGH-HIGH', 'Toxic Gas H2S High-High (>= 20 ppm) Siren Active');
+            }
+        }
+
+        function simTriggerFlame() {
+            addAlarm('DF_7404_001_FireAlarm', 'CRITICAL', 'Optical Flame Confirmed Alarm - Deluge Activated');
+            triggerEsdSequence();
+            triggerDeluge();
+        }
+
+        function simTriggerSmoke() {
+            addAlarm('SD_001_002_Alarm', 'HIGH-HIGH', 'Generator Building Smoke Detection - Turbine Trips');
+            document.getElementById('txtTurbineStatus').textContent = 'TRIPPED (SD-GE=0)';
+            document.getElementById('txtTurbineStatus').className = 'text-red-400 font-bold';
+        }
+
+        function simTriggerEsd() {
+            addAlarm('ESD_TRIP_Master', 'EMERGENCY', 'Master ESD Pushbutton PB-E9 Activated');
+            triggerEsdSequence();
+        }
+
+        function triggerEsdSequence() {
+            esdTripped = true;
+            document.getElementById('masterEsdBadge').className = 'px-3 py-1.5 rounded bg-red-950/80 border border-red-500/50 text-red-300 text-xs font-bold flex items-center space-x-2 alarm-blink';
+            document.getElementById('masterEsdTxt').textContent = 'PLANT ESD: TRIPPED (DE-ENERGIZED)';
+            document.getElementById('cardEsdvTxt').textContent = 'CLOSED (TRIP)';
+            document.getElementById('cardEsdvTxt').className = 'text-lg font-black text-red-400 mt-1';
+            document.getElementById('esdvLeft').setAttribute('fill', '#ef4444');
+            document.getElementById('esdvRight').setAttribute('fill', '#ef4444');
+            document.getElementById('cardOilPumpTxt').textContent = 'STOPPED (ESD)';
+            document.getElementById('cardOilPumpTxt').className = 'text-lg font-black text-red-400 mt-1';
+            document.getElementById('cardWaterPumpTxt').textContent = 'STOPPED (ESD)';
+            document.getElementById('cardWaterPumpTxt').className = 'text-lg font-black text-red-400 mt-1';
+            document.getElementById('pcrL14').className = 'scada-led red-on';
+            document.getElementById('pcrL15').className = 'scada-led off';
+            document.getElementById('pcrL8').className = 'scada-led red-on';
+            document.getElementById('pcrL12').className = 'scada-led red-on';
+        }
+
+        function triggerDeluge() {
+            document.getElementById('delugeStatusBadge').className = 'px-3 py-1.5 rounded bg-red-950 border border-red-500 text-red-300 text-xs font-bold flex items-center space-x-2 alarm-blink';
+            document.getElementById('delugeStatusTxt').textContent = 'DELUGE: ACTIVE';
+            document.getElementById('badgePumpA').textContent = 'RUNNING';
+            document.getElementById('badgePumpA').className = 'bg-emerald-950 text-emerald-300 text-xs px-2.5 py-0.5 rounded font-bold';
+        }
+
+        function simFoamRelease() {
+            addAlarm('VOTE_Deluge_Demand', 'CRITICAL', 'Manual Foam Release Initiated');
+            triggerDeluge();
+        }
+
+        function simFoamStop() {
+            document.getElementById('delugeStatusBadge').className = 'px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-slate-300 text-xs font-bold flex items-center space-x-2';
+            document.getElementById('delugeStatusTxt').textContent = 'DELUGE: STANDBY';
+            document.getElementById('badgePumpA').textContent = 'STOPPED';
+            document.getElementById('badgePumpA').className = 'bg-slate-800 text-slate-300 text-xs px-2.5 py-0.5 rounded font-bold';
+        }
+
+        function toggleAlarmSilence() {
+            hornMuted = !hornMuted;
+            document.getElementById('btnMuteTxt').textContent = hornMuted ? 'Horn Muted (Active)' : 'Silence Horn (E12)';
+            document.getElementById('btnMuteHorn').className = hornMuted ? 'bg-amber-600 text-white text-xs font-bold px-3 py-2 rounded' : 'bg-slate-800 text-slate-200 text-xs font-bold px-3 py-2 rounded border border-slate-700';
+        }
+
+        function resetAllAlarms() {
+            esdTripped = false;
+            hornMuted = false;
+            document.getElementById('masterEsdBadge').className = 'px-3 py-1.5 rounded bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 text-xs font-bold flex items-center space-x-2 shadow-inner';
+            document.getElementById('masterEsdTxt').textContent = 'PLANT ESD: HEALTHY (24V)';
+            document.getElementById('cardEsdvTxt').textContent = 'OPEN (NORMAL)';
+            document.getElementById('cardEsdvTxt').className = 'text-lg font-black text-emerald-400 mt-1';
+            document.getElementById('esdvLeft').setAttribute('fill', '#22c55e');
+            document.getElementById('esdvRight').setAttribute('fill', '#22c55e');
+            document.getElementById('cardOilPumpTxt').textContent = 'RUNNING (AUTO)';
+            document.getElementById('cardOilPumpTxt').className = 'text-lg font-black text-emerald-400 mt-1';
+            document.getElementById('cardWaterPumpTxt').textContent = 'RUNNING (AUTO)';
+            document.getElementById('cardWaterPumpTxt').className = 'text-lg font-black text-emerald-400 mt-1';
+            document.getElementById('pcrL14').className = 'scada-led off';
+            document.getElementById('pcrL15').className = 'scada-led green-on';
+            document.getElementById('pcrL8').className = 'scada-led off';
+            document.getElementById('pcrL12').className = 'scada-led off';
+            simFoamStop();
+        }
+
+        function addAlarm(tag, sev, msg) {
+            const time = new Date().toLocaleTimeString();
+            alarmLog.unshift({ time, tag, sev, msg, state: 'ACTIVE' });
+            renderAlarmTable();
+        }
+
+        function renderAlarmTable() {
+            const tbody = document.getElementById('alarmLogBody');
+            tbody.innerHTML = '';
+            document.getElementById('alarmCountBadge').textContent = alarmLog.length;
+            alarmLog.forEach(a => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-900/50';
+                tr.innerHTML = `
+                    <td class="py-2 text-slate-400">${a.time}</td>
+                    <td class="text-blue-400 font-bold">${a.tag}</td>
+                    <td><span class="px-2 py-0.5 rounded text-[10px] font-bold ${a.sev === 'CRITICAL' || a.sev === 'EMERGENCY' ? 'bg-red-950 text-red-300 border border-red-700' : 'bg-amber-950 text-amber-300 border border-amber-700'}">${a.sev}</span></td>
+                    <td class="text-slate-200">${a.msg}</td>
+                    <td class="text-red-400 font-bold">${a.state}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function clearAlarmLog() {
+            alarmLog = [];
+            renderAlarmTable();
+        }
+
+        function toggleKeyS2() {
+            keyS2 = !keyS2;
+            document.getElementById('btnKeyS2').textContent = keyS2 ? 'POSITION: I (INHIBIT)' : 'POSITION: O (NORMAL)';
+            document.getElementById('btnKeyS2').className = keyS2 ? 'px-4 py-1.5 bg-amber-600 rounded text-xs font-bold text-white' : 'px-4 py-1.5 bg-slate-800 border border-slate-600 rounded text-xs font-bold text-white';
+        }
+
+        function toggleKeyS3() {
+            keyS3 = !keyS3;
+            document.getElementById('btnKeyS3').textContent = keyS3 ? 'POSITION: I (INHIBIT)' : 'POSITION: O (NORMAL)';
+            document.getElementById('btnKeyS3').className = keyS3 ? 'px-4 py-1.5 bg-red-600 rounded text-xs font-bold text-white' : 'px-4 py-1.5 bg-slate-800 border border-slate-600 rounded text-xs font-bold text-white';
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            initGasGrid();
+            addAlarm('SYS_Watchdog_OK', 'INFO', 'FGCP-7404-001 ControlLogix System Watchdog Online');
+        };
+    </script>
+</body>
+</html>

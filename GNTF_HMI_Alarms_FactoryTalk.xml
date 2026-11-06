@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AlarmDefinitionDatabase Version="1.0" Project="GNTF_FGCP_7404_001_HMI">
+  <Alarms>
+    <DigitalAlarm Name="ALM_TMR_PumpA_WireFlt" InputTag="[PLC]TMR_PumpA_WireFlt" Severity="500">
+      <Message><![CDATA[2.0s Deluge Pump A Coil Line Break Fault Timer]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_TMR_PumpB_WireFlt" InputTag="[PLC]TMR_PumpB_WireFlt" Severity="500">
+      <Message><![CDATA[2.0s Deluge Pump B Coil Line Break Fault Timer]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_SYS_Alarm_Horn_Muted" InputTag="[PLC]SYS_Alarm_Horn_Muted" Severity="500">
+      <Message><![CDATA[Acoustic Horn Silence / Mute Latch]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_SYS_Alarm_Reset_Cmd" InputTag="[PLC]SYS_Alarm_Reset_Cmd" Severity="500">
+      <Message><![CDATA[Master Alarm Reset Command Pulse]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_001_Scaled" InputTag="[PLC]DG_7404_001_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-001 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_001_LowAlm" InputTag="[PLC]DG_7404_001_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-001 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_001_HiHiAlm" InputTag="[PLC]DG_7404_001_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-001 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_001_Flt_Low" InputTag="[PLC]DG_7404_001_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-001 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_001_Flt_High" InputTag="[PLC]DG_7404_001_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-001 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_002_Scaled" InputTag="[PLC]DG_7404_002_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-002 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_002_LowAlm" InputTag="[PLC]DG_7404_002_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-002 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_002_HiHiAlm" InputTag="[PLC]DG_7404_002_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-002 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_002_Flt_Low" InputTag="[PLC]DG_7404_002_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-002 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_002_Flt_High" InputTag="[PLC]DG_7404_002_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-002 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_003_Scaled" InputTag="[PLC]DG_7404_003_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-003 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_003_LowAlm" InputTag="[PLC]DG_7404_003_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-003 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_003_HiHiAlm" InputTag="[PLC]DG_7404_003_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-003 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_003_Flt_Low" InputTag="[PLC]DG_7404_003_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-003 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_003_Flt_High" InputTag="[PLC]DG_7404_003_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-003 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_004_Scaled" InputTag="[PLC]DG_7404_004_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-004 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_004_LowAlm" InputTag="[PLC]DG_7404_004_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-004 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_004_HiHiAlm" InputTag="[PLC]DG_7404_004_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-004 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_004_Flt_Low" InputTag="[PLC]DG_7404_004_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-004 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_004_Flt_High" InputTag="[PLC]DG_7404_004_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-004 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_005_Scaled" InputTag="[PLC]DG_7404_005_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-005 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_005_LowAlm" InputTag="[PLC]DG_7404_005_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-005 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_005_HiHiAlm" InputTag="[PLC]DG_7404_005_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-005 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_005_Flt_Low" InputTag="[PLC]DG_7404_005_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-005 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_005_Flt_High" InputTag="[PLC]DG_7404_005_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-005 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_006_Scaled" InputTag="[PLC]DG_7404_006_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-006 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_006_LowAlm" InputTag="[PLC]DG_7404_006_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-006 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_006_HiHiAlm" InputTag="[PLC]DG_7404_006_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-006 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_006_Flt_Low" InputTag="[PLC]DG_7404_006_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-006 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_006_Flt_High" InputTag="[PLC]DG_7404_006_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-006 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_007_Scaled" InputTag="[PLC]DG_7404_007_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-007 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_007_LowAlm" InputTag="[PLC]DG_7404_007_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-007 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_007_HiHiAlm" InputTag="[PLC]DG_7404_007_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-007 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_007_Flt_Low" InputTag="[PLC]DG_7404_007_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-007 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_007_Flt_High" InputTag="[PLC]DG_7404_007_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-007 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_008_Scaled" InputTag="[PLC]DG_7404_008_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-008 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_008_LowAlm" InputTag="[PLC]DG_7404_008_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-008 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_008_HiHiAlm" InputTag="[PLC]DG_7404_008_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-008 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_008_Flt_Low" InputTag="[PLC]DG_7404_008_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-008 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_008_Flt_High" InputTag="[PLC]DG_7404_008_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-008 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_009_Scaled" InputTag="[PLC]DG_7404_009_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-009 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_009_LowAlm" InputTag="[PLC]DG_7404_009_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-009 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_009_HiHiAlm" InputTag="[PLC]DG_7404_009_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-009 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_009_Flt_Low" InputTag="[PLC]DG_7404_009_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-009 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_009_Flt_High" InputTag="[PLC]DG_7404_009_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-009 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_010_Scaled" InputTag="[PLC]DG_7404_010_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-010 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_010_LowAlm" InputTag="[PLC]DG_7404_010_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-010 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_010_HiHiAlm" InputTag="[PLC]DG_7404_010_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-010 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_010_Flt_Low" InputTag="[PLC]DG_7404_010_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-010 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_010_Flt_High" InputTag="[PLC]DG_7404_010_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-010 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_011_Scaled" InputTag="[PLC]DG_7404_011_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-011 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_011_LowAlm" InputTag="[PLC]DG_7404_011_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-011 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_011_HiHiAlm" InputTag="[PLC]DG_7404_011_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-011 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_011_Flt_Low" InputTag="[PLC]DG_7404_011_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-011 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_011_Flt_High" InputTag="[PLC]DG_7404_011_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-011 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_012_Scaled" InputTag="[PLC]DG_7404_012_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-012 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_012_LowAlm" InputTag="[PLC]DG_7404_012_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-012 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_012_HiHiAlm" InputTag="[PLC]DG_7404_012_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-012 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_012_Flt_Low" InputTag="[PLC]DG_7404_012_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-012 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_012_Flt_High" InputTag="[PLC]DG_7404_012_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-012 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_013_Scaled" InputTag="[PLC]DG_7404_013_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-013 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_013_LowAlm" InputTag="[PLC]DG_7404_013_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-013 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_013_HiHiAlm" InputTag="[PLC]DG_7404_013_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-013 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_013_Flt_Low" InputTag="[PLC]DG_7404_013_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-013 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_013_Flt_High" InputTag="[PLC]DG_7404_013_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-013 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_014_Scaled" InputTag="[PLC]DG_7404_014_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-014 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_014_LowAlm" InputTag="[PLC]DG_7404_014_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-014 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_014_HiHiAlm" InputTag="[PLC]DG_7404_014_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-014 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_014_Flt_Low" InputTag="[PLC]DG_7404_014_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-014 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_014_Flt_High" InputTag="[PLC]DG_7404_014_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-014 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_015_Scaled" InputTag="[PLC]DG_7404_015_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-015 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_015_LowAlm" InputTag="[PLC]DG_7404_015_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-015 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_015_HiHiAlm" InputTag="[PLC]DG_7404_015_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-015 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_015_Flt_Low" InputTag="[PLC]DG_7404_015_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-015 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_015_Flt_High" InputTag="[PLC]DG_7404_015_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-015 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_016_Scaled" InputTag="[PLC]DG_7404_016_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-016 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_016_LowAlm" InputTag="[PLC]DG_7404_016_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-016 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_016_HiHiAlm" InputTag="[PLC]DG_7404_016_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-016 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_016_Flt_Low" InputTag="[PLC]DG_7404_016_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-016 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_016_Flt_High" InputTag="[PLC]DG_7404_016_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-016 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_PIT_001_OilExped_Scaled" InputTag="[PLC]PIT_001_OilExped_Scaled" Severity="750">
+      <Message><![CDATA[PIT-001 Scaled Process Value (Oil Expedition Pressure Transmitter) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_PIT_001_OilExped_LowAlm" InputTag="[PLC]PIT_001_OilExped_LowAlm" Severity="500">
+      <Message><![CDATA[PIT-001 Low Alarm / Low Supply Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PIT_001_OilExped_HighAlm" InputTag="[PLC]PIT_001_OilExped_HighAlm" Severity="500">
+      <Message><![CDATA[PIT-001 High Alarm Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PIT_001_OilExped_HiHiAlm" InputTag="[PLC]PIT_001_OilExped_HiHiAlm" Severity="1000">
+      <Message><![CDATA[PIT-001 High-High Shutdown Trip Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PIT_001_OilExped_Flt" InputTag="[PLC]PIT_001_OilExped_Flt" Severity="500">
+      <Message><![CDATA[PIT-001 Transmitter Signal Fault / Out of Range]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_PIT_002_WaterInjMan_Scaled" InputTag="[PLC]PIT_002_WaterInjMan_Scaled" Severity="750">
+      <Message><![CDATA[PIT-002 Scaled Process Value (Water Injection Manifold Pressure Transmitter) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_PIT_002_WaterInjMan_LowAlm" InputTag="[PLC]PIT_002_WaterInjMan_LowAlm" Severity="500">
+      <Message><![CDATA[PIT-002 Low Alarm / Low Supply Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PIT_002_WaterInjMan_HighAlm" InputTag="[PLC]PIT_002_WaterInjMan_HighAlm" Severity="500">
+      <Message><![CDATA[PIT-002 High Alarm Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PIT_002_WaterInjMan_HiHiAlm" InputTag="[PLC]PIT_002_WaterInjMan_HiHiAlm" Severity="1000">
+      <Message><![CDATA[PIT-002 High-High Shutdown Trip Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PIT_002_WaterInjMan_Flt" InputTag="[PLC]PIT_002_WaterInjMan_Flt" Severity="500">
+      <Message><![CDATA[PIT-002 Transmitter Signal Fault / Out of Range]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_PIT_003_OilInjMan_Scaled" InputTag="[PLC]PIT_003_OilInjMan_Scaled" Severity="750">
+      <Message><![CDATA[PIT-003 Scaled Process Value (Oil Injection Manifold Pressure Transmitter) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_PIT_003_OilInjMan_LowAlm" InputTag="[PLC]PIT_003_OilInjMan_LowAlm" Severity="500">
+      <Message><![CDATA[PIT-003 Low Alarm / Low Supply Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PIT_003_OilInjMan_HighAlm" InputTag="[PLC]PIT_003_OilInjMan_HighAlm" Severity="500">
+      <Message><![CDATA[PIT-003 High Alarm Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PIT_003_OilInjMan_HiHiAlm" InputTag="[PLC]PIT_003_OilInjMan_HiHiAlm" Severity="1000">
+      <Message><![CDATA[PIT-003 High-High Shutdown Trip Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PIT_003_OilInjMan_Flt" InputTag="[PLC]PIT_003_OilInjMan_Flt" Severity="500">
+      <Message><![CDATA[PIT-003 Transmitter Signal Fault / Out of Range]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_PST_7503_001_Deluge_Scaled" InputTag="[PLC]PST_7503_001_Deluge_Scaled" Severity="750">
+      <Message><![CDATA[7503-PST-001 Scaled Process Value (Deluge Line Pressure Transmitter) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_PST_7503_001_Deluge_LowAlm" InputTag="[PLC]PST_7503_001_Deluge_LowAlm" Severity="500">
+      <Message><![CDATA[7503-PST-001 Low Alarm / Low Supply Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PST_7503_001_Deluge_HighAlm" InputTag="[PLC]PST_7503_001_Deluge_HighAlm" Severity="500">
+      <Message><![CDATA[7503-PST-001 High Alarm Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PST_7503_001_Deluge_HiHiAlm" InputTag="[PLC]PST_7503_001_Deluge_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7503-PST-001 High-High Shutdown Trip Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PST_7503_001_Deluge_Flt" InputTag="[PLC]PST_7503_001_Deluge_Flt" Severity="500">
+      <Message><![CDATA[7503-PST-001 Transmitter Signal Fault / Out of Range]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_PST_7002_001_AirAcc_Scaled" InputTag="[PLC]PST_7002_001_AirAcc_Scaled" Severity="750">
+      <Message><![CDATA[7002-PST-001 Scaled Process Value (ESDV Air Accumulator Pressure Transmitter) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_PST_7002_001_AirAcc_LowAlm" InputTag="[PLC]PST_7002_001_AirAcc_LowAlm" Severity="500">
+      <Message><![CDATA[7002-PST-001 Low Alarm / Low Supply Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PST_7002_001_AirAcc_HighAlm" InputTag="[PLC]PST_7002_001_AirAcc_HighAlm" Severity="500">
+      <Message><![CDATA[7002-PST-001 High Alarm Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PST_7002_001_AirAcc_HiHiAlm" InputTag="[PLC]PST_7002_001_AirAcc_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7002-PST-001 High-High Shutdown Trip Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PST_7002_001_AirAcc_Flt" InputTag="[PLC]PST_7002_001_AirAcc_Flt" Severity="500">
+      <Message><![CDATA[7002-PST-001 Transmitter Signal Fault / Out of Range]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_PST_6401_001_FuelGas_Scaled" InputTag="[PLC]PST_6401_001_FuelGas_Scaled" Severity="750">
+      <Message><![CDATA[6401-PST-001 Scaled Process Value (Fuel Gas Line Pressure Transmitter) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_PST_6401_001_FuelGas_LowAlm" InputTag="[PLC]PST_6401_001_FuelGas_LowAlm" Severity="500">
+      <Message><![CDATA[6401-PST-001 Low Alarm / Low Supply Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PST_6401_001_FuelGas_HighAlm" InputTag="[PLC]PST_6401_001_FuelGas_HighAlm" Severity="500">
+      <Message><![CDATA[6401-PST-001 High Alarm Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PST_6401_001_FuelGas_HiHiAlm" InputTag="[PLC]PST_6401_001_FuelGas_HiHiAlm" Severity="1000">
+      <Message><![CDATA[6401-PST-001 High-High Shutdown Trip Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PST_6401_001_FuelGas_Flt" InputTag="[PLC]PST_6401_001_FuelGas_Flt" Severity="500">
+      <Message><![CDATA[6401-PST-001 Transmitter Signal Fault / Out of Range]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_FR_7503_003_LocalCP_Scaled" InputTag="[PLC]FR_7503_003_LocalCP_Scaled" Severity="750">
+      <Message><![CDATA[7503-FR-003 Scaled Process Value (Manual Foam Release Button Inside Local CP) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_FR_7503_003_LocalCP_LowAlm" InputTag="[PLC]FR_7503_003_LocalCP_LowAlm" Severity="500">
+      <Message><![CDATA[7503-FR-003 Low Alarm / Low Supply Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_FR_7503_003_LocalCP_HighAlm" InputTag="[PLC]FR_7503_003_LocalCP_HighAlm" Severity="500">
+      <Message><![CDATA[7503-FR-003 High Alarm Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_FR_7503_003_LocalCP_HiHiAlm" InputTag="[PLC]FR_7503_003_LocalCP_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7503-FR-003 High-High Shutdown Trip Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_FR_7503_003_LocalCP_Flt" InputTag="[PLC]FR_7503_003_LocalCP_Flt" Severity="500">
+      <Message><![CDATA[7503-FR-003 Transmitter Signal Fault / Out of Range]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_FR_7503_001_002_Field_Scaled" InputTag="[PLC]FR_7503_001_002_Field_Scaled" Severity="750">
+      <Message><![CDATA[7503-FR-001/002 Scaled Process Value (Manual Foam Release Button Outside in Field) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_FR_7503_001_002_Field_LowAlm" InputTag="[PLC]FR_7503_001_002_Field_LowAlm" Severity="500">
+      <Message><![CDATA[7503-FR-001/002 Low Alarm / Low Supply Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_FR_7503_001_002_Field_HighAlm" InputTag="[PLC]FR_7503_001_002_Field_HighAlm" Severity="500">
+      <Message><![CDATA[7503-FR-001/002 High Alarm Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_FR_7503_001_002_Field_HiHiAlm" InputTag="[PLC]FR_7503_001_002_Field_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7503-FR-001/002 High-High Shutdown Trip Flag]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_FR_7503_001_002_Field_Flt" InputTag="[PLC]FR_7503_001_002_Field_Flt" Severity="500">
+      <Message><![CDATA[7503-FR-001/002 Transmitter Signal Fault / Out of Range]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_017_Scaled" InputTag="[PLC]DG_7404_017_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-017 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_017_LowAlm" InputTag="[PLC]DG_7404_017_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-017 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_017_HiHiAlm" InputTag="[PLC]DG_7404_017_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-017 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_017_Flt_Low" InputTag="[PLC]DG_7404_017_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-017 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_017_Flt_High" InputTag="[PLC]DG_7404_017_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-017 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_018_Scaled" InputTag="[PLC]DG_7404_018_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-018 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_018_LowAlm" InputTag="[PLC]DG_7404_018_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-018 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_018_HiHiAlm" InputTag="[PLC]DG_7404_018_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-018 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_018_Flt_Low" InputTag="[PLC]DG_7404_018_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-018 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_018_Flt_High" InputTag="[PLC]DG_7404_018_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-018 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_019_Scaled" InputTag="[PLC]DG_7404_019_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-019 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_019_LowAlm" InputTag="[PLC]DG_7404_019_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-019 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_019_HiHiAlm" InputTag="[PLC]DG_7404_019_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-019 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_019_Flt_Low" InputTag="[PLC]DG_7404_019_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-019 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_019_Flt_High" InputTag="[PLC]DG_7404_019_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-019 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_020_Scaled" InputTag="[PLC]DG_7404_020_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-020 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_020_LowAlm" InputTag="[PLC]DG_7404_020_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-020 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_020_HiHiAlm" InputTag="[PLC]DG_7404_020_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-020 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_020_Flt_Low" InputTag="[PLC]DG_7404_020_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-020 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_020_Flt_High" InputTag="[PLC]DG_7404_020_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-020 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_021_Scaled" InputTag="[PLC]DG_7404_021_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-021 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_021_LowAlm" InputTag="[PLC]DG_7404_021_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-021 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_021_HiHiAlm" InputTag="[PLC]DG_7404_021_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-021 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_021_Flt_Low" InputTag="[PLC]DG_7404_021_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-021 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_021_Flt_High" InputTag="[PLC]DG_7404_021_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-021 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_022_Scaled" InputTag="[PLC]DG_7404_022_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-022 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_022_LowAlm" InputTag="[PLC]DG_7404_022_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-022 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_022_HiHiAlm" InputTag="[PLC]DG_7404_022_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-022 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_022_Flt_Low" InputTag="[PLC]DG_7404_022_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-022 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_022_Flt_High" InputTag="[PLC]DG_7404_022_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-022 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_023_Scaled" InputTag="[PLC]DG_7404_023_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-023 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_023_LowAlm" InputTag="[PLC]DG_7404_023_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-023 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_023_HiHiAlm" InputTag="[PLC]DG_7404_023_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-023 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_023_Flt_Low" InputTag="[PLC]DG_7404_023_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-023 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_023_Flt_High" InputTag="[PLC]DG_7404_023_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-023 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_DG_7404_024_Scaled" InputTag="[PLC]DG_7404_024_Scaled" Severity="750">
+      <Message><![CDATA[7404-DG-024 Combustible Gas Concentration (%LEL) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_024_LowAlm" InputTag="[PLC]DG_7404_024_LowAlm" Severity="500">
+      <Message><![CDATA[7404-DG-024 Low Gas Alarm (&gt;= 20% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_024_HiHiAlm" InputTag="[PLC]DG_7404_024_HiHiAlm" Severity="1000">
+      <Message><![CDATA[7404-DG-024 High-High Gas Alarm (&gt;= 30% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_024_Flt_Low" InputTag="[PLC]DG_7404_024_Flt_Low" Severity="500">
+      <Message><![CDATA[7404-DG-024 Sensor Underrange / Open Circuit Fault (&lt; -4% LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DG_7404_024_Flt_High" InputTag="[PLC]DG_7404_024_Flt_High" Severity="500">
+      <Message><![CDATA[7404-DG-024 Sensor Overrange Fault (&gt; 105% LEL)]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_AIT_H2S_001_Scaled" InputTag="[PLC]AIT_H2S_001_Scaled" Severity="750">
+      <Message><![CDATA[H2S-001 Toxic Gas H2S Concentration (ppm) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_001_LowAlm" InputTag="[PLC]AIT_H2S_001_LowAlm" Severity="500">
+      <Message><![CDATA[H2S-001 Low Toxic Alarm (&gt;= 10 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_001_HiHiAlm" InputTag="[PLC]AIT_H2S_001_HiHiAlm" Severity="1000">
+      <Message><![CDATA[H2S-001 High-High Toxic Alarm (&gt;= 20 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_001_Flt" InputTag="[PLC]AIT_H2S_001_Flt" Severity="500">
+      <Message><![CDATA[H2S-001 H2S Detector Sensor Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_AIT_H2S_002_Scaled" InputTag="[PLC]AIT_H2S_002_Scaled" Severity="750">
+      <Message><![CDATA[H2S-002 Toxic Gas H2S Concentration (ppm) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_002_LowAlm" InputTag="[PLC]AIT_H2S_002_LowAlm" Severity="500">
+      <Message><![CDATA[H2S-002 Low Toxic Alarm (&gt;= 10 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_002_HiHiAlm" InputTag="[PLC]AIT_H2S_002_HiHiAlm" Severity="1000">
+      <Message><![CDATA[H2S-002 High-High Toxic Alarm (&gt;= 20 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_002_Flt" InputTag="[PLC]AIT_H2S_002_Flt" Severity="500">
+      <Message><![CDATA[H2S-002 H2S Detector Sensor Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_AIT_H2S_003_Scaled" InputTag="[PLC]AIT_H2S_003_Scaled" Severity="750">
+      <Message><![CDATA[H2S-003 Toxic Gas H2S Concentration (ppm) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_003_LowAlm" InputTag="[PLC]AIT_H2S_003_LowAlm" Severity="500">
+      <Message><![CDATA[H2S-003 Low Toxic Alarm (&gt;= 10 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_003_HiHiAlm" InputTag="[PLC]AIT_H2S_003_HiHiAlm" Severity="1000">
+      <Message><![CDATA[H2S-003 High-High Toxic Alarm (&gt;= 20 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_003_Flt" InputTag="[PLC]AIT_H2S_003_Flt" Severity="500">
+      <Message><![CDATA[H2S-003 H2S Detector Sensor Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_AIT_H2S_004_Scaled" InputTag="[PLC]AIT_H2S_004_Scaled" Severity="750">
+      <Message><![CDATA[H2S-004 Toxic Gas H2S Concentration (ppm) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_004_LowAlm" InputTag="[PLC]AIT_H2S_004_LowAlm" Severity="500">
+      <Message><![CDATA[H2S-004 Low Toxic Alarm (&gt;= 10 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_004_HiHiAlm" InputTag="[PLC]AIT_H2S_004_HiHiAlm" Severity="1000">
+      <Message><![CDATA[H2S-004 High-High Toxic Alarm (&gt;= 20 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_004_Flt" InputTag="[PLC]AIT_H2S_004_Flt" Severity="500">
+      <Message><![CDATA[H2S-004 H2S Detector Sensor Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_AIT_H2S_005_Scaled" InputTag="[PLC]AIT_H2S_005_Scaled" Severity="750">
+      <Message><![CDATA[H2S-005 Toxic Gas H2S Concentration (ppm) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_005_LowAlm" InputTag="[PLC]AIT_H2S_005_LowAlm" Severity="500">
+      <Message><![CDATA[H2S-005 Low Toxic Alarm (&gt;= 10 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_005_HiHiAlm" InputTag="[PLC]AIT_H2S_005_HiHiAlm" Severity="1000">
+      <Message><![CDATA[H2S-005 High-High Toxic Alarm (&gt;= 20 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_005_Flt" InputTag="[PLC]AIT_H2S_005_Flt" Severity="500">
+      <Message><![CDATA[H2S-005 H2S Detector Sensor Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_AIT_H2S_006_Scaled" InputTag="[PLC]AIT_H2S_006_Scaled" Severity="750">
+      <Message><![CDATA[H2S-006 Toxic Gas H2S Concentration (ppm) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_006_LowAlm" InputTag="[PLC]AIT_H2S_006_LowAlm" Severity="500">
+      <Message><![CDATA[H2S-006 Low Toxic Alarm (&gt;= 10 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_006_HiHiAlm" InputTag="[PLC]AIT_H2S_006_HiHiAlm" Severity="1000">
+      <Message><![CDATA[H2S-006 High-High Toxic Alarm (&gt;= 20 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_006_Flt" InputTag="[PLC]AIT_H2S_006_Flt" Severity="500">
+      <Message><![CDATA[H2S-006 H2S Detector Sensor Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_AIT_H2S_007_Scaled" InputTag="[PLC]AIT_H2S_007_Scaled" Severity="750">
+      <Message><![CDATA[H2S-007 Toxic Gas H2S Concentration (ppm) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_007_LowAlm" InputTag="[PLC]AIT_H2S_007_LowAlm" Severity="500">
+      <Message><![CDATA[H2S-007 Low Toxic Alarm (&gt;= 10 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_007_HiHiAlm" InputTag="[PLC]AIT_H2S_007_HiHiAlm" Severity="1000">
+      <Message><![CDATA[H2S-007 High-High Toxic Alarm (&gt;= 20 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_007_Flt" InputTag="[PLC]AIT_H2S_007_Flt" Severity="500">
+      <Message><![CDATA[H2S-007 H2S Detector Sensor Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_AIT_H2S_008_Scaled" InputTag="[PLC]AIT_H2S_008_Scaled" Severity="750">
+      <Message><![CDATA[H2S-008 Toxic Gas H2S Concentration (ppm) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_008_LowAlm" InputTag="[PLC]AIT_H2S_008_LowAlm" Severity="500">
+      <Message><![CDATA[H2S-008 Low Toxic Alarm (&gt;= 10 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_008_HiHiAlm" InputTag="[PLC]AIT_H2S_008_HiHiAlm" Severity="1000">
+      <Message><![CDATA[H2S-008 High-High Toxic Alarm (&gt;= 20 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_008_Flt" InputTag="[PLC]AIT_H2S_008_Flt" Severity="500">
+      <Message><![CDATA[H2S-008 H2S Detector Sensor Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_AIT_H2S_009_Scaled" InputTag="[PLC]AIT_H2S_009_Scaled" Severity="750">
+      <Message><![CDATA[H2S-009 Toxic Gas H2S Concentration (ppm) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_009_LowAlm" InputTag="[PLC]AIT_H2S_009_LowAlm" Severity="500">
+      <Message><![CDATA[H2S-009 Low Toxic Alarm (&gt;= 10 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_009_HiHiAlm" InputTag="[PLC]AIT_H2S_009_HiHiAlm" Severity="1000">
+      <Message><![CDATA[H2S-009 High-High Toxic Alarm (&gt;= 20 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_009_Flt" InputTag="[PLC]AIT_H2S_009_Flt" Severity="500">
+      <Message><![CDATA[H2S-009 H2S Detector Sensor Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_AIT_H2S_010_Scaled" InputTag="[PLC]AIT_H2S_010_Scaled" Severity="750">
+      <Message><![CDATA[H2S-010 Toxic Gas H2S Concentration (ppm) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_010_LowAlm" InputTag="[PLC]AIT_H2S_010_LowAlm" Severity="500">
+      <Message><![CDATA[H2S-010 Low Toxic Alarm (&gt;= 10 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_010_HiHiAlm" InputTag="[PLC]AIT_H2S_010_HiHiAlm" Severity="1000">
+      <Message><![CDATA[H2S-010 High-High Toxic Alarm (&gt;= 20 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_010_Flt" InputTag="[PLC]AIT_H2S_010_Flt" Severity="500">
+      <Message><![CDATA[H2S-010 H2S Detector Sensor Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_AIT_H2S_011_Scaled" InputTag="[PLC]AIT_H2S_011_Scaled" Severity="750">
+      <Message><![CDATA[H2S-011 Toxic Gas H2S Concentration (ppm) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_011_LowAlm" InputTag="[PLC]AIT_H2S_011_LowAlm" Severity="500">
+      <Message><![CDATA[H2S-011 Low Toxic Alarm (&gt;= 10 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_011_HiHiAlm" InputTag="[PLC]AIT_H2S_011_HiHiAlm" Severity="1000">
+      <Message><![CDATA[H2S-011 High-High Toxic Alarm (&gt;= 20 ppm H2S)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_AIT_H2S_011_Flt" InputTag="[PLC]AIT_H2S_011_Flt" Severity="500">
+      <Message><![CDATA[H2S-011 H2S Detector Sensor Fault]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DF_7404_001_FireAlarm" InputTag="[PLC]DF_7404_001_FireAlarm" Severity="1000">
+      <Message><![CDATA[7404-DF-001 Triple-IR Optical Flame Confirmed Alarm]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DF_7404_002_FireAlarm" InputTag="[PLC]DF_7404_002_FireAlarm" Severity="1000">
+      <Message><![CDATA[7404-DF-002 Triple-IR Optical Flame Confirmed Alarm]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_DF_7404_003_FireAlarm" InputTag="[PLC]DF_7404_003_FireAlarm" Severity="1000">
+      <Message><![CDATA[7404-DF-003 Triple-IR Optical Flame Confirmed Alarm]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_SD_001_002_Alarm" InputTag="[PLC]SD_001_002_Alarm" Severity="500">
+      <Message><![CDATA[SD-001/002 Gas Generator Smoke Confirmed Alarm]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_LIT_100_Tank_Scaled" InputTag="[PLC]LIT_100_Tank_Scaled" Severity="750">
+      <Message><![CDATA[LIT-100 Crude Storage Tank Liquid Level (m) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_LIT_100_Tank_LowAlm" InputTag="[PLC]LIT_100_Tank_LowAlm" Severity="500">
+      <Message><![CDATA[LIT-100 Low Tank Level Alarm (LAL &lt;= 0.7m)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_LIT_100_Tank_HighAlm" InputTag="[PLC]LIT_100_Tank_HighAlm" Severity="500">
+      <Message><![CDATA[LIT-100 High Tank Level Alarm (LAH &gt;= 9.0m/11.0m)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_LIT_100_Tank_Flt" InputTag="[PLC]LIT_100_Tank_Flt" Severity="500">
+      <Message><![CDATA[LIT-100 Radar Transmitter Diagnostic Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_LIT_200_Tank_Scaled" InputTag="[PLC]LIT_200_Tank_Scaled" Severity="750">
+      <Message><![CDATA[LIT-200 Crude Storage Tank Liquid Level (m) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_LIT_200_Tank_LowAlm" InputTag="[PLC]LIT_200_Tank_LowAlm" Severity="500">
+      <Message><![CDATA[LIT-200 Low Tank Level Alarm (LAL &lt;= 0.7m)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_LIT_200_Tank_HighAlm" InputTag="[PLC]LIT_200_Tank_HighAlm" Severity="500">
+      <Message><![CDATA[LIT-200 High Tank Level Alarm (LAH &gt;= 9.0m/11.0m)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_LIT_200_Tank_Flt" InputTag="[PLC]LIT_200_Tank_Flt" Severity="500">
+      <Message><![CDATA[LIT-200 Radar Transmitter Diagnostic Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_LIT_300_Tank_Scaled" InputTag="[PLC]LIT_300_Tank_Scaled" Severity="750">
+      <Message><![CDATA[LIT-300 Crude Storage Tank Liquid Level (m) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_LIT_300_Tank_LowAlm" InputTag="[PLC]LIT_300_Tank_LowAlm" Severity="500">
+      <Message><![CDATA[LIT-300 Low Tank Level Alarm (LAL &lt;= 0.7m)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_LIT_300_Tank_HighAlm" InputTag="[PLC]LIT_300_Tank_HighAlm" Severity="500">
+      <Message><![CDATA[LIT-300 High Tank Level Alarm (LAH &gt;= 9.0m/11.0m)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_LIT_300_Tank_Flt" InputTag="[PLC]LIT_300_Tank_Flt" Severity="500">
+      <Message><![CDATA[LIT-300 Radar Transmitter Diagnostic Fault]]></Message>
+    </DigitalAlarm>
+    <AnalogAlarm Name="ALM_LIT_400_Tank_Scaled" InputTag="[PLC]LIT_400_Tank_Scaled" Severity="750">
+      <Message><![CDATA[LIT-400 Crude Storage Tank Liquid Level (m) Out of Limits]]></Message>
+    </AnalogAlarm>
+    <DigitalAlarm Name="ALM_LIT_400_Tank_LowAlm" InputTag="[PLC]LIT_400_Tank_LowAlm" Severity="500">
+      <Message><![CDATA[LIT-400 Low Tank Level Alarm (LAL &lt;= 0.7m)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_LIT_400_Tank_HighAlm" InputTag="[PLC]LIT_400_Tank_HighAlm" Severity="500">
+      <Message><![CDATA[LIT-400 High Tank Level Alarm (LAH &gt;= 9.0m/11.0m)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_LIT_400_Tank_Flt" InputTag="[PLC]LIT_400_Tank_Flt" Severity="500">
+      <Message><![CDATA[LIT-400 Radar Transmitter Diagnostic Fault]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PB_E11_AlarmReset" InputTag="[PLC]PB_E11_AlarmReset" Severity="500">
+      <Message><![CDATA[FGCP-7404-001-E11: Master Alarm Reset Pushbutton (E11)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_PB_E12_AlarmMute" InputTag="[PLC]PB_E12_AlarmMute" Severity="500">
+      <Message><![CDATA[FGCP-7404-001-E12: Master Alarm Acoustic Mute / Silence Pushbutton (E12)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_SD_GE_GasGenTrip" InputTag="[PLC]SD_GE_GasGenTrip" Severity="1000">
+      <Message><![CDATA[SD-GE: Emergency Trip of All Gas Turbine Generators Output]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_SET_CH4_LowAlm_LEL" InputTag="[PLC]SET_CH4_LowAlm_LEL" Severity="500">
+      <Message><![CDATA[Calibrated CH4 Gas Low Alarm Setpoint (%LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_SET_CH4_HiHiAlm_LEL" InputTag="[PLC]SET_CH4_HiHiAlm_LEL" Severity="1000">
+      <Message><![CDATA[Calibrated CH4 Gas High-High Alarm Setpoint (%LEL)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_SET_H2S_LowAlm_PPM" InputTag="[PLC]SET_H2S_LowAlm_PPM" Severity="500">
+      <Message><![CDATA[Calibrated H2S Toxic Gas Low Alarm Setpoint (ppm)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_SET_H2S_HiHiAlm_PPM" InputTag="[PLC]SET_H2S_HiHiAlm_PPM" Severity="1000">
+      <Message><![CDATA[Calibrated H2S Toxic Gas High-High Alarm Setpoint (ppm)]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_ESD_Matrix_Master_Trip" InputTag="[PLC]ESD_Matrix_Master_Trip" Severity="1000">
+      <Message><![CDATA[Master Cause &amp; Effect Matrix Plant Shutdown Trip Latch]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_ESD_Gas_Turbine_Trip" InputTag="[PLC]ESD_Gas_Turbine_Trip" Severity="1000">
+      <Message><![CDATA[Gas Turbine Generators Shutdown Trip Latch]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_ESD_Power_Oil_Trip" InputTag="[PLC]ESD_Power_Oil_Trip" Severity="1000">
+      <Message><![CDATA[Power Oil Booster Pumps P2100/P2200 Trip Latch]]></Message>
+    </DigitalAlarm>
+    <DigitalAlarm Name="ALM_ESD_Water_Inj_Trip" InputTag="[PLC]ESD_Water_Inj_Trip" Severity="1000">
+      <Message><![CDATA[Water Injection Booster Pumps P3600/P3700 Trip Latch]]></Message>
+    </DigitalAlarm>
+  </Alarms>
+</AlarmDefinitionDatabase>
